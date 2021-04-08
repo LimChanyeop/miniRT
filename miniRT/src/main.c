@@ -21,6 +21,7 @@ int	main(void)
 	app->img_ptr = mlx_new_image(app->mlx_ptr, image_width, image_height);
 	app->data = (int *)mlx_get_data_addr(app->img_ptr, &app->bpp, &app->size_l, &app->endian);
 
+
 	float		viewport_height = 2.0;
 	float		viewport_width = aspect_ratio * viewport_height;
 	float		focal_length = 1.0;
@@ -28,7 +29,7 @@ int	main(void)
 	t_vec		origin = {0,0,0};
 	t_vec		horizontal = {viewport_width, 0, 0};
 	t_vec		vertical = {0, viewport_height, 0};
-	t_vec		any = {0, 0, -focal_length};
+	t_vec		any = {0, 0, focal_length};
 	t_vec		lower_left_corner = vminus(origin, vplus(vplus(vdivide(horizontal, 2), vdivide(vertical, 2)), any));
 	int 		jj = 0;
 	int			j = image_height - 1;
@@ -52,4 +53,4 @@ int	main(void)
 		++jj;
 	}
 	mlx_loop(app->mlx_ptr);
-}
+} 
