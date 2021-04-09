@@ -8,8 +8,8 @@
 
 int	main(void)
 {
-	const float aspect_ratio = 16.0 / 9.0;
-	const int	image_width = 400;
+	const float aspect_ratio = 8.0 / 6.0;
+	const int	image_width = 800;
 	const int	image_height = image_width / aspect_ratio;
 
 	t_mlx		*app;
@@ -28,7 +28,7 @@ int	main(void)
 	t_vec		origin = {0,0,0};
 	t_vec		horizontal = {viewport_width, 0, 0};
 	t_vec		vertical = {0, viewport_height, 0};
-	t_vec		any = {0, 0, -focal_length};
+	t_vec		any = {0, 0, focal_length};
 	t_vec		lower_left_corner = vminus(origin, vplus(vplus(vdivide(horizontal, 2), vdivide(vertical, 2)), any));
 	int 		jj = 0;
 	int			j = image_height - 1;

@@ -15,7 +15,7 @@ t_point ray_at(t_vec orig, t_vec dir, double t)
 {
 	t_point at;
 
-	at = vplus(ray->orig, vmult(ray->dir, t));
+	at = vplus(orig, vmult(dir, t));
 	return (at);
 }
 

@@ -30,7 +30,7 @@ struct s_mlx
 	int  *data;
 	int  bpp;
 	int	 size_l;
-	int endian;
+	int  endian;
 
 	t_vec color;
 	int int_color;
