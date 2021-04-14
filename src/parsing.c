@@ -1,29 +1,49 @@
-static void		parse(t_minilibx *mlx, t_scene *data, t_lstobject **lst, char **line)
-{
-    char *str;
+#include "libft.h"
+#include "utils.h"
+#include <stdio.h>
 
-    str = *line;
-    if (*str == 'R')
-		parse_resoultion(data, &str);
-	else if (*str == 'A')
-		parse_ambient_light(data, &str);
-	else if (*str == 'c')
-		parse_camera(mlx, data, &str);
-    else if (*str == 'l')
-		parse_light(&data, &str);
-    else if (*str == 'p' && *(str + 1) == 'l')
-		parse_plane(lst, &str);
-    else if (*str == 's' && *(str + 1) == 'p')
-		parse_sphere(lst, &str); 
-    else if (*str == 's' && *(str + 1) == 'q')
-		parse_square(lst, &str);
-	else if (*str == 'c' && *(str + 1) == 'y')
-		parse_cylinder(lst, &str);
-	else if (*str == 't' && *(str + 1) == 'r')
-		parse_triangle(lst, &str);
+int				ft_isnum(char c)
+{
+	return(c >= '0' && c <= '9');
 }
 
-void parse_resolution(t_scene *data, char **str)
+int				ft_isspace(char c)
 {
-    
+	return((c >= 9 && c <= 13) || (c == 32));
+}
+int			stoi(char **str)
+{
+	int i;
+	int	neg;
+
+	i = 0;
+	neg = 1;
+	if (**str == '-' && *((*str)++))
+		neg = -1;
+	while (ft_isnum(**str))
+		i = i * 10 + (*((*str)++) - '0');
+	return (i * neg);
+}
+
+static void parse_resolution(t_scene *data, char **line)
+{
+	char *str;
+
+	str = *line;
+	while(ft_isspace(*str))
+		str++;
+	data->res_x = stoi(&str);
+	while(ft_isspace(*str))
+		str++;
+	data->res_y = stoi(&str);
+	printf("x = %d y = %d\n", data->res_x, data->res_y);
+}
+
+void parse(t_scene *data, char **line)
+{
+	char *str;
+
+	str = *line;
+	if (*str == 'R' && *(str++))
+		parse_resolution(data, &str);
 }

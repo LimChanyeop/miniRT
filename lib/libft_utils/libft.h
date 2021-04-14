@@ -46,5 +46,5 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char				*ft_strjoin(char *s1, char *s2);
 size_t				ft_strlcat(char *dest, const char *src, size_t dstsize);
 char				*ft_strdup(const char *s1);
-int					get_next_line(int fd, char **line);
+
 #endif

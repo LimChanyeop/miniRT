@@ -1,28 +1,29 @@
-NAME = libminirt
+NAME = libminirt.a
 
 MLX_PATH = ./lib/minilibx_mms_20200219
-LIBFT_PATH = ./lib/libft
-GET_NEXT_LINE_PATH = ./lib/get_next_line
-INCLUDES_PATH = ../includes
-SRC_PATH = ./src
+LIBFT_PATH = ./lib/libft_utils
+INCLUDES_PATH = ./includes
+SRC_PATH = ./src/
 CFLAGS = -Wall -Werror -Wextra -I$(INCLUDES_PATH)
-SOURCE =  $(addprefix $(SRC_PATH), $(FILES))
-
-FLAGS = -lmlx -L$(LIBFT_PATH) -lft -L$(MLX_PATH) -lmlx -L$(GET_NEXT_LINE_PATH) -lgnl
+SOURCE = $(addprefix $(SRC_PATH), *.c)
+FLAGS = -L$(LIBFT_PATH) -lft_utils -L$(MLX_PATH) -lmlx
 OBJECT = $(SOURCE:.c=.o)
 $(NAME): $(OBJECT)
 	make -C $(LIBFT_PATH) all
-	make -C $(GET_NEXT_LINE_PATH) all
-	gcc $(CFLAGS) $(OBJECT) $(FLAGS) -o $(NAME)
-
+	ar rcs $(NAME) *.o
+	
 $(OBJECT) : $(SOURCE)
-	gcc -c $(OBJECT) $(FLAGS)
+	gcc -c $(SOURCE) $(CFLAGS)
 
 all : $(NAME)
 
 clean :
 	rm -rf $(NAME)
 re : clean all
+
+gcc : all
+	gcc main.c $(CFLAGS) $(FLAGS) -L. -lminirt
+	rm -rf *.o
 
 run : all
 	./$(NAME)

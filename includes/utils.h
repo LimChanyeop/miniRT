@@ -101,6 +101,8 @@ struct		s_scene
 	int				depth;
 	float			t_min;
 	float			t_max;
+	int				res_x;
+	int				res_y;
 };
 
 struct		s_lstobjects
@@ -128,6 +130,7 @@ t_vec	vdivide(t_vec vec, double t);
 double	vdot(t_vec vec, t_vec vec2);
 t_vec	vcross(t_vec vec, t_vec vec2);
 t_vec	vunit(t_vec vec);
+void parse(t_scene *data, char **line);
 
 t_ray		ray(t_point orig, t_vec dir);
 t_point	    ray_at(t_point orig, t_vec dir, double t);
