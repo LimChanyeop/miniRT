@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_comma.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/29 12:09:33 by clim              #+#    #+#             */
-/*   Updated: 2021/01/06 10:55:21 by clim             ###   ########.fr       */
+/*   Updated: 2021/04/15 20:55:35 by clim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		allocation_test(char **ptr, int i)
 	return (0);
 }
 
-static void		allocate(char **ptr, int size, char *str, char c)
+static void		allocate(char **ptr, int size, char *str)
 {
 	int			i;
 	int			j;
@@ -35,9 +35,9 @@ static void		allocate(char **ptr, int size, char *str, char c)
 	while (--size >= 0 && str[i])
 	{
 		len = 0;
-		while (str[i] == c)
+		while (ft_iscomma(str[i]))
 			i++;
-		while (str[i] != c && str[i])
+		while (!(ft_iscomma(str[i])) && str[i])
 		{
 			len++;
 			i++;
@@ -46,14 +46,14 @@ static void		allocate(char **ptr, int size, char *str, char c)
 		if (allocation_test(ptr, j) == -1)
 			return ;
 		ft_strlcpy(ptr[j], (char *)(str + i - len), len + 1);
-		while (str[i] == c)
+		while (ft_iscomma(str[i]))
 			i++;
-		j++;
+	j++;
 	}
 	ptr[j] = 0;
 }
 
-static int		get_size(char *s, char c)
+static int		get_size(char *s)
 {
 	char		*str;
 	int			size;
@@ -64,27 +64,25 @@ static int		get_size(char *s, char c)
 	size = 0;
 	while (str[i])
 	{
-		while (str[i] == c)
+		while (ft_iscomma(str[i]))
 			i++;
-		if (str[i] != c && str[i])
+		if (!(ft_iscomma(str[i])) && str[i])
 			size++;
-		while (str[i] && str[i] != c)
+		while (str[i] && !(ft_iscomma(str[i])))
 			i++;
 	}
 	return (size);
 }
 
-char			**ft_split(char const *s, char c)
+char			**ft_split_comma(char const *s)
 {
 	char		**ptr;
 	int			size;
 
-	if (!s)
-		return (0);
-	size = get_size((char *)s, c);
+	size = get_size((char *)s);
 	ptr = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!ptr)
 		return (0);
-	allocate(ptr, size, (char *)s, c);
+	allocate(ptr, size, (char *)s);
 	return (ptr);
 }

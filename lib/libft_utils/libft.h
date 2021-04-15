@@ -6,7 +6,7 @@
 /*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:35:16 by clim              #+#    #+#             */
-/*   Updated: 2021/04/14 19:54:16 by clim             ###   ########.fr       */
+/*   Updated: 2021/04/15 20:02:21 by clim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct		s_list
 }					t_list;
 size_t				ft_strlen(const char *s);
 int					ft_atoi(const char *str);
-char				**ft_split(char const *s, char c);
+char				**ft_split(char const *s);
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);
@@ -46,5 +46,6 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char				*ft_strjoin(char *s1, char *s2);
 size_t				ft_strlcat(char *dest, const char *src, size_t dstsize);
 char				*ft_strdup(const char *s1);
+int					ft_isspace(char c);
 
 #endif

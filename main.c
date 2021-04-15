@@ -10,7 +10,7 @@ int	main()
 	const int	image_height = image_width / aspect_ratio;
 	int			fd;
 
-	fd = open("./src/test.rt", O_RDONLY);
+	fd = open("./scene/test.rt", O_RDONLY);
 
 	t_scene		scene;
 	char *line;

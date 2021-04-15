@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -c
 NAME = libft_utils.a
 FILES =	ft_atoi.c \
-					ft_split.c \
+					ft_split_space.c \
 					ft_lstnew.c \
 					ft_lstadd_front.c \
 					ft_lstsize.c \
