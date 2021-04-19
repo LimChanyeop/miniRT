@@ -1,4 +1,4 @@
-R	x y 										// resolution
+R	1920 1080
 A	ratio	r,g,b 								// ambient light
 
 c	x,y,z	x,y,z 								// camera

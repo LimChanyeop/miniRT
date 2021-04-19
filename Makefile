@@ -22,7 +22,7 @@ clean :
 re : clean all
 
 gcc : all
-	gcc main.c $(CFLAGS) $(FLAGS) -L. -lminirt
+	gcc 1_main.c $(CFLAGS) $(FLAGS) -L. -lminirt 
 	rm -rf *.o
 
 run : all

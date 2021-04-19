@@ -32,7 +32,7 @@ typedef struct		s_list
 }					t_list;
 
 size_t				ft_strlen(const char *s);
-int					ft_atoi(const char *str);
+int					ft_atoi(const char *str, int *dst);
 char				**ft_split_space(char const *s);
 char				**ft_split_comma(char const *s);
 t_list				*ft_lstnew(void *content);
@@ -49,7 +49,7 @@ char				*ft_strjoin(char *s1, char *s2);
 size_t				ft_strlcat(char *dest, const char *src, size_t dstsize);
 char				*ft_strdup(const char *s1);
 int					get_next_line(int fd, char **line);
-
+int					ft_isdigit(char c);
 int					ft_iscomma(char c);
 int					ft_isspace(char c);
 

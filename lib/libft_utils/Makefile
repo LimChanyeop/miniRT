@@ -14,7 +14,8 @@ FILES =	ft_atoi.c \
 					get_next_line.c \
 					get_next_line_utils.c \
 					ft_strncmp.c \
-					
+					ft_isdigit.c \
+					ft_isspace.c					
 OBJS = $(FILES:%.c=%.o)
 
 all : $(NAME)

@@ -1,5 +1,5 @@
-#ifndef utils_H
-# define utils_H
+#ifndef UTILS_H
+# define UTILS_H
 
 # include <math.h>
 # include <stdlib.h>
@@ -13,7 +13,6 @@ typedef struct  s_camera t_camera;
 typedef struct  s_canvas t_canvas;
 typedef struct  s_sphere t_sphere;
 typedef struct  s_mlx t_mlx;
-typedef struct  s_ambient t_ambient;
 typedef struct  s_rgb t_rgb;
 typedef struct  s_scene t_scene;
 typedef struct  s_lstobjects t_lstobjects;
@@ -44,11 +43,6 @@ struct s_mlx
 	int int_color;
 };
 
-struct s_ambient
-{
-    int ratio;
-};
-
 struct s_rgb
 {
     int r;
@@ -77,7 +71,7 @@ struct	s_canvas
 {
 	int		width; //canvas width
 	int		height; //canvas height;
-	double	aspect_ratio; 
+	double	aspect_ratio;
 };
 
 struct	s_sphere
@@ -90,7 +84,7 @@ struct	s_sphere
 struct		s_scene
 {
 	t_vec			*origin;
-	t_canvas		*viewport;
+	t_canvas		viewport;
 	t_canvas		*viewplane;
 	t_lstobjects	*cameras;
 	t_lstobjects	*objects;
@@ -101,8 +95,6 @@ struct		s_scene
 	int				depth;
 	float			t_min;
 	float			t_max;
-	int				res_x;
-	int				res_y;
 };
 
 struct		s_lstobjects
@@ -130,12 +122,14 @@ t_vec	vdivide(t_vec vec, double t);
 double	vdot(t_vec vec, t_vec vec2);
 t_vec	vcross(t_vec vec, t_vec vec2);
 t_vec	vunit(t_vec vec);
-void parse(t_scene *data, char **line);
+int 	parse(t_scene *scene, char *line);
 
 t_ray		ray(t_point orig, t_vec dir);
 t_point	    ray_at(t_point orig, t_vec dir, double t);
 t_vec	    ray_color(t_vec orig, t_vec dir);
 int	        hit_sphere(t_vec center, double radius, t_vec origin, t_vec direction);
+
+t_canvas		make_canvas(int width, int height);
 
 void	write_color(t_mlx *app, t_vec pixel_color);
 

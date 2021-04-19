@@ -1,8 +1,8 @@
 #include "utils.h"
 
-t_canvas	canvas(int width, int height)
+t_canvas		make_canvas(int width, int height)
 {
-	t_canvas canvas;
+	t_canvas	canvas;
 
 	canvas.width = width;
 	canvas.height = height;

@@ -35,7 +35,7 @@ static int		input_test(int sign, char *str)
 	return (1);
 }
 
-int				ft_atoi(const char *str)
+int				ft_atoi(const char *str, int *dst)
 {
 	int			sign;
 	int			ret_num;
@@ -58,5 +58,6 @@ int				ft_atoi(const char *str)
 		ret_num *= 10;
 		ret_num += str[i++] - '0';
 	}
-	return (ret_num * sign);
+	*dst = ret_num * sign;
+	return (i);
 }
