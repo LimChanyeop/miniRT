@@ -2,57 +2,101 @@
 #include "utils.h"
 #include <stdio.h>
 
-int			stoi(char **str)
-{
-	int i;
-	int	neg;
 
-	i = 0;
-	neg = 1;
-	if (**str == '-' && *((*str)++))
-		neg = -1;
-	while (ft_isdigit(**str))
-		i = i * 10 + (*((*str)++) - '0');
-	return (i * neg);
+void		set_xyz_rgb(char *xr, char *yg, char *zb, t_vec *vec)
+{
+	int xyz[3];
+
+	ft_atoi(xr, &xyz[0]);
+	ft_atoi(yg, &xyz[1]);
+	ft_atoi(zb, &xyz[2]);
+	vec->x = (double)xyz[0];
+	vec->y = (double)xyz[1];
+	vec->z = (double)xyz[2];
 }
 
-/*static void parse_resolution(t_scene *data, char **line)
+int		get_contents_size(char **contents)
 {
-	
-}*/
+	int i;
+
+	i = 0;
+	while (contents[i])
+		i++;
+	return (i);
+}
+
+void		free_contents(char **contents)
+{
+	int	i;
+
+	i = 0;
+	while(contents[i])
+		free(contents[i++]);
+	free(contents);
+}
 
 int		parse_resolution(t_scene *scene, char *line)
 {
-	int i;
-	int r;
 	int res_x;
 	int res_y;
- 	printf("func\n");
-	i = 1;
-	if (!ft_isspace(line[i]))
+	char **contents;
+
+	contents = ft_split_space(line);
+	if (get_contents_size(contents) != 2)
 		return (-1);
-	while (ft_isspace(line[i]))
-		i++;
-	if (ft_isdigit(line[i]) || (r = ft_atoi(&line[i], &res_x)) < 0)
-	{	
-		printf("i = %d\n", i);
-		return (-1);
-	}
-	if ((i += r-1) > 0 && ft_isspace(line[i]))
-		return (-1);
-	while (ft_isdigit(line[i]))
-		i++;
-	printf("res_x = %d\n", res_x);
-	if (ft_isdigit(line[i]) || (r = ft_atoi(&line[i], &res_y)) < 0)
-		return (-1);
-	i += r;
-	while (ft_isdigit(line[i]))
-		if (line[++i] && ft_isspace(line[i]))
-			return (-1);
+	ft_atoi(contents[0], &res_x);
+	ft_atoi(contents[1], &res_y);
 	scene->viewport = make_canvas(res_x, res_y);
+	free_contents(contents);
 	return (1);
 }
 
+int 	parse_ambient_light(t_scene *scene, char *line)
+{
+	float	ratio;
+	t_color color;
+	char 	**contents;
+	char	**rgb;
+
+	contents = ft_split_space(line);
+	if (get_contents_size(contents) != 2)
+		return (-1);
+	ft_atof(contents[0], &ratio);
+	rgb = ft_split_comma(contents[1]);
+	if (get_contents_size(rgb) != 3)
+		return (-1);
+	set_xyz_rgb(rgb[0], rgb[1], rgb[2], &color);
+	free_contents(rgb);
+	free_contents(contents);
+	scene->ambients = make_ambients(ratio, color);
+	return (0);
+}
+
+int 	parse_camera(t_scene *scene, char *line)
+{
+	t_vec	 vec[2];
+	int	 angle;
+	char **contents;
+	char **xyz;
+
+	contents = ft_split_space(line);
+	if (get_contents_size(contents) != 3)
+		return (-1);
+	xyz = ft_split_comma(contents[0]);
+	if (get_contents_size(xyz) != 3)
+		return (-1);
+	set_xyz_rgb(xyz[0], xyz[1], xyz[2], &vec[0]);
+	free_contents(xyz);
+	xyz = ft_split_comma(contents[1]);
+	if (get_contents_size(xyz) != 3)
+		return (-1);
+	set_xyz_rgb(xyz[0], xyz[1], xyz[2], &vec[1]);
+	free_contents(xyz);
+	ft_atoi(contents[2], &angle);
+	free_contents(contents);
+	scene->camera = make_camera((t_point)vec[0], vec[1], angle);
+	return (0);
+}
 
 int			parse(t_scene *scene, char *line)
 {
@@ -60,13 +104,13 @@ int			parse(t_scene *scene, char *line)
 	if (line[0] != '\0')
 	{
 		if (line[0] == 'R')
-			parse_resolution(scene, line);
-		/*else if (line[0] == 'A')
-			return (parse_ambient_light(scene, line));
-		else if (line[0] == 'c' && line[1] == 'y')
-			return (parse_cylinder(scene, line));
+			parse_resolution(scene, ++line);
+		else if (line[0] == 'A')
+			return (parse_ambient_light(scene, ++line));
 		else if (line[0] == 'c')
-			return (parse_camera(scene, line));
+			return (parse_camera(scene, ++line));
+		/*else if (line[0] == 'c' && line[1] == 'y')
+			return (parse_cylinder(scene, line));
 		else if (line[0] == 'l')
 			return (parse_point_light(scene, line));
 		else if (line[0] == 's' && line[1] == 'p')
@@ -80,7 +124,8 @@ int			parse(t_scene *scene, char *line)
 		else
 			return (-1);
 			*/
-		printf("x = %d y = %d\n", (scene)->viewport.width, (scene)->viewport.height);
+		printf("ratio  = %f r = %d g = %d b = %d\n", (scene)->ambients.ratio, (scene)->ambients.r, (scene)->ambients.g, (scene)->ambients.b);
+		printf("cam.x  = %f y = %f z = %f angle = %d\n", (scene)->camera.vec.x, (scene)->camera.vec.y, (scene)->camera.vec.z, (scene)->camera.angle);
 	}
 	return (0);
 }

@@ -35,7 +35,7 @@ static int		input_test(int sign, char *str)
 	return (1);
 }
 
-int				ft_atoi(const char *str, int *dst)
+int				ft_atoi(char *str, int *dst)
 {
 	int			sign;
 	int			ret_num;
@@ -53,11 +53,11 @@ int				ft_atoi(const char *str, int *dst)
 		str++;
 	if (input_test(sign, (char *)str) != 1)
 		return (input_test(sign, (char *)str));
-	while (str[i] >= '0' && str[i] <= '9')
+	while (*str >= '0' && *str <= '9')
 	{
 		ret_num *= 10;
-		ret_num += str[i++] - '0';
+		ret_num += *str++ - '0';
 	}
 	*dst = ret_num * sign;
-	return (i);
+	return (0);
 }

@@ -3,6 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -c
 NAME = libft_utils.a
 FILES =	ft_atoi.c \
 					ft_split_space.c \
+					ft_split_comma.c \
 					ft_lstnew.c \
 					ft_lstadd_front.c \
 					ft_lstsize.c \
@@ -15,7 +16,10 @@ FILES =	ft_atoi.c \
 					get_next_line_utils.c \
 					ft_strncmp.c \
 					ft_isdigit.c \
-					ft_isspace.c					
+					ft_isspace.c \
+					ft_iscomma.c \
+					ft_atof.c
+
 OBJS = $(FILES:%.c=%.o)
 
 all : $(NAME)

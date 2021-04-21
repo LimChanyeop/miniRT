@@ -32,9 +32,10 @@ typedef struct		s_list
 }					t_list;
 
 size_t				ft_strlen(const char *s);
-int					ft_atoi(const char *str, int *dst);
-char				**ft_split_space(char const *s);
-char				**ft_split_comma(char const *s);
+int					ft_atoi(char *str, int *dst);
+int					ft_atof(char *str, float* dst);
+char				**ft_split_space(char *s);
+char				**ft_split_comma(char *s);
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);

@@ -4,6 +4,7 @@
 # include <math.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include "libft.h"
 
 typedef struct  s_vec t_vec;
 typedef struct  s_vec t_point;
@@ -16,6 +17,7 @@ typedef struct  s_mlx t_mlx;
 typedef struct  s_rgb t_rgb;
 typedef struct  s_scene t_scene;
 typedef struct  s_lstobjects t_lstobjects;
+typedef struct 	s_ambients t_ambients;
 
 typedef int	t_bool;
 
@@ -27,6 +29,14 @@ struct s_vec
 	double x;
 	double y;
 	double z;
+};
+
+struct s_ambients
+{
+	float ratio;
+	int	r;
+	int g;
+	int b;
 };
 
 struct s_mlx
@@ -59,12 +69,8 @@ struct	s_ray
 struct	s_camera
 {
 	t_point	orig;  // origin
-	double		view_h; // viewport height;
-	double		view_w; // viewport width;
-	t_vec		horizontal; // 수평방향 벡터
-	t_vec		vertical; // 수직방향 벡터
-	double		focal_len; // focal length;
-	t_point	left_bottom; // lower left corner;
+	t_vec	vec; // 방향 vector
+	int 	angle;
 };
 
 struct	s_canvas
@@ -85,16 +91,9 @@ struct		s_scene
 {
 	t_vec			*origin;
 	t_canvas		viewport;
-	t_canvas		*viewplane;
-	t_lstobjects	*cameras;
-	t_lstobjects	*objects;
-	t_lstobjects	*lights;
-	float			total_intensity;
-	int				nb_camera;
-	int				background_color;
-	int				depth;
-	float			t_min;
-	float			t_max;
+	t_ambients		ambients;
+	t_list			*cylinder;
+	t_camera		camera;
 };
 
 struct		s_lstobjects
@@ -130,7 +129,8 @@ t_vec	    ray_color(t_vec orig, t_vec dir);
 int	        hit_sphere(t_vec center, double radius, t_vec origin, t_vec direction);
 
 t_canvas		make_canvas(int width, int height);
-
+t_camera 		make_camera(t_point point, t_vec vec, int angle);
+t_ambients		make_ambients(float ratio, t_color color);
 void	write_color(t_mlx *app, t_vec pixel_color);
 
 #endif

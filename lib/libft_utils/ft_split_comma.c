@@ -74,7 +74,7 @@ static int		get_size(char *s)
 	return (size);
 }
 
-char			**ft_split_comma(char const *s)
+char			**ft_split_comma(char *s)
 {
 	char		**ptr;
 	int			size;
