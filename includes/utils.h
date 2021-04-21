@@ -85,6 +85,7 @@ struct	s_sphere
 	t_point	center;
 	double		radius;
 	double		radius2;
+	t_color		color;
 };
 
 struct		s_scene
@@ -94,6 +95,7 @@ struct		s_scene
 	t_ambients		ambients;
 	t_list			*cylinder;
 	t_camera		camera;
+	t_list			*sphere;
 };
 
 struct		s_lstobjects
@@ -131,6 +133,7 @@ int	        hit_sphere(t_vec center, double radius, t_vec origin, t_vec directio
 t_canvas		make_canvas(int width, int height);
 t_camera 		make_camera(t_point point, t_vec vec, int angle);
 t_ambients		make_ambients(float ratio, t_color color);
+
 void	write_color(t_mlx *app, t_vec pixel_color);
 
 #endif
