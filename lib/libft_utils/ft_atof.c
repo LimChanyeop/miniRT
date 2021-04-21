@@ -1,6 +1,6 @@
 #include "libft.h"
 
-int			ft_atof(char *str, float* dst)
+int			ft_atof(char *str, float* dst) // double
  {
  	float	ent;
  	float	dec;
@@ -14,7 +14,7 @@ int			ft_atof(char *str, float* dst)
  	if (*str == '.')
  		str++;
  	ft_atoi(str, &tmp);
-	dec = (float)tmp; 
+	dec = (float)tmp;
  	size = ft_strlen(str);
  	while (size--)
  		dec /= 10;

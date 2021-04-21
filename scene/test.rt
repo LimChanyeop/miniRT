@@ -4,7 +4,13 @@ A	0.2 	100,200,255
 c	12,34,56	12,56,78 	    120						
 
 sp	12,34,56	10      12,56,78 	
-pl	x,y,z	x,y,z	r,g,b						// plane
-sq	x,y,z	x,y,z	diameter	r,g,b 			// square
+sp	12,34,56	10      12,56,78
+sp	12,34,56	10      12,56,78
+sp	12,34,56	10      12,56,78
+
 cy	x,y,z	x,y,z	diameter	height	r,g,b	// cylinder
 tr	x,y,z	x,y,z	x,y,z		r,g,b 			// triangle
+
+
+pl	x,y,z	x,y,z	r,g,b						// plane
+sq	x,y,z	x,y,z	diameter	r,g,b 			// square

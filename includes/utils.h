@@ -34,7 +34,7 @@ struct s_vec
 struct s_ambients
 {
 	float ratio;
-	int	r;
+	int r;
 	int g;
 	int b;
 };
@@ -53,30 +53,23 @@ struct s_mlx
 	int int_color;
 };
 
-struct s_rgb
-{
-    int r;
-    int g;
-    int b;
-};
-
 struct	s_ray
 {
-	t_point	orig;
+	t_point		orig;
 	t_vec		dir;
 };
 
 struct	s_camera
 {
-	t_point	orig;  // origin
-	t_vec	vec; // 방향 vector
+	t_point	orig;	// origin
+	t_vec	vec;	// dir vector
 	int 	angle;
 };
 
 struct	s_canvas
 {
-	int		width; //canvas width
-	int		height; //canvas height;
+	int		width;	//canvas width
+	int		height;	//canvas height
 	double	aspect_ratio;
 };
 
@@ -90,12 +83,15 @@ struct	s_sphere
 
 struct		s_scene
 {
-	t_vec			*origin;
 	t_canvas		viewport;
 	t_ambients		ambients;
 	t_list			*cylinder;
 	t_camera		camera;
 	t_list			*sphere;
+	t_list			*cylinder;
+	t_list			*triangle;
+	t_list			*square;
+	t_list			*plane;
 };
 
 struct		s_lstobjects
