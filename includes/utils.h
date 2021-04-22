@@ -13,6 +13,11 @@ typedef struct  s_ray t_ray;
 typedef struct  s_camera t_camera;
 typedef struct  s_canvas t_canvas;
 typedef struct  s_sphere t_sphere;
+typedef struct  s_triangle t_triangle;
+typedef struct	s_cylinder t_cylinder;
+typedef struct	s_square t_square;
+typedef struct	s_plane t_plane;
+typedef struct	s_light	t_light;
 typedef struct  s_mlx t_mlx;
 typedef struct  s_rgb t_rgb;
 typedef struct  s_scene t_scene;
@@ -26,59 +31,98 @@ typedef int	t_bool;
 
 struct s_vec
 {
-	double x;
-	double y;
-	double z;
+	double			x;
+	double			y;
+	double			z;
 };
 
 struct s_ambients
 {
-	float ratio;
-	int r;
-	int g;
-	int b;
+	float			ratio;
+	int				r;
+	int				g;
+	int				b;
 };
 
 struct s_mlx
 {
-	void *mlx_ptr;
-	void *win_ptr;
-	void *img_ptr;
-	int  *data;
-	int  bpp;
-	int	 size_l;
-	int  endian;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	void			*img_ptr;
+	int 			*data;
+	int 			bpp;
+	int				size_l;
+	int 			endian;
 
-	t_vec color;
-	int int_color;
+	t_vec 			color;
+	int				int_color;
 };
 
 struct	s_ray
 {
-	t_point		orig;
-	t_vec		dir;
+	t_point			orig;
+	t_vec			dir;
 };
 
 struct	s_camera
 {
-	t_point	orig;	// origin
-	t_vec	vec;	// dir vector
-	int 	angle;
+	t_point			orig;	// origin
+	t_vec			vec;	// dir vector
+	int 			angle;
 };
 
 struct	s_canvas
 {
-	int		width;	//canvas width
-	int		height;	//canvas height
-	double	aspect_ratio;
+	int				width;	//canvas width
+	int				height;	//canvas height
+	double			aspect_ratio;
 };
 
 struct	s_sphere
 {
-	t_point	center;
-	double		radius;
-	double		radius2;
-	t_color		color;
+	t_point			center;
+	double			radius;
+	double			radius2;
+	t_color			color;
+};
+
+struct	s_cylinder
+{
+	t_point			point1;
+	t_point			point2;
+	double			radius;
+	double			height;
+	t_color			color;
+};
+
+struct	s_triangle
+{
+	t_point			point1;
+	t_point			point2;
+	t_point			point3;
+	t_color			color;
+};
+
+struct	s_square
+{
+	t_point			point1;
+	t_point			point2;
+	double			radius;
+	t_color			color;
+};
+
+struct	s_plane
+{
+	t_point			point1;
+	t_point			point2;
+	t_color			color;
+};
+
+struct	s_light
+{
+	t_point			point;
+	double			ratio;
+	t_color			color;
 };
 
 struct		s_scene
@@ -88,10 +132,10 @@ struct		s_scene
 	t_list			*cylinder;
 	t_camera		camera;
 	t_list			*sphere;
-	t_list			*cylinder;
 	t_list			*triangle;
 	t_list			*square;
 	t_list			*plane;
+	t_list			*light;
 };
 
 struct		s_lstobjects
@@ -103,33 +147,43 @@ struct		s_lstobjects
 	void			*next;
 };
 
-t_vec	vec(double x, double y, double z);
-t_point point(double x, double y, double z);
-t_point color(double r, double g, double b);
-void	vset(t_vec *vec, double x, double y, double z);
-double	vlength2(t_vec vec);
-double	vlength(t_vec vec);
-t_vec	vplus(t_vec vec, t_vec vec2);
-t_vec	vplus_(t_vec vec, double x, double y, double z);
-t_vec	vminus(t_vec vec, t_vec vec2);
-t_vec	vminus_(t_vec vec, double x, double y, double z);
-t_vec	vmult_(t_vec vec, double t);
-t_vec	vmult(t_vec vec, t_vec vec2);
-t_vec	vdivide(t_vec vec, double t);
-double	vdot(t_vec vec, t_vec vec2);
-t_vec	vcross(t_vec vec, t_vec vec2);
-t_vec	vunit(t_vec vec);
-int 	parse(t_scene *scene, char *line);
+t_vec		vec(double x, double y, double z);
+t_point 	point(double x, double y, double z);
+t_point 	color(double r, double g, double b);
+void		vset(t_vec *vec, double x, double y, double z);
+double		vlength2(t_vec vec);
+double		vlength(t_vec vec);
+t_vec		vplus(t_vec vec, t_vec vec2);
+t_vec		vplus_(t_vec vec, double x, double y, double z);
+t_vec		vminus(t_vec vec, t_vec vec2);
+t_vec		vminus_(t_vec vec, double x, double y, double z);
+t_vec		vmult_(t_vec vec, double t);
+t_vec		vmult(t_vec vec, t_vec vec2);
+t_vec		vdivide(t_vec vec, double t);
+double		vdot(t_vec vec, t_vec vec2);
+t_vec		vcross(t_vec vec, t_vec vec2);
+t_vec		vunit(t_vec vec);
+int 		parse(t_scene *scene, char *line);
 
 t_ray		ray(t_point orig, t_vec dir);
 t_point	    ray_at(t_point orig, t_vec dir, double t);
 t_vec	    ray_color(t_vec orig, t_vec dir);
 int	        hit_sphere(t_vec center, double radius, t_vec origin, t_vec direction);
 
-t_canvas		make_canvas(int width, int height);
-t_camera 		make_camera(t_point point, t_vec vec, int angle);
-t_ambients		make_ambients(float ratio, t_color color);
+t_canvas	make_canvas(int width, int height);
+t_camera 	make_camera(t_point point, t_vec vec, int angle);
+t_ambients	make_ambients(float ratio, t_color color);
+t_plane		make_plane(t_point point1, t_point point2, t_color color);
+t_square	make_square(t_point point1, t_point point2, int radius, t_color color);
+t_triangle	make_triangle(t_point point1, t_point point2, t_point point3, t_color color);
+t_cylinder 	make_cylinder(t_point point1, t_point point2, int radius, int height, t_color color);
+t_sphere	make_sphere(t_point point, int diameter, t_color color);
+t_light		make_light(t_point point, double ratio, t_color color);
 
-void	write_color(t_mlx *app, t_vec pixel_color);
+int 		set_xyz_rgb(char** input, t_vec *vec);
+int			get_contents_size(char **contents);
+void		free_contents(char **contents);
+
+void		write_color(t_mlx *app, t_vec pixel_color);
 
 #endif

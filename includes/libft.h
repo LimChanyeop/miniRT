@@ -33,7 +33,7 @@ typedef struct		s_list
 
 size_t				ft_strlen(const char *s);
 int					ft_atoi(char *str, int *dst);
-int					ft_atof(char *str, float* dst);
+int					ft_atod(char *str, double* dst);
 char				**ft_split_space(char *s);
 char				**ft_split_comma(char *s);
 t_list				*ft_lstnew(void *content);

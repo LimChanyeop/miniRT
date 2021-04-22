@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-static int		input_test(int sign, char *str)
+/*static int		input_test(int sign, char *str)
 {
 	int			i;
 	char		max[20];
@@ -33,31 +34,35 @@ static int		input_test(int sign, char *str)
 			return (-1);
 	}
 	return (1);
-}
+}*/
 
-int				ft_atoi(char *str, int *dst)
+int				ft_atoi(char *str, int *dst) // only - 
 {
 	int			sign;
 	int			ret_num;
 	int			i;
+	int			error;
 
+	error = 0;
 	i = 0;
 	ret_num = 0;
 	sign = 1;
-	while (*str == '\t' || *str == '\n' || *str == '\v' ||
-						*str == '\r' || *str == '\f' || *str == ' ')
+	while (ft_isspace(*str))
 		str++;
 	if (*str == '-')
 		sign = -1;
 	if (*str == '-' || *str == '+')
 		str++;
-	if (input_test(sign, (char *)str) != 1)
-		return (input_test(sign, (char *)str));
-	while (*str >= '0' && *str <= '9')
+	//if (input_test(sign, (char *)str) != 1)
+	//	return (input_test(sign, (char *)str));
+	while (ft_isdigit(*str))
 	{
 		ret_num *= 10;
 		ret_num += *str++ - '0';
 	}
+	if ((*str))
+	 	error = -1;
 	*dst = ret_num * sign;
-	return (0);
+	printf("dst in atoi = %d\n", *dst);
+	return (error);
 }
