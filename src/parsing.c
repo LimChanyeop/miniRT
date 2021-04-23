@@ -33,7 +33,6 @@ int 	parse_ambient_light(t_scene *scene, char *line)
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 2)
 		return (-1);
-	//printf("content[0] = %s\n", contents[0]);
 	error = ft_atod(contents[0], &ratio);
 	printf("ratio = %f\n", ratio);
 	error = (set_xyz_rgb(ft_split_comma(contents[1]), &color));

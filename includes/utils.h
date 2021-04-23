@@ -184,6 +184,9 @@ int 		set_xyz_rgb(char** input, t_vec *vec);
 int			get_contents_size(char **contents);
 void		free_contents(char **contents);
 
+int         rgb_validation(t_color color);
+int         vector_validation(t_vec vec);
+int         angle_validation(int angle);
 void		write_color(t_mlx *app, t_vec pixel_color);
 
 #endif

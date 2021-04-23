@@ -54,7 +54,7 @@ double	vlength(t_vec vec)
 	return (sqrt(vlength2(vec)));
 }
 
-// 벡터합
+// 벡터합4
 t_vec	vplus(t_vec vec, t_vec vec2)
 {
 	vec.x += vec2.x;

@@ -56,13 +56,9 @@ int				ft_atoi(char *str, int *dst) // only -
 	//if (input_test(sign, (char *)str) != 1)
 	//	return (input_test(sign, (char *)str));
 	while (ft_isdigit(*str))
-	{
-		ret_num *= 10;
-		ret_num += *str++ - '0';
-	}
+		ret_num = ret_num * 10 + (*str++ - '0');
 	if ((*str))
 	 	error = -1;
 	*dst = ret_num * sign;
-	printf("dst in atoi = %d\n", *dst);
 	return (error);
 }
