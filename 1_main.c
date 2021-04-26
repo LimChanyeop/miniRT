@@ -20,26 +20,24 @@ int	main(int argc, char *argv[])
 	int			fd;
 	t_scene		*scene;
 	char		*line = 0;
-	t_light 	*temp;
+	t_sphere  *cy;
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
-	if (argc != 2)
-		return (-1);
+	if (!(argc == 2 || ((argc == 3) && !ft_strncmp(argv[2], "--save\0", 7))))
+		report_error(6);
 	fd = open(argv[1], O_RDONLY);
 	init_scene(scene);
 	while(get_next_line(fd, &line) > 0)
 	{
 		if(parse(scene, line) < 0)
-			printf("RT file LINE ERROR\n");
+			printf("RT file LINE ERROR in %s\n ", line);
 		free(line);
 	}
-	temp = scene->light->content;
-	printf("sp list size = %d\n", ft_lstsize(scene->sphere));
-	printf("sq list size = %d\n", ft_lstsize(scene->square));
-	printf("cy list size = %d\n", ft_lstsize(scene->cylinder));
-	printf("tr list size = %d\n", ft_lstsize(scene->triangle));
-	printf("pl list size = %d\n", ft_lstsize(scene->plane));
-	printf("li list size = %d\n", ft_lstsize(scene->light));
-	printf("contents = %f\n", temp->point.z);
-	//printf("main test = %f\n", scene->ambients.ratio);
+	if(parse(scene, line) < 0)
+		printf("RT file LINE ERROR in %s\n ", line);
+	free(line);
+	cy = scene->sphere->content;
+	printf("sp radius  contents -> %f %f\n", cy->radius, cy->radius2);
+
+	// R, A, c 적절하게 들어왓는지 확인
 }

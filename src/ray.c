@@ -1,7 +1,7 @@
 #include "utils.h"
 
 //ray 생성자
-t_ray	ray(t_point orig, t_vec dir)
+t_ray	ray(t_vec orig, t_vec dir)
 {
 	t_ray new;
 
@@ -11,9 +11,9 @@ t_ray	ray(t_point orig, t_vec dir)
 }
 
 //ray origin point 부터 방향벡터 ray dir * t 만큼 떨어진점.
-t_point ray_at(t_vec orig, t_vec dir, double t)
+t_vec ray_at(t_vec orig, t_vec dir, double t)
 {
-	t_point at;
+	t_vec at;
 
 	at = vplus(orig, vmult_(dir, t));
 	return (at);

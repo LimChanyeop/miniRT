@@ -58,19 +58,26 @@ static int		get_size(char *s)
 	char		*str;
 	int			size;
 	int			i;
+	int			comma_cnt;
 
+	comma_cnt = 0;
 	i = 0;
 	str = (char *)s;
 	size = 0;
 	while (str[i])
 	{
 		while (ft_iscomma(str[i]))
+		{
 			i++;
+			comma_cnt++;
+		}
 		if (!(ft_iscomma(str[i])) && str[i])
 			size++;
 		while (str[i] && !(ft_iscomma(str[i])))
 			i++;
 	}
+	if (comma_cnt != 2)
+		return (-1);
 	return (size);
 }
 
@@ -80,6 +87,8 @@ char			**ft_split_comma(char *s)
 	int			size;
 
 	size = get_size((char *)s);
+	if (size == -1)
+		return (0);
 	ptr = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!ptr)
 		return (0);

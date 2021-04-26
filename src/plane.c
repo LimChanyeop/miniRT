@@ -1,11 +1,14 @@
 #include "utils.h"
 
-t_plane	make_plane(t_point point1, t_point point2, t_color color)
+t_plane	make_plane(t_vec point, t_vec vec, t_color color)
 {
 	t_plane plane;
-
-	plane.point1 = point1;
-	plane.point2 = point2;
+	if (vector_validation(vec) < 0)
+		report_error(1);
+	if (rgb_validation(color) < 0)
+		report_error(2);
+	plane.point = point;
+	plane.vec = vec;
 	plane.color = color;
 	return (plane);
 }

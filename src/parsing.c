@@ -19,7 +19,7 @@ int		parse_resolution(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error < 0)
 		return (error);
-	return (1);
+	return (0);
 }
 
 int 	parse_ambient_light(t_scene *scene, char *line)
@@ -34,7 +34,6 @@ int 	parse_ambient_light(t_scene *scene, char *line)
 	if (get_contents_size(contents) != 2)
 		return (-1);
 	error = ft_atod(contents[0], &ratio);
-	printf("ratio = %f\n", ratio);
 	error = (set_xyz_rgb(ft_split_comma(contents[1]), &color));
 	free_contents(contents);
 	if (error == -1)
@@ -60,14 +59,14 @@ int 	parse_camera(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error == -1)
 		return (error);
-	scene->camera = make_camera((t_point)vec[0], vec[1], angle);
+	scene->camera = make_camera((t_vec)vec[0], vec[1], angle);
 	return (0);
 }
 
 int		parse_sphere(t_scene *scene, char *line)
 {
 	t_vec vec[2];
-	int		radius;
+	double	radius;
 	char	**contents;
 	t_sphere *sp;
 	int		error;
@@ -78,12 +77,12 @@ int		parse_sphere(t_scene *scene, char *line)
 	if (get_contents_size(contents) != 3)
 		return (-1);
 	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = ft_atoi(contents[1], &radius);
+	error = ft_atod(contents[1], &radius);
 	error = set_xyz_rgb(ft_split_comma(contents[2]), &vec[1]);
 	free_contents(contents);
 	if (error == -1)
 		return (error);
-	*sp = make_sphere((t_point)vec[0], radius, (t_color)vec[1]);
+	*sp = make_sphere((t_vec)vec[0], radius, (t_color)vec[1]);
 	ft_lstadd_front(&scene->sphere, ft_lstnew(sp));
 	return (0);
 }
@@ -110,7 +109,7 @@ int		parse_cylinder(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error == -1)
 		return (error);
-	*cy = make_cylinder((t_point)vec[0], (t_point)vec[1], radius, height, (t_color)vec[2]);
+	*cy = make_cylinder((t_vec)vec[0], (t_vec)vec[1], radius, height, (t_color)vec[2]);
 	ft_lstadd_front(&scene->cylinder, ft_lstnew(cy));
 	return (0);
 }
@@ -134,7 +133,7 @@ int		parse_triangle(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error == -1)
 		return (error);
-	*tr = make_triangle((t_point)vec[0], (t_point)vec[1], (t_point)vec[2], (t_color)vec[3]);
+	*tr = make_triangle((t_vec)vec[0], (t_vec)vec[1], (t_vec)vec[2], (t_color)vec[3]);
 	ft_lstadd_front(&scene->triangle, ft_lstnew(tr));
 	return (0);
 }
@@ -159,7 +158,7 @@ int		parse_square(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error == -1)
 		return (error);
-	*sq = make_square((t_point)vec[0], (t_point)vec[1], radius, (t_color)vec[2]);
+	*sq = make_square((t_vec)vec[0], (t_vec)vec[1], radius, (t_color)vec[2]);
 	ft_lstadd_front(&scene->square, ft_lstnew(sq));
 	return (0);
 }
@@ -182,7 +181,7 @@ int		parse_plane(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error == -1)
 		return (error);
-	*pl = make_plane((t_point)vec[0], (t_point)vec[1], (t_color)vec[2]);
+	*pl = make_plane((t_vec)vec[0], (t_vec)vec[1], (t_color)vec[2]);
 	ft_lstadd_front(&scene->plane, ft_lstnew(pl));
 	return (0);
 }
@@ -206,7 +205,7 @@ int		parse_light(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error == -1)
 		return (error);
-	*li = make_light((t_point)vec[0], ratio, (t_color)vec[1]);
+	*li = make_light((t_vec)vec[0], ratio, (t_color)vec[1]);
 	ft_lstadd_front(&scene->light, ft_lstnew(li));
 	return (0);
 }

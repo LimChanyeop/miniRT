@@ -51,6 +51,8 @@ int				ft_atoi(char *str, int *dst) // only -
 		str++;
 	if (*str == '-')
 		sign = -1;
+	if ((*str == '-' || *str == '+') && !*(str + 1))
+		error = -1;
 	if (*str == '-' || *str == '+')
 		str++;
 	//if (input_test(sign, (char *)str) != 1)

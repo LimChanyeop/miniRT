@@ -1,6 +1,5 @@
 #include "utils.h"
 
-
 //벡터3 생성자
 t_vec	vec(double x, double y, double z)
 {
@@ -15,7 +14,7 @@ t_vec	vec(double x, double y, double z)
 //포인트3 생성자
 t_point point(double x, double y, double z)
 {
-	t_point point;
+	t_vec point;
 
 	point.x = x;
 	point.y = y;
@@ -24,7 +23,7 @@ t_point point(double x, double y, double z)
 }
 
 //색상3 생성자
-t_point color(double r, double g, double b)
+t_color color(double r, double g, double b)
 {
 	t_color color;
 

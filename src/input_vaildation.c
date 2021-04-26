@@ -1,5 +1,13 @@
 #include "utils.h"
 
+int         vector_validation(t_vec vec)
+{
+    if (vec.x == 0 && vec.y == 0 && vec.z == 0)
+        return (-1);
+    else
+        return (0);
+}
+
 int         rgb_validation(t_color color)
 {
     if (color.x > 255 || color.y > 255 || color.z > 255)
@@ -10,17 +18,25 @@ int         rgb_validation(t_color color)
         return (0);
 }
 
-int         vector_validation(t_vec vec)
+int         angle_validation(int angle)
 {
-    if (vec.x == 0 && vec.y == 0 && vec.z == 0)
+    if(angle >= 180 || angle <= 0)
         return (-1);
     else
         return (0);
 }
 
-int         angle_validation(int angle)
+int         light_validation(double brightness)
 {
-    if(angle >= 180 || angle <= 0)
+    if (brightness < 0 || brightness > 1)
+        return (-1);
+    else
+        return (0);
+}
+
+int         check_positive(double num)
+{
+    if (num < 0)
         return (-1);
     else
         return (0);
