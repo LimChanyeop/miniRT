@@ -9,12 +9,14 @@ int		parse_resolution(t_scene *scene, char *line)
 	char **contents;
 	int	error;
 
+	if (scene->viewport.check_in == 1)
+		report_error(8);
 	error = 0;
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 2)
 		return (-1);
-	error -= ft_atoi(contents[0], &res_x);
-	error -= ft_atoi(contents[1], &res_y);
+	error += ft_atoi(contents[0], &res_x);
+	error += ft_atoi(contents[1], &res_y);
 	scene->viewport = make_canvas(res_x, res_y);
 	free_contents(contents);
 	if (error < 0)
@@ -29,14 +31,16 @@ int 	parse_ambient_light(t_scene *scene, char *line)
 	char 	**contents;
 	int		error;
 
+	if (scene->ambients.check_in == 1)
+		report_error(8);
 	error = 0;
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 2)
 		return (-1);
-	error = ft_atod(contents[0], &ratio);
-	error = (set_xyz_rgb(ft_split_comma(contents[1]), &color));
+	error += ft_atod(contents[0], &ratio);
+	error += (set_xyz_rgb(ft_split_comma(contents[1]), &color));
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	scene->ambients = make_ambients(ratio, color);
 	return (0);
@@ -45,19 +49,21 @@ int 	parse_ambient_light(t_scene *scene, char *line)
 int 	parse_camera(t_scene *scene, char *line)
 {
 	t_vec	 vec[2];
-	int	 angle;
+	double	 angle;
 	char **contents;
 	int		error;
 
+	if (scene->camera.check_in == 1)
+		report_error(8);
 	error = 0;
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
-	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
-	error = ft_atoi(contents[2], &angle);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
+	error += ft_atod(contents[2], &angle);
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	scene->camera = make_camera((t_vec)vec[0], vec[1], angle);
 	return (0);
@@ -76,11 +82,11 @@ int		parse_sphere(t_scene *scene, char *line)
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
-	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = ft_atod(contents[1], &radius);
-	error = set_xyz_rgb(ft_split_comma(contents[2]), &vec[1]);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += ft_atod(contents[1], &radius);
+	error += set_xyz_rgb(ft_split_comma(contents[2]), &vec[1]);
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	*sp = make_sphere((t_vec)vec[0], radius, (t_color)vec[1]);
 	ft_lstadd_front(&scene->sphere, ft_lstnew(sp));
@@ -101,13 +107,13 @@ int		parse_cylinder(t_scene *scene, char *line)
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 5)
 		return (-1);
-	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
-	error = ft_atod(contents[2], &radius);
-	error = ft_atod(contents[3], &height);
-	error = set_xyz_rgb(ft_split_comma(contents[4]), &vec[2]);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
+	error += ft_atod(contents[2], &radius);
+	error += ft_atod(contents[3], &height);
+	error += set_xyz_rgb(ft_split_comma(contents[4]), &vec[2]);
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	*cy = make_cylinder((t_vec)vec[0], (t_vec)vec[1], radius, height, (t_color)vec[2]);
 	ft_lstadd_front(&scene->cylinder, ft_lstnew(cy));
@@ -126,12 +132,12 @@ int		parse_triangle(t_scene *scene, char *line)
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 4)
 		return (-1);
-	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
-	error = set_xyz_rgb(ft_split_comma(contents[2]), &vec[2]);
-	error = set_xyz_rgb(ft_split_comma(contents[3]), &vec[3]);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
+	error += set_xyz_rgb(ft_split_comma(contents[2]), &vec[2]);
+	error += set_xyz_rgb(ft_split_comma(contents[3]), &vec[3]);
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	*tr = make_triangle((t_vec)vec[0], (t_vec)vec[1], (t_vec)vec[2], (t_color)vec[3]);
 	ft_lstadd_front(&scene->triangle, ft_lstnew(tr));
@@ -142,7 +148,7 @@ int		parse_square(t_scene *scene, char *line)
 {
 	t_vec 	vec[3];
 	char	**contents;
-	int		radius;
+	double		radius;
 	int 	error;
 	t_square *sq;
 
@@ -151,12 +157,12 @@ int		parse_square(t_scene *scene, char *line)
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 4)
 		return (-1);
-	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
-	error = ft_atoi(contents[2], &radius);
-	error = set_xyz_rgb(ft_split_comma(contents[3]), &vec[2]);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
+	error += ft_atod(contents[2], &radius);
+	error += set_xyz_rgb(ft_split_comma(contents[3]), &vec[2]);
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	*sq = make_square((t_vec)vec[0], (t_vec)vec[1], radius, (t_color)vec[2]);
 	ft_lstadd_front(&scene->square, ft_lstnew(sq));
@@ -175,11 +181,11 @@ int		parse_plane(t_scene *scene, char *line)
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
-	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
-	error = set_xyz_rgb(ft_split_comma(contents[2]), &vec[2]);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
+	error += set_xyz_rgb(ft_split_comma(contents[2]), &vec[2]);
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	*pl = make_plane((t_vec)vec[0], (t_vec)vec[1], (t_color)vec[2]);
 	ft_lstadd_front(&scene->plane, ft_lstnew(pl));
@@ -199,11 +205,11 @@ int		parse_light(t_scene *scene, char *line)
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
-	error = set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error = ft_atod(contents[1], &ratio);
-	error = set_xyz_rgb(ft_split_comma(contents[2]), &vec[1]);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += ft_atod(contents[1], &ratio);
+	error += set_xyz_rgb(ft_split_comma(contents[2]), &vec[1]);
 	free_contents(contents);
-	if (error == -1)
+	if (error < 0)
 		return (error);
 	*li = make_light((t_vec)vec[0], ratio, (t_color)vec[1]);
 	ft_lstadd_front(&scene->light, ft_lstnew(li));

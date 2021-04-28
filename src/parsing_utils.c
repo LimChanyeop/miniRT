@@ -8,9 +8,9 @@ int 		set_xyz_rgb(char** input, t_vec *vec)
 	error = 0;
 	if (!input || get_contents_size(input) != 3)
 		return (-1);
-	error = ft_atod(input[0], &vec->x);
-	error = ft_atod(input[1], &vec->y);
-	error = ft_atod(input[2], &vec->z);
+	error += ft_atod(input[0], &vec->x);
+	error += ft_atod(input[1], &vec->y);
+	error += ft_atod(input[2], &vec->z);
 	return (error);
 }
 

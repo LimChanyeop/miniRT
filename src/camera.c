@@ -1,6 +1,6 @@
 #include "utils.h"
 
-t_camera make_camera(t_vec point, t_vec vec, int angle)
+t_camera make_camera(t_vec point, t_vec vec, double angle)
 {
 	t_camera camera;
 
@@ -11,6 +11,6 @@ t_camera make_camera(t_vec point, t_vec vec, int angle)
 	camera.orig = point;
 	camera.vec = vec;
 	camera.angle = angle;
-
+	camera.check_in = 1;
 	return (camera);
 }

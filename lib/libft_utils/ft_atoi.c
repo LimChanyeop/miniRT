@@ -47,12 +47,13 @@ int				ft_atoi(char *str, int *dst) // only -
 	i = 0;
 	ret_num = 0;
 	sign = 1;
+
 	while (ft_isspace(*str))
 		str++;
 	if (*str == '-')
 		sign = -1;
 	if ((*str == '-' || *str == '+') && !*(str + 1))
-		error = -1;
+		error += -1;
 	if (*str == '-' || *str == '+')
 		str++;
 	//if (input_test(sign, (char *)str) != 1)
@@ -60,7 +61,7 @@ int				ft_atoi(char *str, int *dst) // only -
 	while (ft_isdigit(*str))
 		ret_num = ret_num * 10 + (*str++ - '0');
 	if ((*str))
-	 	error = -1;
+	 	error += -1;
 	*dst = ret_num * sign;
 	return (error);
 }

@@ -2,7 +2,7 @@
 #include "mlx.h"
 #include "./includes/utils.h"
 #include "./includes/libft.h"
-
+//교점을 구해야 함 -> hit_도형 함수 리턴인자로 교점 받음 (안에서 가장 가까운 교점 판별해서 리턴) / 1. make mlx -> scene- > mlx 구조체로 // <구 2개로 >2. 교점 구하기  3. 교점에 해당하는 색깔 //
 int	main()
 {
 	const float aspect_ratio = 8.0 / 6.0;
@@ -17,9 +17,9 @@ int	main()
 	get_next_line(fd, &line);
 	parse(&scene, &line);
 	t_mlx		*app;
+
 	if (!(app = (t_mlx*)malloc(sizeof(t_mlx))))
 		return (-1);
-	
 	app->mlx_ptr = mlx_init();
 	app->win_ptr = mlx_new_window(app->mlx_ptr, 800, 600, "raytracer");
 	app->img_ptr = mlx_new_image(app->mlx_ptr, image_width, image_height);
@@ -33,6 +33,7 @@ int	main()
 	t_vec		vertical = {0, viewport_height, 0};
 	t_vec		any = {0, 0, -focal_length};
 	t_vec		lower_left_corner = vminus(vplus(vplus(vdivide(horizontal, -2), vdivide(vertical, -2)), any), origin);
+
 	int			j = 0;
 	while (j < image_height)
 	{

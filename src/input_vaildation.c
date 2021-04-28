@@ -18,9 +18,9 @@ int         rgb_validation(t_color color)
         return (0);
 }
 
-int         angle_validation(int angle)
+int         angle_validation(double angle)
 {
-    if(angle >= 180 || angle <= 0)
+    if (angle >= 180 || angle <= 0)
         return (-1);
     else
         return (0);
@@ -37,6 +37,18 @@ int         light_validation(double brightness)
 int         check_positive(double num)
 {
     if (num < 0)
+        return (-1);
+    else
+        return (0);
+}
+
+int         have_necessary_input(t_scene *scene)
+{
+    if (scene->viewport.check_in == 0)
+        return (-1);
+    else if (scene->ambients.check_in == 0)
+        return (-1);
+    else if (scene->camera.check_in == 0)
         return (-1);
     else
         return (0);

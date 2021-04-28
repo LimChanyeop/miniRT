@@ -7,27 +7,26 @@ int			ft_atod(char *str, double* dst)
  	double	dec;
  	int		size;
 	int		tmp;
-	int		error;
-	int		sign = 1;
 
-	error = 0;
 	if (*str == '-' && !*(str + 1))
-		error = -1;
-	if (*str == '-')
-		sign = -1;
+		return (-1);
  	ft_atoi(str, &tmp);
 	ent = (double)tmp;
-	while (*str && *str != '.')
+	if (*str == '-' || *str == '+')
 		str++;
+	while (ft_isdigit(*str))
+		str++;
+	if (!(*str == '\0' || *str == '.'))
+		return (-1);
 	if (*str == '.')
 		str++;
-	if (*str == '-')
-		error = -1;
-	error = ft_atoi(str, &tmp);
+	if (*str == '-' || (*(str - 1) == '.' && !*str) \
+									|| ft_atoi(str, &tmp) < 0)
+		return (-1);
 	dec = (double)tmp;
 	size = ft_strlen(str);
 	while (size--)
 		dec /= 10;
-	*dst = (ent + dec) * sign;
-	return (error);
+	*dst = (ent + dec);
+	return (0);
 }

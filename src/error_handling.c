@@ -14,5 +14,10 @@ void        report_error(int err_num)
         printf("Unallowed Negative Value ERROR\n");
     else if (err_num == 6)
         printf("argv input ERROR\n");
+    else if (err_num == 7)
+        printf("no necessary input in .rt file\n");
+    else if (err_num == 8)
+        printf(".rt file Line ERROR\n");
     exit(err_num);
 }
+

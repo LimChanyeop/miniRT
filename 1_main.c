@@ -5,14 +5,16 @@
 
 void	init_scene(t_scene *scene)
 {
-	scene->viewport.width = -1;
-	scene->viewport.height = -1;
+	scene->viewport.check_in = 0;
+	scene->ambients.check_in = 0;
+	scene->camera.check_in = 0;
 	scene->sphere = 0;
 	scene->square = 0;
 	scene->cylinder = 0;
 	scene->plane = 0;
 	scene->triangle = 0;
 	scene->light = 0;
+
 }
 
 int	main(int argc, char *argv[])
@@ -20,8 +22,7 @@ int	main(int argc, char *argv[])
 	int			fd;
 	t_scene		*scene;
 	char		*line = 0;
-	t_sphere  *cy;
-
+	t_mlx		*mlx;
 	scene = (t_scene *)malloc(sizeof(t_scene));
 	if (!(argc == 2 || ((argc == 3) && !ft_strncmp(argv[2], "--save\0", 7))))
 		report_error(6);
@@ -29,15 +30,19 @@ int	main(int argc, char *argv[])
 	init_scene(scene);
 	while(get_next_line(fd, &line) > 0)
 	{
-		if(parse(scene, line) < 0)
-			printf("RT file LINE ERROR in %s\n ", line);
+		if (parse(scene, line) < 0)
+		{
+			printf("line Error in %s\n", line);
+			report_error(8);
+		}
 		free(line);
 	}
-	if(parse(scene, line) < 0)
-		printf("RT file LINE ERROR in %s\n ", line);
+	if (parse(scene, line) < 0)
+		report_error(8);
 	free(line);
-	cy = scene->sphere->content;
-	printf("sp radius  contents -> %f %f\n", cy->radius, cy->radius2);
-
-	// R, A, c 적절하게 들어왓는지 확인
+	if (have_necessary_input(scene) < 0)
+		report_error(7);
+	mlx = mlx_initiation(scene);
+	mlx_loop(mlx->mlx_ptr);
+	printf("rt file validation successfully finished !\n");
 }

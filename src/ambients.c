@@ -1,6 +1,6 @@
 #include "utils.h"
 
-t_ambients	make_ambients(float ratio, t_color color)
+t_ambients	make_ambients(double ratio, t_color color)
 {
 	t_ambients ambients;
 
@@ -12,5 +12,6 @@ t_ambients	make_ambients(float ratio, t_color color)
 	ambients.r = color.x;
 	ambients.g = color.y;
 	ambients.b = color.z;
+	ambients.check_in = 1;
 	return (ambients);
 }

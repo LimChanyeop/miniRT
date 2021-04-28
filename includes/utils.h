@@ -42,6 +42,7 @@ struct s_ambients
 	int				r;
 	int				g;
 	int				b;
+	t_bool			check_in;
 };
 
 struct s_mlx
@@ -69,6 +70,7 @@ struct	s_camera
 	t_point			orig;	// origin
 	t_vec			vec;	// dir vector
 	int 			angle;
+	t_bool			check_in;
 };
 
 struct	s_canvas
@@ -76,6 +78,7 @@ struct	s_canvas
 	int				width;	//canvas width
 	int				height;	//canvas height
 	double			aspect_ratio;
+	t_bool			check_in;
 };
 
 struct	s_sphere
@@ -129,8 +132,8 @@ struct		s_scene
 {
 	t_canvas		viewport;
 	t_ambients		ambients;
-	t_list			*cylinder;
 	t_camera		camera;
+	t_list			*cylinder;
 	t_list			*sphere;
 	t_list			*triangle;
 	t_list			*square;
@@ -149,7 +152,7 @@ struct		s_lstobjects
 
 t_vec		vec(double x, double y, double z);
 t_point 	point(double x, double y, double z);
-t_point 	color(double r, double g, double b);
+t_color 	color(double r, double g, double b);
 void		vset(t_vec *vec, double x, double y, double z);
 double		vlength2(t_vec vec);
 double		vlength(t_vec vec);
@@ -169,14 +172,15 @@ t_ray		ray(t_point orig, t_vec dir);
 t_point	    ray_at(t_point orig, t_vec dir, double t);
 t_vec	    ray_color(t_vec orig, t_vec dir);
 int	        hit_sphere(t_vec center, double radius, t_vec origin, t_vec direction);
-//int, float -> double  
+//int, float -> double
+
 t_canvas	make_canvas(int width, int height);
-t_camera 	make_camera(t_point point, t_vec vec, int angle);
-t_ambients	make_ambients(float ratio, t_color color);
+t_camera 	make_camera(t_point point, t_vec vec, double angle);
+t_ambients	make_ambients(double ratio, t_color color);
 t_plane		make_plane(t_point point, t_point vec, t_color color);
-t_square	make_square(t_point center, t_point vec, int radius, t_color color);
+t_square	make_square(t_point center, t_point vec, double radius, t_color color);
 t_triangle	make_triangle(t_point point1, t_point point2, t_point point3, t_color color);
-t_cylinder 	make_cylinder(t_point point, t_point vec, int radius, int height, t_color color);
+t_cylinder 	make_cylinder(t_point point, t_point vec, double radius, double height, t_color color);
 t_sphere	make_sphere(t_point point,  double diameter, t_color color);
 t_light		make_light(t_point point, double brightness, t_color color);
 
@@ -186,11 +190,13 @@ void		free_contents(char **contents);
 
 int         rgb_validation(t_color color);
 int         vector_validation(t_vec vec);
-int         angle_validation(int angle);
+int         angle_validation(double angle);
 int         light_validation(double brightness);
 int         check_positive(double num);
+int         have_necessary_input(t_scene *scene);
 
 void        report_error(int err_num);
 void		write_color(t_mlx *app, t_vec pixel_color);
 
+t_mlx       *mlx_initiation(t_scene *scene);
 #endif

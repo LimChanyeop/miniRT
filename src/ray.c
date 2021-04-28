@@ -22,7 +22,7 @@ t_vec ray_at(t_vec orig, t_vec dir, double t)
 t_vec	ray_color(t_vec orig, t_vec dir)
 {
 	t_vec sphere = {0, 0, -2};
-	float t = hit_sphere(sphere, 0.5, orig, dir);
+	float t = hit_sphere(sphere, 0.5, orig, dir);//...
 	if (t > 0.0)
 	{
 		t_vec N = vunit(vminus(ray_at(orig, dir, t), sphere));
