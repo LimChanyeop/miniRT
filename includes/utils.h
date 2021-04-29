@@ -150,6 +150,14 @@ struct		s_lstobjects
 	void			*next;
 };
 
+struct		s_intersect
+{
+	double			sol_t;
+	char			type;
+	t_bool			in_out;
+};
+
+
 t_vec		vec(double x, double y, double z);
 t_point 	point(double x, double y, double z);
 t_color 	color(double r, double g, double b);
@@ -171,8 +179,7 @@ int 		parse(t_scene *scene, char *line);
 t_ray		ray(t_point orig, t_vec dir);
 t_point	    ray_at(t_point orig, t_vec dir, double t);
 t_vec	    ray_color(t_vec orig, t_vec dir);
-int	        hit_sphere(t_vec center, double radius, t_vec origin, t_vec direction);
-//int, float -> double
+double		hit_sphere(t_sphere *sp, t_ray *ray);
 
 t_canvas	make_canvas(int width, int height);
 t_camera 	make_camera(t_point point, t_vec vec, double angle);
@@ -196,7 +203,7 @@ int         check_positive(double num);
 int         have_necessary_input(t_scene *scene);
 
 void        report_error(int err_num);
-void		write_color(t_mlx *app, t_vec pixel_color);
+void		write_color(t_mlx *mlx, t_vec pixel_color);
 
 t_mlx       *mlx_initiation(t_scene *scene);
 #endif

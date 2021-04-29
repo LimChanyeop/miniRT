@@ -10,12 +10,6 @@ int	main()
 	const int	image_height = image_width / aspect_ratio;
 	int			fd;
 
-	fd = open("./scene/test.rt", O_RDONLY);
-
-	t_scene		scene;
-	char *line;
-	get_next_line(fd, &line);
-	parse(&scene, &line);
 	t_mlx		*app;
 
 	if (!(app = (t_mlx*)malloc(sizeof(t_mlx))))

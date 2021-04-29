@@ -1,14 +1,20 @@
 #include "utils.h"
 
-int	hit_sphere(t_vec center, double radius, t_vec origin, t_vec direction)
+double	hit_sphere(t_sphere *sp, t_ray *ray)
 {
-	t_vec oc = vminus(origin, center);
-	float a = vdot(direction, direction);
-	float b = vdot(oc, direction);
-	float c = vdot(oc, oc) - radius * radius;
-	float discriminant = b * b - a * c;
+	t_vec oc;
+	double a;
+	double b;
+	double c;
+	double discriminant;
+
+	a = vdot(ray->dir, ray->dir);
+	b = vdot(oc, ray->dir);
+	oc = vminus(ray->orig, sp->center);
+	c = vdot(oc, oc) - sp->radius2;
+	discriminant = b * b - 4 * a * c;
 	if (discriminant < 0)
 		return (-1.0);
 	else
-		return ((-b - sqrt(discriminant)) / (a));
+		return ((-b - sqrt(discriminant)) / (2.0 * a)); //가까운 t
 }
