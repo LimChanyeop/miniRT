@@ -7,7 +7,7 @@ double	hit_sphere(t_sphere *sp, t_ray *ray)
 	double b;
 	double c;
 	double discriminant;
-
+	
 	oc = vminus(ray->orig, sp->center);
 	a = vdot(ray->dir, ray->dir);
 	b = 2.0 * vdot(oc, ray->dir);

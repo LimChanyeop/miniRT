@@ -2,6 +2,7 @@
 #include "mlx.h"
 #include "utils.h"
 #include "libft.h"
+#include <math.h>
 //교점을 구해야 함 -> hit_도형 함수 리턴인자로 교점 받음 (안에서 가장 가까운 교점 판별해서 리턴)// 1. make mlx -> scene- > mlx 구조체로 // <구 2개로 > 2. 교점 구하기  3. 교점에 해당하는 색깔//
 void	init_scene(t_scene *scene)
 {
@@ -45,29 +46,54 @@ int	main(int argc, char *argv[])
 	mlx = mlx_initiation(scene);
 
 	int			i;
-	int			j = 0;
-	float		viewport_height = 2.0;
-	float		viewport_width = scene->viewport.aspect_ratio * viewport_height;
 	float		focal_length = 1.0;
+	float		viewport_width = 2.0 * focal_length * tan(scene->camera.angle * 0.5 * PIE / 180);
+	float		viewport_height = viewport_width * scene->viewport.aspect_ratio;
 
-	t_vec		horizontal = {viewport_width, 0, 0};
-	t_vec		vertical = {0, viewport_height, 0};
-	t_vec		lower_left_corner = vminus(vminus(vminus(scene->camera.orig, vdivide(horizontal, 2)), vdivide(vertical, 2)), vec(0, 0, focal_length));
-	t_ray		ray;
+	t_point		center;
+	t_vec		vertical;
+	t_vec		horizontal;
+	t_vec 		temp;
 
+	temp = vcross(vec(0,1,0), scene->camera.vec);
+	if (vector_validation(temp) == 0)
+	{
+		horizontal = vunit(temp);
+		vertical = vunit(vcross(scene->camera.vec, horizontal));
+	}
+	else
+	{
+		temp = vcross(scene->camera.vec, vec(1, 0, 0));
+		vertical = vunit(temp);
+		horizontal = vunit(vcross(vertical, scene->camera.vec));
+	}
+	
+	// if (vector_validation(vertical = vunit(vcross(scene->camera.vec, vec(1,0,0)))) < 0)
+	// {
+	// 	horizontal = vunit(vcross(vec(0,1,0), scene->camera.vec));
+	// 	vertical = vunit(vcross(scene->camera.vec, horizontal));
+	// }
+	// else
+	// {
+	// 	horizontal = vunit(vcross(vertical, scene->camera.vec));
+	// }
+	horizontal = vmult_(horizontal, viewport_width);
+	vertical = vmult_(vertical, viewport_height);
+	center = ray_at(ray(scene->camera.orig, scene->camera.vec), focal_length);
+	t_vec		lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), scene->camera.orig);
+
+	int			j = 0;
 	while (j < scene->viewport.height)
 	{
 		i = 0;
 		while (i < scene->viewport.width)
 		{
-			double u = (double)i / (scene->viewport.height - 1);
-			double v = (double)j / (scene->viewport.width - 1);
+			double u = (scene->viewport.height - 1 - (double)j) / (scene->viewport.height - 1);
+			double v = (scene->viewport.width - 1 -(double)i) / (scene->viewport.width - 1);
 
 			t_vec a = scene->camera.orig;
-			t_vec b = vplus(lower_left_corner, vplus(vmult_(horizontal, u), vmult_(vminus(vertical, scene->camera.orig), v)));
-			ray.orig = a;
-			ray.dir = b;
-			t_vec pixel_color = ray_color(&ray, scene);
+			t_vec b = vplus(lower_left_corner, vplus(vmult_(horizontal, v), vmult_(vertical, u)));
+			t_vec pixel_color = ray_color((ray(a, vunit(b))), scene);
 			write_color(mlx, pixel_color);
 			mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, i, j, mlx->int_color);
 			++i;

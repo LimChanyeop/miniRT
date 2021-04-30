@@ -10,7 +10,7 @@ t_canvas		make_canvas(int width, int height)
 		report_error(5);
 	canvas.width = width;
 	canvas.height = height;
-	canvas.aspect_ratio = (double)width / (double)height;
+	canvas.aspect_ratio = (double)height / (double)width;
 	canvas.check_in = 1;
 	return (canvas);
 }

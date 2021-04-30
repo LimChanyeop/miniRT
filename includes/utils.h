@@ -28,6 +28,7 @@ typedef int	t_bool;
 
 # define FALSE 0
 # define TRUE 1
+# define PIE 3.14159265
 
 struct s_vec
 {
@@ -178,7 +179,7 @@ int 		parse(t_scene *scene, char *line);
 
 t_ray		ray(t_point orig, t_vec dir);
 t_vec		ray_at(t_ray ray, double t);
-t_vec		ray_color(t_ray *ray, t_scene *scene);
+t_vec		ray_color(t_ray ray, t_scene *scene);
 double		hit_sphere(t_sphere *sp, t_ray *ray);
 
 t_canvas	make_canvas(int width, int height);
