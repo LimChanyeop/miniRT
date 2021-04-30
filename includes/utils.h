@@ -177,8 +177,8 @@ t_vec		vunit(t_vec vec);
 int 		parse(t_scene *scene, char *line);
 
 t_ray		ray(t_point orig, t_vec dir);
-t_point	    ray_at(t_point orig, t_vec dir, double t);
-t_vec	    ray_color(t_vec orig, t_vec dir);
+t_vec		ray_at(t_ray ray, double t);
+t_vec		ray_color(t_ray *ray, t_scene *scene);
 double		hit_sphere(t_sphere *sp, t_ray *ray);
 
 t_canvas	make_canvas(int width, int height);

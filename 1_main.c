@@ -2,7 +2,7 @@
 #include "mlx.h"
 #include "utils.h"
 #include "libft.h"
-//교점을 구해야 함 -> hit_도형 함수 리턴인자로 교점 받음 (안에서 가장 가까운 교점 판별해서 리턴) / 1. make mlx -> scene- > mlx 구조체로 // <구 2개로 >2. 교점 구하기  3. 교점에 해당하는 색깔 //
+//교점을 구해야 함 -> hit_도형 함수 리턴인자로 교점 받음 (안에서 가장 가까운 교점 판별해서 리턴)// 1. make mlx -> scene- > mlx 구조체로 // <구 2개로 > 2. 교점 구하기  3. 교점에 해당하는 색깔//
 void	init_scene(t_scene *scene)
 {
 	scene->viewport.check_in = 0;
@@ -50,22 +50,24 @@ int	main(int argc, char *argv[])
 	float		viewport_width = scene->viewport.aspect_ratio * viewport_height;
 	float		focal_length = 1.0;
 
-	t_vec		horizontal = {viewport_height, 0, 0};
-	t_vec		vertical = {0,  viewport_width, 0};
-	t_vec		any = {0, 0, -focal_length};
-	t_vec		lower_left_corner = vminus( vplus( vplus( vdivide(horizontal, -2), vdivide(vertical, -2)), any), scene->camera.orig);
+	t_vec		horizontal = {viewport_width, 0, 0};
+	t_vec		vertical = {0, viewport_height, 0};
+	t_vec		lower_left_corner = vminus(vminus(vminus(scene->camera.orig, vdivide(horizontal, 2)), vdivide(vertical, 2)), vec(0, 0, focal_length));
+	t_ray		ray;
 
 	while (j < scene->viewport.height)
 	{
 		i = 0;
 		while (i < scene->viewport.width)
 		{
-			float u = (double)i / (scene->viewport.height - 1);
-			float v = (double)j / (scene->viewport.width - 1);
+			double u = (double)i / (scene->viewport.height - 1);
+			double v = (double)j / (scene->viewport.width - 1);
 
 			t_vec a = scene->camera.orig;
 			t_vec b = vplus(lower_left_corner, vplus(vmult_(horizontal, u), vmult_(vminus(vertical, scene->camera.orig), v)));
-			t_vec pixel_color = ray_color(a, b);
+			ray.orig = a;
+			ray.dir = b;
+			t_vec pixel_color = ray_color(&ray, scene);
 			write_color(mlx, pixel_color);
 			mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, i, j, mlx->int_color);
 			++i;
