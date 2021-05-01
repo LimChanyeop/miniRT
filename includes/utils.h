@@ -19,16 +19,21 @@ typedef struct	s_square t_square;
 typedef struct	s_plane t_plane;
 typedef struct	s_light	t_light;
 typedef struct  s_mlx t_mlx;
-typedef struct  s_rgb t_rgb;
 typedef struct  s_scene t_scene;
-typedef struct  s_lstobjects t_lstobjects;
 typedef struct 	s_ambients t_ambients;
-
-typedef int	t_bool;
+typedef struct	s_intersect t_intersect;
+typedef struct 	s_intersect_object t_intersect_object;
+typedef int		t_bool;
 
 # define FALSE 0
 # define TRUE 1
-# define PIE 3.14159265
+# define PI 3.14159265
+# define EPSILON 0.0000001
+# define SP 0;
+# define CY 1;
+# define PL 2;
+# define SQ 3;
+# define TR 4;
 
 struct s_vec
 {
@@ -142,20 +147,25 @@ struct		s_scene
 	t_list			*light;
 };
 
-struct		s_lstobjects
-{
-	int				type;
-	void			*object;
-	float			reflective;
-	void			*prev;
-	void			*next;
-};
-
 struct		s_intersect
 {
-	double			sol_t;
+	t_point			point;
+	t_vec			normal_vec;
+	double			t_max;
+	double			t_min;
+	double			t;
 	char			type;
 	t_bool			in_out;
+};
+
+struct 		s_intersect_object
+{
+	int				selected_type;
+	t_sphere		*sp;
+	t_triangle		*tr;
+	t_square		*sq;
+	t_plane			*pl;
+	t_cylinder		*cl;	
 };
 
 
@@ -207,4 +217,6 @@ void        report_error(int err_num);
 void		write_color(t_mlx *mlx, t_vec pixel_color);
 
 t_mlx       *mlx_initiation(t_scene *scene);
+
+t_bool		t_sp_validation(double t, t_intersect *inter);
 #endif

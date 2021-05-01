@@ -19,28 +19,43 @@ t_point		ray_at(t_ray ray, double t)
 	return (at);
 }
 
-t_vec		ray_color(t_ray ray, t_scene *scene)
+t_bool		t_sp_validation(double t, t_intersect *inter)
 {
-	t_sphere *sp;
-	t_sphere *sp2;
-
-	sp = scene->sphere->content;
-	sp2 = scene->sphere->next->content;
-	double t = hit_sphere(sp, &ray);//...
-	double t1 = hit_sphere(sp2, &ray);
-
-	if ((t > 0.0 && t < t1) || (t > 0 && t1 < 0))
+	if (t > inter->t_min && t < inter->t_max)
 	{
-		t_vec N = vunit(vminus(ray_at(ray, t), sp->center));
-		t_color color;
-		color.x = (N.x + 1);
-		color.y = (N.y + 1);
-		color.z = (N.z + 1);
-		return (vmult_(color, 0.5));
+		inter->t = t;
+		inter->t_max = t;
+		return (TRUE);
 	}
-	else if ((t1 > 0.0 && t1 < t) || (t1 > 0 && t < 0))
+	else
 	{
-		t_vec N = vunit(vminus(ray_at(ray, t1), sp2->center));
+		return (FALSE);
+	}
+	
+}
+
+t_color		ray_color(t_ray ray, t_scene *scene)
+{
+	t_list *object;
+	t_intersect inter;
+	t_intersect_object inter_obj;
+
+	inter.t_min = EPSILON;
+	inter.t_max = 1000000000;
+	inter.t = -1;
+	object = scene->sphere;
+	while(object != 0)
+	{
+		if (t_sp_validation(hit_sphere(object->content, &ray), &inter) == TRUE)
+		{
+			inter_obj.sp = object->content;
+			inter_obj.selected_type = SP;
+		}
+		object = object->next;
+	}
+	if (inter.t > 0)
+	{
+		t_vec N = vunit(vminus(ray_at(ray, inter.t), inter_obj.sp->center));
 		t_color color;
 		color.x = (N.x + 1);
 		color.y = (N.y + 1);
@@ -49,7 +64,7 @@ t_vec		ray_color(t_ray ray, t_scene *scene)
 	}
 	else
     {
-    	t = 0.5 * (ray.dir.y + 1.0);
-   		return (vplus(vmult_(color(1, 1, 1), 1.0 - t), vmult_(color(0.5, 0.7, 1.0), t)));
+    	inter.t = 0.5 * (ray.dir.y + 1.0);
+   		return (vplus(vmult_(color(1, 1, 1), 1.0 - inter.t), vmult_(color(0.5, 0.7, 1.0), inter.t)));
     }
 }

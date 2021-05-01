@@ -45,43 +45,27 @@ int	main(int argc, char *argv[])
 		report_error(7);
 	mlx = mlx_initiation(scene);
 
-	int			i;
 	float		focal_length = 1.0;
-	float		viewport_width = 2.0 * focal_length * tan(scene->camera.angle * 0.5 * PIE / 180);
+	float		viewport_width = 2.0 * focal_length * tan(scene->camera.angle * 0.5 * PI / 180);
 	float		viewport_height = viewport_width * scene->viewport.aspect_ratio;
-
 	t_point		center;
 	t_vec		vertical;
 	t_vec		horizontal;
-	t_vec 		temp;
 
-	temp = vcross(vec(0,1,0), scene->camera.vec);
-	if (vector_validation(temp) == 0)
-	{
-		horizontal = vunit(temp);
+	horizontal = vunit(vcross(vec(0,1,0), scene->camera.vec));
+	if (vector_validation(horizontal) == 0)
 		vertical = vunit(vcross(scene->camera.vec, horizontal));
-	}
 	else
 	{
-		temp = vcross(scene->camera.vec, vec(1, 0, 0));
-		vertical = vunit(temp);
+		vertical = vunit(vcross(scene->camera.vec, vec(1,0,0)));
 		horizontal = vunit(vcross(vertical, scene->camera.vec));
 	}
-	
-	// if (vector_validation(vertical = vunit(vcross(scene->camera.vec, vec(1,0,0)))) < 0)
-	// {
-	// 	horizontal = vunit(vcross(vec(0,1,0), scene->camera.vec));
-	// 	vertical = vunit(vcross(scene->camera.vec, horizontal));
-	// }
-	// else
-	// {
-	// 	horizontal = vunit(vcross(vertical, scene->camera.vec));
-	// }
 	horizontal = vmult_(horizontal, viewport_width);
 	vertical = vmult_(vertical, viewport_height);
 	center = ray_at(ray(scene->camera.orig, scene->camera.vec), focal_length);
-	t_vec		lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), scene->camera.orig);
 
+	t_vec		lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), scene->camera.orig);
+	int			i;
 	int			j = 0;
 	while (j < scene->viewport.height)
 	{
