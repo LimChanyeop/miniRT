@@ -26,7 +26,7 @@ int	main(int argc, char *argv[])
 	t_mlx		*mlx;
 	scene = (t_scene *)malloc(sizeof(t_scene));
 	if (!(argc == 2 || ((argc == 3) && !ft_strncmp(argv[2], "--save\0", 7))))
-		report_error(6);
+		report_error(6);//.rt ?
 	fd = open(argv[1], O_RDONLY);
 	init_scene(scene);
 	while(get_next_line(fd, &line) > 0)

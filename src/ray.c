@@ -19,19 +19,11 @@ t_point		ray_at(t_ray ray, double t)
 	return (at);
 }
 
-t_bool		t_sp_validation(double t, t_intersect *inter)
+void init_intersect(t_intersect *inter)
 {
-	if (t > inter->t_min && t < inter->t_max)
-	{
-		inter->t = t;
-		inter->t_max = t;
-		return (TRUE);
-	}
-	else
-	{
-		return (FALSE);
-	}
-	
+	inter->t_min = EPSILON;
+	inter->t_max = 1000000000;
+	inter->t = -1;
 }
 
 t_color		ray_color(t_ray ray, t_scene *scene)
@@ -40,9 +32,8 @@ t_color		ray_color(t_ray ray, t_scene *scene)
 	t_intersect inter;
 	t_intersect_object inter_obj;
 
-	inter.t_min = EPSILON;
-	inter.t_max = 1000000000;
-	inter.t = -1;
+	inter_obj.selected_type = -1;
+	init_intersect(&inter);
 	object = scene->sphere;
 	while(object != 0)
 	{
@@ -53,6 +44,7 @@ t_color		ray_color(t_ray ray, t_scene *scene)
 		}
 		object = object->next;
 	}
+
 	if (inter.t > 0)
 	{
 		t_vec N = vunit(vminus(ray_at(ray, inter.t), inter_obj.sp->center));
@@ -60,7 +52,7 @@ t_color		ray_color(t_ray ray, t_scene *scene)
 		color.x = (N.x + 1);
 		color.y = (N.y + 1);
 		color.z = (N.z + 1);
-		return (vmult_(color, 0.5));
+		return (inter_obj.sp->color);
 	}
 	else
     {

@@ -1,17 +1,21 @@
 #include "libft.h"
 #include <stdio.h>
+#include <math.h>
 
 int			ft_atod(char *str, double* dst)
 {
- 	double	ent;
+ 	int		ent;
  	double	dec;
  	int		size;
-	int		tmp;
+	int		sign;
+	int 	tmp;
 
+	sign = 1;
 	if (*str == '-' && !*(str + 1))
 		return (-1);
- 	ft_atoi(str, &tmp);
-	ent = (double)tmp;
+ 	ft_atoi(str, &ent);
+	if (*str == '-')
+		sign = -1;
 	if (*str == '-' || *str == '+')
 		str++;
 	while (ft_isdigit(*str))
@@ -21,12 +25,12 @@ int			ft_atod(char *str, double* dst)
 	if (*str == '.')
 		str++;
 	if (*str == '-' || (*(str - 1) == '.' && !*str) \
-									|| ft_atoi(str, &tmp) < 0)
+											|| ft_atoi(str, &tmp) < 0)
 		return (-1);
-	dec = (double)tmp;
+	dec = tmp;
 	size = ft_strlen(str);
 	while (size--)
 		dec /= 10;
-	*dst = (ent + dec);
+	*dst = ((abs(ent) + dec) * sign);
 	return (0);
 }

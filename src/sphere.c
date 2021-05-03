@@ -24,3 +24,37 @@ t_sphere	make_sphere(t_point point, double diameter, t_color color)
 	sphere.color = color;
 	return (sphere);
 }
+
+t_bool		t_sp_validation(double t, t_intersect *inter)
+{
+	if (t > inter->t_min && t < inter->t_max)
+	{
+		inter->t = t;
+		inter->t_max = t;
+		return (TRUE);
+	}
+	else
+	{
+		return (FALSE);
+	}
+	
+}
+
+double	hit_sphere(t_sphere *sp, t_ray *ray)
+{
+	t_vec oc;
+	double a;
+	double b;
+	double c;
+	double discriminant;
+	
+	oc = vminus(ray->orig, sp->center);
+	a = vdot(ray->dir, ray->dir);
+	b = 2.0 * vdot(oc, ray->dir);
+	c = vdot(oc, oc) - sp->radius2;
+	discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return (-1.0);
+	else
+		return ((-b - sqrt(discriminant)) / (2.0 * a));
+}

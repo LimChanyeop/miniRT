@@ -219,4 +219,5 @@ void		write_color(t_mlx *mlx, t_vec pixel_color);
 t_mlx       *mlx_initiation(t_scene *scene);
 
 t_bool		t_sp_validation(double t, t_intersect *inter);
+
 #endif
