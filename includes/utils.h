@@ -45,9 +45,7 @@ struct s_vec
 struct s_ambients
 {
 	float			ratio;
-	int				r;
-	int				g;
-	int				b;
+	t_color			color;
 	t_bool			check_in;
 };
 
@@ -156,6 +154,7 @@ struct		s_intersect
 	double			t;
 	char			type;
 	t_bool			in_out;
+	t_color			albedo; // 반사율
 };
 
 struct 		s_intersect_object
@@ -217,7 +216,7 @@ void        report_error(int err_num);
 void		write_color(t_mlx *mlx, t_vec pixel_color);
 
 t_mlx       *mlx_initiation(t_scene *scene);
-
+t_color 	color_to_rgb(t_color color);
 t_bool		t_sp_validation(double t, t_intersect *inter);
 
 #endif
