@@ -24,10 +24,14 @@ int	main(int argc, char *argv[])
 	t_scene		*scene;
 	char		*line = 0;
 	t_mlx		*mlx;
-	scene = (t_scene *)malloc(sizeof(t_scene));
+
 	if (!(argc == 2 || ((argc == 3) && !ft_strncmp(argv[2], "--save\0", 7))))
 		report_error(6);//.rt ?
 	fd = open(argv[1], O_RDONLY);
+	
+	/* parse RT file */
+	
+	scene = (t_scene *)malloc(sizeof(t_scene));	
 	init_scene(scene);
 	while(get_next_line(fd, &line) > 0)
 	{
@@ -43,14 +47,20 @@ int	main(int argc, char *argv[])
 	free(line);
 	if (have_necessary_input(scene) < 0)
 		report_error(7);
-	mlx = mlx_initiation(scene);
+	printf("rt file validation successfully finished !\n");	
+	
+	/* mlx setting */
 
+	mlx = mlx_initiation(scene);
 	float		focal_length = 1.0;
 	float		viewport_width = 2.0 * focal_length * tan(scene->camera.angle * 0.5 * PI / 180);
 	float		viewport_height = viewport_width * scene->viewport.aspect_ratio;
 	t_point		center;
+	t_point		lower_left_corner;	
 	t_vec		vertical;
 	t_vec		horizontal;
+	int			i;
+	int			j;
 
 	horizontal = vunit(vcross(vec(0,1,0), scene->camera.vec));
 	if (vector_validation(horizontal) == 0)
@@ -63,10 +73,9 @@ int	main(int argc, char *argv[])
 	horizontal = vmult_(horizontal, viewport_width);
 	vertical = vmult_(vertical, viewport_height);
 	center = ray_at(ray(scene->camera.orig, scene->camera.vec), focal_length);
+	lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), scene->camera.orig);
 
-	t_vec		lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), scene->camera.orig);
-	int			i;
-	int			j = 0;
+	j = 0;
 	while (j < scene->viewport.height)
 	{
 		i = 0;
@@ -85,5 +94,4 @@ int	main(int argc, char *argv[])
 		++j;
 	}
 	mlx_loop(mlx->mlx_ptr);
-	printf("rt file validation successfully finished !\n");
 }
