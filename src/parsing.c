@@ -43,6 +43,7 @@ int 	parse_ambient_light(t_scene *scene, char *line)
 	if (error < 0)
 		return (error);
 	scene->ambients = make_ambients(ratio, color);
+	scene->ambients.color = color_to_rgb(scene->ambients.color);
 	return (0);
 }
 
@@ -90,6 +91,7 @@ int		parse_sphere(t_scene *scene, char *line)
 		return (error);
 	*sp = make_sphere((t_vec)vec[0], radius, (t_color)vec[1]);
 	ft_lstadd_front(&scene->sphere, ft_lstnew(sp));
+	sp->color = color_to_rgb(sp->color);
 	return (0);
 }
 
@@ -117,6 +119,7 @@ int		parse_cylinder(t_scene *scene, char *line)
 		return (error);
 	*cy = make_cylinder((t_vec)vec[0], (t_vec)vec[1], radius, height, (t_color)vec[2]);
 	ft_lstadd_front(&scene->cylinder, ft_lstnew(cy));
+	cy->color = color_to_rgb(cy->color);
 	return (0);
 }
 
@@ -141,6 +144,7 @@ int		parse_triangle(t_scene *scene, char *line)
 		return (error);
 	*tr = make_triangle((t_vec)vec[0], (t_vec)vec[1], (t_vec)vec[2], (t_color)vec[3]);
 	ft_lstadd_front(&scene->triangle, ft_lstnew(tr));
+	tr->color = color_to_rgb(tr->color);
 	return (0);
 }
 
@@ -166,6 +170,7 @@ int		parse_square(t_scene *scene, char *line)
 		return (error);
 	*sq = make_square((t_vec)vec[0], (t_vec)vec[1], radius, (t_color)vec[2]);
 	ft_lstadd_front(&scene->square, ft_lstnew(sq));
+	sq->color = color_to_rgb(sq->color);
 	return (0);
 }
 
@@ -189,6 +194,7 @@ int		parse_plane(t_scene *scene, char *line)
 		return (error);
 	*pl = make_plane((t_vec)vec[0], (t_vec)vec[1], (t_color)vec[2]);
 	ft_lstadd_front(&scene->plane, ft_lstnew(pl));
+	pl->color = color_to_rgb(pl->color);
 	return (0);
 }
 
@@ -213,6 +219,7 @@ int		parse_light(t_scene *scene, char *line)
 		return (error);
 	*li = make_light((t_vec)vec[0], ratio, (t_color)vec[1]);
 	ft_lstadd_front(&scene->light, ft_lstnew(li));
+	li->color = color_to_rgb(li->color);
 	return (0);
 }
 

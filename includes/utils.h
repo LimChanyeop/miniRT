@@ -29,11 +29,12 @@ typedef int		t_bool;
 # define TRUE 1
 # define PI 3.14159265
 # define EPSILON 0.0000001
-# define SP 0;
-# define CY 1;
-# define PL 2;
-# define SQ 3;
-# define TR 4;
+# define SP 0
+# define CY 1
+# define PL 2
+# define SQ 3
+# define TR 4
+# define LUMEN 3
 
 struct s_vec
 {
@@ -184,6 +185,7 @@ t_vec		vdivide(t_vec vec, double t);
 double		vdot(t_vec vec, t_vec vec2);
 t_vec		vcross(t_vec vec, t_vec vec2);
 t_vec		vunit(t_vec vec);
+t_vec		vmin(t_vec vec1, t_vec vec2);
 int 		parse(t_scene *scene, char *line);
 
 t_ray		ray(t_point orig, t_vec dir);
@@ -218,5 +220,11 @@ void		write_color(t_mlx *mlx, t_vec pixel_color);
 t_mlx       *mlx_initiation(t_scene *scene);
 t_color 	color_to_rgb(t_color color);
 t_bool		t_sp_validation(double t, t_intersect *inter);
+
+t_color		phong_lighting(t_scene *scene, t_intersect inter, t_ray ray);
+t_color		get_diff_spec_li(t_intersect inter, t_light *light, t_ray ray);
+t_vec		get_reflect(t_vec v, t_vec n);
+
+void		set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter);
 
 #endif

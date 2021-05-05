@@ -34,10 +34,7 @@ t_bool		t_sp_validation(double t, t_intersect *inter)
 		return (TRUE);
 	}
 	else
-	{
 		return (FALSE);
-	}
-	
 }
 
 double	hit_sphere(t_sphere *sp, t_ray *ray)
@@ -57,4 +54,11 @@ double	hit_sphere(t_sphere *sp, t_ray *ray)
 		return (-1.0);
 	else
 		return ((-b - sqrt(discriminant)) / (2.0 * a));
+}
+
+void		set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter)
+{
+	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
+	inter->normal_vec = vunit(vminus(inter->point, sp.center));
+	inter->albedo = sp.color;
 }
