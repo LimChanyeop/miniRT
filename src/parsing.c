@@ -47,15 +47,15 @@ int 	parse_ambient_light(t_scene *scene, char *line)
 	return (0);
 }
 
-int 	parse_camera(t_scene *scene, char *line)
+int 	parse_camera(t_scene *scene, char *line)//여러개 들어올 수 있음 -> 도형처럼 t_list로
 {
 	t_vec	 vec[2];
 	double	 angle;
 	char **contents;
 	int		error;
+	t_camera *cm;
 
-	if (scene->camera.check_in == 1)
-		report_error(8);
+	cm = (t_camera *)malloc(sizeof(t_camera));
 	error = 0;
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
@@ -66,7 +66,8 @@ int 	parse_camera(t_scene *scene, char *line)
 	free_contents(contents);
 	if (error < 0)
 		return (error);
-	scene->camera = make_camera((t_vec)vec[0], vec[1], angle);
+	*cm = make_camera((t_vec)vec[0], vec[1], angle);
+	ft_lstadd_front(&scene->camera, ft_lstnew(cm));
 	return (0);
 }
 

@@ -8,7 +8,7 @@ void	init_scene(t_scene *scene)
 {
 	scene->viewport.check_in = 0;
 	scene->ambients.check_in = 0;
-	scene->camera.check_in = 0;
+	scene->camera = 0;
 	scene->sphere = 0;
 	scene->square = 0;
 	scene->cylinder = 0;
@@ -51,29 +51,37 @@ int	main(int argc, char *argv[])
 	
 	/* mlx setting */
 
+	t_camera *camera;
+
+	camera = scene->camera->content;
 	mlx = mlx_initiation(scene);
 	float		focal_length = 1.0;
-	float		viewport_width = 2.0 * focal_length * tan(scene->camera.angle * 0.5 * PI / 180);
+	float		viewport_width = 2.0 * focal_length * tan(camera->angle * 0.5 * PI / 180);
 	float		viewport_height = viewport_width * scene->viewport.aspect_ratio;
 	t_point		center;
-	t_point		lower_left_corner;	
+	t_point		lower_left_corner;
 	t_vec		vertical;
 	t_vec		horizontal;
 	int			i;
 	int			j;
 
-	horizontal = vunit(vcross(vec(0,1,0), scene->camera.vec));
+	horizontal = vcross(vec(0,1,0), camera->vec);
+	printf("1\n");
 	if (vector_validation(horizontal) == 0)
-		vertical = vunit(vcross(scene->camera.vec, horizontal));
+		vertical = vunit(vcross(camera->vec, horizontal));
 	else
 	{
-		vertical = vunit(vcross(scene->camera.vec, vec(1,0,0)));
-		horizontal = vunit(vcross(vertical, scene->camera.vec));
+		vertical = vunit(vcross(camera->vec, vec(1,0,0)));
+		horizontal = vunit(vcross(vertical, camera->vec));
 	}
+	printf("2\n");
 	horizontal = vmult_(horizontal, viewport_width);
+	printf("3\n");
 	vertical = vmult_(vertical, viewport_height);
-	center = ray_at(ray(scene->camera.orig, scene->camera.vec), focal_length);
-	lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), scene->camera.orig);
+	printf("4\n");
+	center = ray_at(new_ray(camera->orig, camera->vec), focal_length);
+	printf("5\n");
+	lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), camera->orig);
 
 	j = 0;
 	while (j < scene->viewport.height)
@@ -84,9 +92,9 @@ int	main(int argc, char *argv[])
 			double u = (scene->viewport.height - 1 - (double)j) / (scene->viewport.height - 1);
 			double v = (scene->viewport.width - 1 -(double)i) / (scene->viewport.width - 1);
 
-			t_vec a = scene->camera.orig;
+			t_vec a = camera->orig;
 			t_vec b = vplus(lower_left_corner, vplus(vmult_(horizontal, v), vmult_(vertical, u)));
-			t_vec pixel_color = ray_color((ray(a, vunit(b))), scene);
+			t_vec pixel_color = ray_color((new_ray(a, vunit(b))), scene);
 			write_color(mlx, pixel_color);
 			mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, i, j, mlx->int_color);
 			++i;

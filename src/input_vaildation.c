@@ -48,7 +48,7 @@ int         have_necessary_input(t_scene *scene)
         return (-1);
     else if (scene->ambients.check_in == 0)
         return (-1);
-    else if (scene->camera.check_in == 0)
+    else if (scene->camera == 0)
         return (-1);
     else
         return (0);

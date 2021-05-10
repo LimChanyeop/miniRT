@@ -137,7 +137,7 @@ struct		s_scene
 {
 	t_canvas		viewport;
 	t_ambients		ambients;
-	t_camera		camera;
+	t_list			*camera;
 	t_list			*cylinder;
 	t_list			*sphere;
 	t_list			*triangle;
@@ -188,7 +188,7 @@ t_vec		vunit(t_vec vec);
 t_vec		vmin(t_vec vec1, t_vec vec2);
 int 		parse(t_scene *scene, char *line);
 
-t_ray		ray(t_point orig, t_vec dir);
+t_ray		new_ray(t_vec orig, t_vec dir);
 t_vec		ray_at(t_ray ray, double t);
 t_vec		ray_color(t_ray ray, t_scene *scene);
 double		hit_sphere(t_sphere *sp, t_ray *ray);
@@ -227,4 +227,7 @@ t_vec		get_reflect(t_vec v, t_vec n);
 
 void		set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter);
 
+void 		hit_obj(t_scene *scene, t_ray ray, t_intersect *inter);
+t_intersect *hit_obj_2(t_scene *scene, t_ray ray, t_intersect *inter);
+void 		init_intersect(t_intersect *inter, int max);
 #endif

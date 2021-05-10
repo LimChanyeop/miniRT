@@ -20,7 +20,7 @@ t_sphere	make_sphere(t_point point, double diameter, t_color color)
 		report_error(5);
 	sphere.center = point;
 	sphere.radius = (double)diameter;
-	sphere.radius2 = sphere.radius * sphere.radius; 
+	sphere.radius2 = sphere.radius * sphere.radius;
 	sphere.color = color;
 	return (sphere);
 }
