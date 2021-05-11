@@ -2,8 +2,8 @@
 #include "mlx.h"
 #include "utils.h"
 #include "libft.h"
-#include <math.h>
-//교점을 구해야 함 -> hit_도형 함수 리턴인자로 교점 받음 (안에서 가장 가까운 교점 판별해서 리턴)// 1. make mlx -> scene- > mlx 구조체로 // <구 2개로 > 2. 교점 구하기  3. 교점에 해당하는 색깔//
+
+
 void	init_scene(t_scene *scene)
 {
 	scene->viewport.check_in = 0;
@@ -15,91 +15,84 @@ void	init_scene(t_scene *scene)
 	scene->plane = 0;
 	scene->triangle = 0;
 	scene->light = 0;
-
 }
-
-int	main(int argc, char *argv[])
+t_mlx 			*mlx_draw(t_scene *scene, t_camera *camera, t_vec *cn_lc_ve_ho)
 {
-	int			fd;
-	t_scene		*scene;
-	char		*line = 0;
-	t_mlx		*mlx;
+	int i;
+	int j;
+	t_vec a_b[2];
+	t_color pixel_color;
+	t_mlx *mlx;
+	double u_v[2];
 
-	if (!(argc == 2 || ((argc == 3) && !ft_strncmp(argv[2], "--save\0", 7))))
-		report_error(6);//.rt ?
-	fd = open(argv[1], O_RDONLY);
-	
-	/* parse RT file */
-	
-	scene = (t_scene *)malloc(sizeof(t_scene));	
-	init_scene(scene);
-	while(get_next_line(fd, &line) > 0)
-	{
-		if (parse(scene, line) < 0)
-		{
-			printf("line Error in %s\n", line);
-			report_error(8);
-		}
-		free(line);
-	}
-	if (parse(scene, line) < 0)
-		report_error(8);
-	free(line);
-	if (have_necessary_input(scene) < 0)
-		report_error(7);
-	printf("rt file validation successfully finished !\n");	
-	
-	/* mlx setting */
-
-	t_camera *camera;
-
-	camera = scene->camera->content;
 	mlx = mlx_initiation(scene);
-	float		focal_length = 1.0;
-	float		viewport_width = 2.0 * focal_length * tan(camera->angle * 0.5 * PI / 180);
-	float		viewport_height = viewport_width * scene->viewport.aspect_ratio;
-	t_point		center;
-	t_point		lower_left_corner;
-	t_vec		vertical;
-	t_vec		horizontal;
-	int			i;
-	int			j;
-
-	horizontal = vcross(vec(0,1,0), camera->vec);
-	printf("1\n");
-	if (vector_validation(horizontal) == 0)
-		vertical = vunit(vcross(camera->vec, horizontal));
-	else
-	{
-		vertical = vunit(vcross(camera->vec, vec(1,0,0)));
-		horizontal = vunit(vcross(vertical, camera->vec));
-	}
-	printf("2\n");
-	horizontal = vmult_(horizontal, viewport_width);
-	printf("3\n");
-	vertical = vmult_(vertical, viewport_height);
-	printf("4\n");
-	center = ray_at(new_ray(camera->orig, camera->vec), focal_length);
-	printf("5\n");
-	lower_left_corner = vminus(vminus(vminus(center, vdivide(horizontal, 2)), vdivide(vertical, 2)), camera->orig);
-
 	j = 0;
 	while (j < scene->viewport.height)
 	{
 		i = 0;
 		while (i < scene->viewport.width)
 		{
-			double u = (scene->viewport.height - 1 - (double)j) / (scene->viewport.height - 1);
-			double v = (scene->viewport.width - 1 -(double)i) / (scene->viewport.width - 1);
-
-			t_vec a = camera->orig;
-			t_vec b = vplus(lower_left_corner, vplus(vmult_(horizontal, v), vmult_(vertical, u)));
-			t_vec pixel_color = ray_color((new_ray(a, vunit(b))), scene);
+			u_v[0] = (scene->viewport.height - 1 - (double)j) / (scene->viewport.height - 1);
+			u_v[1] = (scene->viewport.width - 1 -(double)i) / (scene->viewport.width - 1);
+			a_b[0] = camera->orig;
+			a_b[1] = vplus(cn_lc_ve_ho[1], vplus(vmult_(cn_lc_ve_ho[3], u_v[0]), vmult_(cn_lc_ve_ho[2], u_v[1])));
+			pixel_color = ray_color((new_ray(a_b[0], vunit(a_b[1]))), scene);
 			write_color(mlx, pixel_color);
 			mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, i, j, mlx->int_color);
 			++i;
 		}
 		++j;
 	}
+	return (mlx);
+}
+
+t_mlx 				*start_mlx(t_scene *scene, t_camera *camera)
+{
+	float		fl_wi_hi[3];
+	t_vec		cn_lc_ve_ho[4];
+
+	fl_wi_hi[0] = 1.0;
+	fl_wi_hi[1] = 2.0 * fl_wi_hi[0] * tan(camera->angle * 0.5 * PI / 180);
+	fl_wi_hi[2] = fl_wi_hi[1] * scene->viewport.aspect_ratio;
+	cn_lc_ve_ho[3] = vcross(vec(0,1,0), camera->vec);
+	if (vector_validation(cn_lc_ve_ho[3]) == 0)
+		cn_lc_ve_ho[2] = vunit(vcross(camera->vec, cn_lc_ve_ho[3]));
+	else
+	{
+		cn_lc_ve_ho[2] = vunit(vcross(camera->vec, vec(1,0,0)));
+		cn_lc_ve_ho[3] = vunit(vcross(cn_lc_ve_ho[2], camera->vec));
+	}
+	cn_lc_ve_ho[3] = vmult_(cn_lc_ve_ho[3], fl_wi_hi[1]);
+	cn_lc_ve_ho[2] = vmult_(cn_lc_ve_ho[2], fl_wi_hi[2]);
+	cn_lc_ve_ho[0] = ray_at(new_ray(camera->orig, camera->vec), fl_wi_hi[0]);
+	cn_lc_ve_ho[1] = vminus(vminus(vminus(cn_lc_ve_ho[0], vdivide(cn_lc_ve_ho[3], 2)), \
+					vdivide(cn_lc_ve_ho[2], 2)), camera->orig);
+	return(mlx_draw(scene, camera, cn_lc_ve_ho));
+}
+
+int	main(int argc, char *argv[])
+{
+	int			fd;
+	t_scene		*scene;
+	t_camera	*cam;
+	t_mlx		*mlx;
+	if (!(argc == 2 && check_file_format(argv[1])) \
+			|| ((argc == 3) && !ft_strncmp(argv[2], "--save\0", 7)))
+		report_error(6);
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		report_error(6);
+	scene = parse_rt(fd);
+	cam = scene->camera->content;
+	mlx = start_mlx(scene, cam);
+	mlx_key_hook(mlx->win_ptr, exit_program, 0);
+	mlx_hook(mlx->win_ptr, 17, 1L << 17, exit_program, 0);
 	mlx_loop(mlx->mlx_ptr);
+	return (0);
+}
+
+int		exit_program(void)
+{
+	exit(0);
+	return (0);
 }

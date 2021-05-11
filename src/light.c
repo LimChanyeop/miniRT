@@ -1,5 +1,5 @@
 #include "utils.h"
-//도형 * 4 더, 내외부 구분 bmp, camera전환, 키보드 입력(ESC, X표시), 해상도 get_screen_size
+//도형 * 4 더, 내외부 구분, bmp, camera 전환, 해상도 get_screen_size
 t_light	make_light(t_vec point, double brightness, t_color color)
 {
 	t_light light;
@@ -30,7 +30,6 @@ t_color			phong_lighting(t_scene *scene, t_intersect inter, t_ray ray)
 		init_intersect(&light_inter, vlength(vminus(li->point, inter.point)));
 		to_light_ray = new_ray(inter.point, vminus(li->point, inter.point));
 		hit_obj(scene, to_light_ray, &light_inter);
-		//hit -> inter받아서 t 값양수이면 빛까지 거리보다 가까우면 0,0,0 : 밑에 줄 안씀
 		if (light_inter.t < 0)
 			light_color = vplus(light_color, get_diff_spec_li(inter, li, ray));
 		lights = lights->next;

@@ -230,4 +230,16 @@ void		set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter);
 void 		hit_obj(t_scene *scene, t_ray ray, t_intersect *inter);
 t_intersect *hit_obj_2(t_scene *scene, t_ray ray, t_intersect *inter);
 void 		init_intersect(t_intersect *inter, int max);
+
+t_bool		t_pl_validation(double t, t_intersect *inter);
+double		hit_plane(t_plane *pl, t_ray *ray);
+void		set_inter_pl(t_plane pl, t_ray ray, t_intersect *inter);
+
+void		set_inter_sq(t_square sq, t_ray ray, t_intersect *inter);
+double		hit_square(t_square *sq, t_ray *ray);
+t_bool		t_sq_validation(double t, t_intersect *inter);
+int			exit_program(void);
+int			check_file_format(char *str);
+t_scene 	*parse_rt(int fd);
+void	init_scene(t_scene *scene);
 #endif

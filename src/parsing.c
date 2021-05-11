@@ -251,3 +251,29 @@ int			parse(t_scene *scene, char *line)
 	}
 	return (0);
 }
+
+t_scene 	*parse_rt(int fd)
+{
+	char		*line;
+	t_scene		*scene;
+
+	line = 0;
+	scene = (t_scene *)malloc(sizeof(t_scene));
+	init_scene(scene);
+	while(get_next_line(fd, &line) > 0)
+	{
+		if (parse(scene, line) < 0)
+		{
+			printf("line Error in %s\n", line);
+			report_error(8);
+		}
+		free(line);
+	}
+	if (parse(scene, line) < 0)
+		report_error(8);
+	free(line);
+	if (have_necessary_input(scene) < 0)
+		report_error(7);
+	printf("rt file validation successfully finished !\n");
+	return (scene);
+}
