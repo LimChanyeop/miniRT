@@ -55,7 +55,7 @@ t_color		get_diff_spec_li(t_intersect inter, t_light *light, t_ray ray)
 	diffuse = vmult_(light->color, strength);
 	view_dir = vunit(vmult_(ray.dir, -1));
 	reflect_dir = get_reflect(vmult_(light_dir, -1), inter.normal_vec);
-	ksn = 64;
+	ksn = 5;
 	ks = 0.5;
 	spec = pow(fmax(vdot(view_dir, reflect_dir), 0.0), ksn);
 	specular = vmult_(vmult_(light->color, ks), spec);

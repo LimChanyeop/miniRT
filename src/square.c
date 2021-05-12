@@ -36,11 +36,10 @@ double	hit_square(t_square *sq, t_ray *ray)
 	double	root;
 
 	denominator = vdot(sq->vec, ray->dir);
-	if (fabs(denominator) < 0.0001) // 분모가 거의 0이면! = 평면과 직선은 평행
+	if (fabs(denominator) < EPSILON) // 분모가 거의 0이면! = 평면과 직선은 평행
 		return (-1);
 	r0_p0 = vminus(sq->center, ray->orig);
 	root = vdot(r0_p0, sq->vec) / denominator;
-	
 	return (root);
 }
 

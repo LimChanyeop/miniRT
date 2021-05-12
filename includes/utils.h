@@ -22,19 +22,18 @@ typedef struct  s_mlx t_mlx;
 typedef struct  s_scene t_scene;
 typedef struct 	s_ambients t_ambients;
 typedef struct	s_intersect t_intersect;
-typedef struct 	s_intersect_object t_intersect_object;
 typedef int		t_bool;
 
 # define FALSE 0
 # define TRUE 1
 # define PI 3.14159265
-# define EPSILON 0.0000001
+# define EPSILON 0.000001
 # define SP 0
 # define CY 1
 # define PL 2
 # define SQ 3
 # define TR 4
-# define LUMEN 3
+# define LUMEN 1
 
 struct s_vec
 {
@@ -96,7 +95,7 @@ struct	s_sphere
 
 struct	s_cylinder
 {
-	t_point			point;
+	t_point			center;
 	t_vec			vec;
 	double			radius;
 	double			height;
@@ -158,16 +157,6 @@ struct		s_intersect
 	t_color			albedo; // 반사율
 };
 
-struct 		s_intersect_object
-{
-	int				selected_type;
-	t_sphere		*sp;
-	t_triangle		*tr;
-	t_square		*sq;
-	t_plane			*pl;
-	t_cylinder		*cl;	
-};
-
 
 t_vec		vec(double x, double y, double z);
 t_point 	point(double x, double y, double z);
@@ -199,7 +188,7 @@ t_ambients	make_ambients(double ratio, t_color color);
 t_plane		make_plane(t_point point, t_point vec, t_color color);
 t_square	make_square(t_point center, t_point vec, double radius, t_color color);
 t_triangle	make_triangle(t_point point1, t_point point2, t_point point3, t_color color);
-t_cylinder 	make_cylinder(t_point point, t_point vec, double radius, double height, t_color color);
+t_cylinder 	make_cylinder(t_point center, t_point vec, double radius, double height, t_color color);
 t_sphere	make_sphere(t_point point,  double diameter, t_color color);
 t_light		make_light(t_point point, double brightness, t_color color);
 
@@ -242,4 +231,8 @@ int			exit_program(void);
 int			check_file_format(char *str);
 t_scene 	*parse_rt(int fd);
 void	init_scene(t_scene *scene);
+t_intersect *hit_obj_2(t_scene *scene, t_ray ray, t_intersect *inter);
+void		set_inter_cy(t_cylinder cy, t_ray ray, t_intersect *inter, t_bool in);
+double		hit_cylinder(t_cylinder *cy, t_ray *ray, t_bool *in);
+t_bool		t_cy_validation(double t, t_intersect *inter);
 #endif

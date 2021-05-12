@@ -34,7 +34,7 @@ double	hit_plane(t_plane *pl, t_ray *ray)
 	double	root;
 
 	denominator = vdot(pl->vec, ray->dir);
-	if (fabs(denominator) < 0.000001) // 분모가 거의 0이면! = 평면과 직선은 평행
+	if (fabs(denominator) < EPSILON) // 분모가 거의 0이면! = 평면 직선 평행
 		return (-1);
 	r0_p0 = vminus(pl->point, ray->orig);
 	root = vdot(r0_p0, pl->vec) / denominator;
@@ -44,6 +44,6 @@ double	hit_plane(t_plane *pl, t_ray *ray)
 void		set_inter_pl(t_plane pl, t_ray ray, t_intersect *inter)
 {
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
-	inter->normal_vec = vunit(vminus(inter->point, pl.point));
+	inter->normal_vec = vunit(pl.vec);
 	inter->albedo = pl.color;
 }

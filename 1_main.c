@@ -35,7 +35,7 @@ t_mlx 			*mlx_draw(t_scene *scene, t_camera *camera, t_vec *cn_lc_ve_ho)
 			u_v[0] = (scene->viewport.height - 1 - (double)j) / (scene->viewport.height - 1);
 			u_v[1] = (scene->viewport.width - 1 -(double)i) / (scene->viewport.width - 1);
 			a_b[0] = camera->orig;
-			a_b[1] = vplus(cn_lc_ve_ho[1], vplus(vmult_(cn_lc_ve_ho[3], u_v[0]), vmult_(cn_lc_ve_ho[2], u_v[1])));
+			a_b[1] = vplus(cn_lc_ve_ho[1], vplus(vmult_(cn_lc_ve_ho[3], u_v[1]), vmult_(cn_lc_ve_ho[2], u_v[0])));
 			pixel_color = ray_color((new_ray(a_b[0], vunit(a_b[1]))), scene);
 			write_color(mlx, pixel_color);
 			mlx_pixel_put(mlx->mlx_ptr, mlx->win_ptr, i, j, mlx->int_color);
