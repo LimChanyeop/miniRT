@@ -34,18 +34,23 @@ double	hit_square(t_square *sq, t_ray *ray)
 	double	denominator;
 	t_vec	r0_p0; // ray origin to plane point p
 	double	root;
+	t_point point;
 
 	denominator = vdot(sq->vec, ray->dir);
 	if (fabs(denominator) < EPSILON) // 분모가 거의 0이면! = 평면과 직선은 평행
 		return (-1);
 	r0_p0 = vminus(sq->center, ray->orig);
 	root = vdot(r0_p0, sq->vec) / denominator;
-	return (root);
+	point = vminus(vplus(ray->orig, vmult_(ray->dir, root)), sq->center);
+	if (fabs(point.x) < sq->radius/2 && fabs(point.y) < sq->radius/2 && fabs(point.z) < sq->radius/2)
+		return (root);
+	else
+		return (-1);
 }
 
 void		set_inter_sq(t_square sq, t_ray ray, t_intersect *inter)
 {
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
-	inter->normal_vec = vunit(vminus(inter->point, sq.center));
+	inter->normal_vec = sq.vec;
 	inter->albedo = sq.color;
 }

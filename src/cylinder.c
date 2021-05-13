@@ -50,9 +50,9 @@ double	hit_cylinder(t_cylinder *cy, t_ray *ray, t_bool *in)
 	// }
 	else
 	{
-		if (fabs(vdot(vunit(cy->vec), vminus(ray_at(*ray, root[0]), cy->center))) > cy->height / 2)//가까운 근이 범위 초과
+		if (fabs(vdot(vunit(cy->vec), vminus(vplus(ray->orig, vmult_(ray->dir, root[0])), cy->center))) > cy->height / 2)//가까운 근이 범위 초과
 		{	
-			if (fabs(vdot(vunit(cy->vec), vminus(ray_at(*ray, root[1]), cy->center))) > cy->height / 2)//먼 근이 범위 초과
+			if (fabs(vdot(vunit(cy->vec), vminus(vplus(ray->orig, vmult_(ray->dir, root[1])), cy->center))) > cy->height / 2)//먼 근이 범위 초과
 				return (-1);
 			else
 			{
@@ -64,7 +64,7 @@ double	hit_cylinder(t_cylinder *cy, t_ray *ray, t_bool *in)
 		{
 			if (root[0] < EPSILON)
 			{
-				if (fabs(vdot(vunit(cy->vec), vminus(ray_at(*ray, root[1]), cy->center))) > cy->height / 2)//먼 근이 범위 초과
+				if (fabs(vdot(vunit(cy->vec), vminus(vplus(ray->orig, vmult_(ray->dir, root[1])), cy->center))) > cy->height / 2)//먼 근이 범위 초과
 				  	return (-1);
 				*in = TRUE;
 				return (root[1]);
