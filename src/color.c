@@ -9,7 +9,6 @@ void	write_color(t_mlx *mlx, t_vec c)
 	mlx->color.x = ir << 16;
 	mlx->color.y = ig << 8;
 	mlx->color.z = ib;
-	
 	mlx->int_color = mlx->color.x + mlx->color.y + mlx->color.z;
 }
 

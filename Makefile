@@ -6,7 +6,7 @@ INCLUDES_PATH = ./includes
 SRC_PATH = ./src/
 CFLAGS = -Wall -Werror -Wextra -I$(INCLUDES_PATH)
 SOURCE = $(addprefix $(SRC_PATH), *.c)
-FLAGS = -L$(LIBFT_PATH) -lft_utils -L$(MLX_PATH) -lmlx
+FLAGS = -L$(LIBFT_PATH) -lft_utils -L. -lmlx
 OBJECT = $(SOURCE:.c=.o)
 $(NAME): $(OBJECT)
 	make -C $(LIBFT_PATH) all

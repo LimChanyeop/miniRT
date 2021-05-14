@@ -44,4 +44,6 @@ void		set_inter_pl(t_plane pl, t_ray ray, t_intersect *inter)
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
 	inter->normal_vec = vunit(pl.vec);
 	inter->albedo = pl.color;
+	if (vdot(vunit(vminus(inter->point, ray.orig)), inter->normal_vec) > 0)
+		inter->normal_vec = vmult_(inter->normal_vec, -1);
 }

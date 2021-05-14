@@ -1,15 +1,5 @@
 #include "utils.h"
 
-t_sphere	sphere(t_point center, double radius)
-{
-	t_sphere sp;
-
-	sp.center = center;
-	sp.radius = radius;
-	sp.radius2 = radius * radius;
-	return (sp);
-}
-
 t_sphere	make_sphere(t_point point, double diameter, t_color color)
 {
 	t_sphere sphere;
@@ -53,8 +43,9 @@ double	hit_sphere(t_sphere *sp, t_ray *ray)
 
 	if (discriminant < 0)
 		return (-1.0);
-	else
-		return ((-b - sqrt(discriminant)) / (2.0 * a));
+	else if ((-b - sqrt(discriminant)) / (2.0 * a) < EPSILON)
+		return ((-b + sqrt(discriminant)) / (2.0 * a));
+	return ((-b - sqrt(discriminant)) / (2.0 * a));
 }
 
 void		set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter)
@@ -62,4 +53,6 @@ void		set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter)
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
 	inter->normal_vec = vunit(vminus(inter->point, sp.center));
 	inter->albedo = sp.color;
+	if (vdot(vunit(vminus(ray_at(ray, inter->t), ray.orig)), inter->normal_vec) > EPSILON)
+		inter->normal_vec = vmult_(inter->normal_vec, -1);
 }

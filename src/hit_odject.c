@@ -4,7 +4,6 @@ void hit_obj(t_scene *scene, t_ray ray, t_intersect *inter)
 {
     t_list *object;
     object = scene->sphere;
-	// t_bool in;
 
 	while(object != 0)
 	{
@@ -24,16 +23,16 @@ void hit_obj(t_scene *scene, t_ray ray, t_intersect *inter)
 
 t_intersect *hit_obj_2(t_scene *scene, t_ray ray, t_intersect *inter)
 {   
-    t_list *object;
+	t_list *object;
 	t_bool in;
 
-    // object = scene->triangle;
-    // while(object != 0)
-	// {
-	// 	if (t_tr_validation(hit_triangle(object->content, &ray), inter) == TRUE)
-	// 		set_inter_tr(*(t_triangle *)object->content, ray, inter);
-	// 	object = object->next;
-	// }
+    object = scene->triangle;
+    while(object != 0)
+	{
+		if (t_tr_validation(hit_triangle(object->content, &ray), inter) == TRUE)
+			set_inter_tr(*(t_triangle *)object->content, ray, inter);
+		object = object->next;
+	}
 	object = scene->plane;
     while(object != 0)
 	{

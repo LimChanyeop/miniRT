@@ -11,6 +11,7 @@ int 		set_xyz_rgb(char** input, t_vec *vec)
 	error += ft_atod(input[0], &vec->x);
 	error += ft_atod(input[1], &vec->y);
 	error += ft_atod(input[2], &vec->z);
+	free_contents(input);
 	return (error);
 }
 

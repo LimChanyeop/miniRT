@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include "libft.h"
+# include "mlx.h"
 
 typedef struct  s_vec t_vec;
 typedef struct  s_vec t_point;
@@ -27,7 +28,7 @@ typedef int		t_bool;
 # define FALSE 0
 # define TRUE 1
 # define PI 3.14159265
-# define EPSILON 0.000001
+# define EPSILON 0.0001
 # define SP 0
 # define CY 1
 # define PL 2
@@ -91,6 +92,7 @@ struct	s_sphere
 	double			radius;
 	double			radius2;
 	t_color			color;
+	t_bool			in;
 };
 
 struct	s_cylinder
@@ -136,6 +138,7 @@ struct		s_scene
 {
 	t_canvas		viewport;
 	t_ambients		ambients;
+	t_camera		*cam_selected;
 	t_list			*camera;
 	t_list			*cylinder;
 	t_list			*sphere;
@@ -143,6 +146,10 @@ struct		s_scene
 	t_list			*square;
 	t_list			*plane;
 	t_list			*light;
+	t_bool			res_in;
+	t_bool			amb_in;
+	t_bool			cam_in;
+	t_mlx			*mlx;
 };
 
 struct		s_intersect
@@ -235,4 +242,12 @@ t_intersect *hit_obj_2(t_scene *scene, t_ray ray, t_intersect *inter);
 void		set_inter_cy(t_cylinder cy, t_ray ray, t_intersect *inter, t_bool in);
 double		hit_cylinder(t_cylinder *cy, t_ray *ray, t_bool *in);
 t_bool		t_cy_validation(double t, t_intersect *inter);
+
+t_bool		t_tr_validation(double t, t_intersect *inter);
+t_bool	hit_inside_tr(t_vec a, t_vec b, t_vec c, t_vec hit_point);
+double	hit_triangle(t_triangle *tr, t_ray *ray);
+void		set_inter_tr(t_triangle tr, t_ray ray, t_intersect *inter);
+t_mlx 				*start_mlx(t_scene *scene);
+int					handle_event(int key, t_scene *scene);
+
 #endif

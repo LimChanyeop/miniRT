@@ -1,6 +1,20 @@
 #include "libft.h"
 #include "utils.h"
+#include "mlx.h"
 #include <stdio.h>
+
+void 	check_screen_size(t_scene *scene)
+{
+	int	max_x;
+	int max_y;
+
+	mlx_get_screen_size(scene->mlx, &max_x, &max_y);
+	if (scene->viewport.width > max_x)
+		scene->viewport.width = max_x;
+	if (scene->viewport.height > max_y)
+		scene->viewport.height = max_y;
+	scene->viewport.aspect_ratio = (double)scene->viewport.height / (double)scene->viewport.width;
+}
 
 int		parse_resolution(t_scene *scene, char *line)
 {
@@ -18,6 +32,7 @@ int		parse_resolution(t_scene *scene, char *line)
 	error += ft_atoi(contents[0], &res_x);
 	error += ft_atoi(contents[1], &res_y);
 	scene->viewport = make_canvas(res_x, res_y);
+	check_screen_size(scene);
 	free_contents(contents);
 	if (error < 0)
 		return (error);
