@@ -249,5 +249,17 @@ double	hit_triangle(t_triangle *tr, t_ray *ray);
 void		set_inter_tr(t_triangle tr, t_ray ray, t_intersect *inter);
 t_mlx 				*start_mlx(t_scene *scene);
 int					handle_event(int key, t_scene *scene);
+void 	check_screen_size(t_scene *scene);
+
+int		parse_resolution(t_scene *scene, char *line);
+int 	parse_ambient_light(t_scene *scene, char *line);
+int 	parse_camera(t_scene *scene, char *line);
+int		parse_sphere(t_scene *scene, char *line);
+int		parse_cylinder(t_scene *scene, char *line);
+int		parse_square(t_scene *scene, char *line);
+int		parse_plane(t_scene *scene, char *line);
+int		parse_light(t_scene *scene, char *line);
+int			parse(t_scene *scene, char *line);
+int		parse_triangle(t_scene *scene, char *line);
 
 #endif

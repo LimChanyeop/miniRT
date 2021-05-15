@@ -14,3 +14,16 @@ t_canvas		make_canvas(int width, int height)
 	canvas.check_in = 1;
 	return (canvas);
 }
+
+void 	check_screen_size(t_scene *scene)
+{
+	int	max_x;
+	int max_y;
+
+	mlx_get_screen_size(scene->mlx, &max_x, &max_y);
+	if (scene->viewport.width > max_x)
+		scene->viewport.width = max_x;
+	if (scene->viewport.height > max_y)
+		scene->viewport.height = max_y;
+	scene->viewport.aspect_ratio = (double)scene->viewport.height / (double)scene->viewport.width;
+}

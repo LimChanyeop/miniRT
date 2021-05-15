@@ -13,3 +13,18 @@ t_mlx       *mlx_initiation(t_scene *scene)
     mlx->data = (int *)mlx_get_data_addr(mlx->img_ptr, &mlx->bpp, &mlx->size_l, &mlx->endian);
     return (mlx);
 }
+
+void	init_scene(t_scene *scene)
+{
+	scene->res_in = 0;
+	scene->amb_in = 0;
+	scene->cam_in = 0;
+	scene->cam_selected = 0;
+	scene->camera = 0;
+	scene->sphere = 0;
+	scene->square = 0;
+	scene->cylinder = 0;
+	scene->plane = 0;
+	scene->triangle = 0;
+	scene->light = 0;
+}
