@@ -3,6 +3,55 @@
 #include "utils.h"
 #include "libft.h"
 
+void make_bmp_header(char **data, t_scene *scene)
+{
+	unsigned int size;
+	size = scene->viewport.height * scene->viewport.width * 4;
+	*(unsigned char *)*data = 'B';
+	*(unsigned char *)(*data + 1) = 'M';
+	*(unsigned int *)(*data + 2) = (size + 54);
+	*(unsigned int *)(*data + 6) = (unsigned int)0;
+	*(unsigned int *)(*data + 10) = 54;
+	*(unsigned int *)(*data + 14) = 54 - 14;
+	*(int *)(*data + 18) = scene->viewport.width;
+	*(int *)(*data + 22) = scene->viewport.height;
+	*(unsigned short *)(*data + 26) = 1;
+	*(unsigned short *)(*data + 28) = 32;
+	*(unsigned int *)(*data + 30) = 0;
+	*(unsigned int *)(*data + 34) = size;
+	*(int *)(*data + 38) = scene->viewport.width;
+	*(int *)(*data + 42) = scene->viewport.height;
+	*(unsigned int *)(*data + 46) = 0x00ffffff;
+	*(unsigned int *)(*data + 50) = 0;
+}
+
+void	fill_bmp(char **data, t_scene *scene)
+{
+	int i;
+	int j;
+	int x;
+	int y;
+
+	i = 54;
+	y = scene->viewport.height;
+	printf("bpp = %d size_l = %d\n", scene->mlx->bpp, scene->mlx->size_l);
+	while (y--)
+	{
+		x = -1;
+		while (++x < scene->viewport.width)
+		{
+			j = (x * (scene->mlx->bpp / 8)) + (y * (scene->mlx->size_l) / 4);
+			*(int *)(*data + i) = *(scene->mlx->data + j);
+			printf("data -> %d\n" ,*(int *)(*data + i));
+			// *(*data + i++) = *(scene->mlx->data + j++);
+			// *(*data + i++) = *(scene->mlx->data + j++);
+			// *(*data + i++) = *(scene->mlx->data + j);
+			i += 4;
+			printf("i = %d j = %d x = %d y = %d\n", i, j, x, y);
+		}
+	}
+	printf("dsad\n");
+}
 t_mlx 			*mlx_draw(t_scene *scene, t_camera *camera, t_vec *cn_lc_ve_ho)
 {
 	int i;
@@ -75,16 +124,18 @@ t_mlx 				*start_mlx(t_scene *scene)
 
 int	main(int argc, char *argv[])
 {
+	t_mlx;
 	int			fd;
 	t_scene		*scene;
 	t_list 		*cam;
+	int			bmp_fd;
+	char 		**data;
 
-	if (!(argc == 2 && check_file_format(argv[1])) \
-			|| ((argc == 3) && !ft_strncmp(argv[2], "--save\0", 7)))
+	if (!((argc == 2 && check_file_format(argv[1])) || ((argc == 3 && !ft_strncmp(argv[2], "--save\0", 7)))))
 		report_error(6);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		report_error(6);
+		report_error(9);
 	scene = parse_rt(fd);
 	cam = ft_lstlast(scene->camera);
 	cam->next = scene->camera;
@@ -92,6 +143,17 @@ int	main(int argc, char *argv[])
 	scene->cam_selected = (t_camera *)scene->camera->content;
 	scene->mlx = mlx_initiation(scene);
 	start_mlx(scene);
+	printf("data ->>> %d\n", *scene->mlx->data);
+	if (argc == 3)
+	{
+		data = malloc(sizeof(char *));
+		*data = malloc(sizeof(char) * (54 + scene->viewport.height * scene->viewport.width * 4));
+		bmp_fd = open("miniRT.bmp", O_TRUNC | O_RDWR | O_CREAT);
+		make_bmp_header(data, scene);
+		fill_bmp(data, scene);
+		write(bmp_fd, *data, 54);
+		exit(0);
+	}
 	mlx_key_hook(scene->mlx->win_ptr, handle_event, scene);
 	mlx_loop(scene->mlx->mlx_ptr);
 	return (0);
@@ -122,3 +184,29 @@ t_scene 	*parse_rt(int fd)
 	printf("rt file validation successfully finished !\n");
 	return (scene);
 }
+
+// #pragma pack(push, 1)                // 구조체를 1바이트 크기로 정렬
+
+// typedef struct bmp_header   // BMP 비트맵 파일 헤더 구조체
+// {
+//     unsigned short bftype;           // BMP 파일 매직 넘버
+//     unsigned int   bfsize;           // 파일 크기
+//     unsigned short bfreserved1;      // 예약
+//     unsigned short bfreserved2;      // 예약
+//     unsigned int   bfoffbits;        // 비트맵 데이터의 시작 위치
+//     unsigned int   bisize;           // 현재 구조체의 크기
+//     int            biwidth;          // 비트맵 이미지의 가로 크기
+//     int            biheight;         // 비트맵 이미지의 세로 크기
+//     unsigned short biplanes;         // 사용하는 색상판의 수
+//     unsigned short bibitCount;       // 픽셀 하나를 표현하는 비트 수
+//     unsigned int   bicompression;    // 압축 방식
+//     unsigned int   bisizeImage;      // 비트맵 이미지의 픽셀 데이터 크기
+//     int            bixPelsPerMeter;  // 그림의 가로 해상도(미터당 픽셀)
+//     int            biyPelsPerMeter;  // 그림의 세로 해상도(미터당 픽셀)
+//     unsigned int   biclrUsed;        // 색상 테이블에서 실제 사용되는 색상 수
+//     unsigned int   biclrImportant;   // 비트맵을 표현하기 위해 필요한 색상 인덱스 수
+// } t_bmp_header;
+
+// #pragma pack(pop)
+
+//open O_TRUNC / **data를 파일에 write 하기 /
