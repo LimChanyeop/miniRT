@@ -3,13 +3,13 @@
 #include "mlx.h"
 #include <stdio.h>
 
-int		parse_square(t_scene *scene, char *line)
+int				parse_square(t_scene *scene, char *line)
 {
-	t_vec 	vec[3];
-	char	**contents;
+	t_vec 		vec[3];
+	char		**contents;
 	double		radius;
-	int 	error;
-	t_square *sq;
+	int 		error;
+	t_square 	*sq;
 
 	error = 0;
 	sq = (t_square *)malloc(sizeof(t_square));
@@ -29,12 +29,12 @@ int		parse_square(t_scene *scene, char *line)
 	return (0);
 }
 
-int		parse_plane(t_scene *scene, char *line)
+int				parse_plane(t_scene *scene, char *line)
 {
-	t_vec 	vec[3];
-	char	**contents;
-	int 	error;
-	t_plane *pl;
+	t_vec 		vec[3];
+	char		**contents;
+	int 		error;
+	t_plane 	*pl;
 
 	error = 0;
 	pl = (t_plane *)malloc(sizeof(t_plane));
@@ -53,13 +53,13 @@ int		parse_plane(t_scene *scene, char *line)
 	return (0);
 }
 
-int		parse_light(t_scene *scene, char *line)
+int				parse_light(t_scene *scene, char *line)
 {
-	t_vec	vec[2];
-	char	**contents;
-	double	ratio;
-	int 	error;
-	t_light *li;
+	t_vec		vec[2];
+	char		**contents;
+	double		ratio;
+	int 		error;
+	t_light 	*li;
 
 	error = 0;
 	li = (t_light *)malloc(sizeof(t_light));
@@ -78,7 +78,7 @@ int		parse_light(t_scene *scene, char *line)
 	return (0);
 }
 
-int			parse(t_scene *scene, char *line)
+int				parse(t_scene *scene, char *line)
 {
 	if (line[0] != '\0')
 	{
@@ -104,4 +104,30 @@ int			parse(t_scene *scene, char *line)
 			return (-1);
 	}
 	return (0);
+}
+
+t_scene 			*parse_rt(int fd)
+{
+	char			*line;
+	t_scene			*scene;
+
+	line = 0;
+	scene = (t_scene *)malloc(sizeof(t_scene));
+	init_scene(scene);
+	while(get_next_line(fd, &line) > 0)
+	{
+		if (parse(scene, line) < 0)
+		{
+			report_error(8);
+		}
+		free(line);
+	}
+	if (parse(scene, line) < 0)
+		report_error(8);
+	free(line);
+	if (have_necessary_input(scene) < 0)
+	{
+		report_error(7);
+	}
+	return (scene);
 }

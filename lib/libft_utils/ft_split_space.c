@@ -48,7 +48,7 @@ static void		allocate(char **ptr, int size, char *str)
 		ft_strlcpy(ptr[j], (char *)(str + i - len), len + 1);
 		while (ft_isspace(str[i]))
 			i++;
-	j++;
+		j++;
 	}
 	ptr[j] = 0;
 }

@@ -1,8 +1,8 @@
 #include "utils.h"
 
-t_sphere	make_sphere(t_point point, double diameter, t_color color)
+t_sphere		make_sphere(t_point point, double diameter, t_color color)
 {
-	t_sphere sphere;
+	t_sphere 	sphere;
 
 	if (rgb_validation(color) < 0)
 		report_error(2);
@@ -15,7 +15,7 @@ t_sphere	make_sphere(t_point point, double diameter, t_color color)
 	return (sphere);
 }
 
-t_bool		t_sp_validation(double t, t_intersect *inter)
+t_bool			t_sp_validation(double t, t_intersect *inter)
 {
 	if (t > inter->t_min && t < inter->t_max)
 	{
@@ -27,7 +27,7 @@ t_bool		t_sp_validation(double t, t_intersect *inter)
 		return (FALSE);
 }
 
-double	hit_sphere(t_sphere *sp, t_ray *ray)
+double			hit_sphere(t_sphere *sp, t_ray *ray)
 {
 	t_vec oc;
 	double a;
@@ -48,7 +48,7 @@ double	hit_sphere(t_sphere *sp, t_ray *ray)
 	return ((-b - sqrt(discriminant)) / (2.0 * a));
 }
 
-void		set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter)
+void			set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter)
 {
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
 	inter->normal_vec = vunit(vminus(inter->point, sp.center));

@@ -15,9 +15,9 @@ int 		set_xyz_rgb(char** input, t_vec *vec)
 	return (error);
 }
 
-int		get_contents_size(char **contents)
+int			get_contents_size(char **contents)
 {
-	int i;
+	int 	i;
 
 	i = 0;
 	while (contents[i])
@@ -27,7 +27,7 @@ int		get_contents_size(char **contents)
 
 void		free_contents(char **contents)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while(contents[i])

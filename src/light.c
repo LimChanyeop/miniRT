@@ -1,8 +1,8 @@
 #include "utils.h"
-//도형 * 4 더 X , 내 외부 구분 X, bmp, camera 전환 X, 해상도 get_screen_size X
-t_light	make_light(t_vec point, double brightness, t_color color)
+
+t_light			make_light(t_vec point, double brightness, t_color color)
 {
-	t_light light;
+	t_light 	light;
 
 	if (light_validation(brightness) < 0)
 		report_error(4);
@@ -38,17 +38,17 @@ t_color			phong_lighting(t_scene *scene, t_intersect inter, t_ray ray)
 	return ((vmult(light_color, inter.albedo)));
 }
 
-t_color		get_diff_spec_li(t_intersect inter, t_light *light, t_ray ray)
+t_color			get_diff_spec_li(t_intersect inter, t_light *light, t_ray ray)
 {
-	t_color diffuse;
-	t_color specular;
-	t_vec 	light_dir;
-	t_vec	view_dir;
-	t_vec	reflect_dir;
-	double	strength;
-	double	spec;
-	double	ksn;
-	double	ks;
+	t_color 	diffuse;
+	t_color 	specular;
+	t_vec 		light_dir;
+	t_vec		view_dir;
+	t_vec		reflect_dir;
+	double		strength;
+	double		spec;
+	double		ksn;
+	double		ks;
 
 	light_dir = vunit(vminus(light->point, inter.point));
 	strength = fmax(vdot(inter.normal_vec, light_dir), 0.0);

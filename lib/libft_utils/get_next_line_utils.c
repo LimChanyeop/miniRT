@@ -103,8 +103,6 @@ char				*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 && !s2)
 		return (0);
-	//else if (!s1 || !s2)
-	//	return (!s1 ? ft_strdup(s2) : ft_strdup(s1));
 	s1_len = ft_strlen((char *)s1);
 	s2_len = ft_strlen((char *)s2);
 	ptr = malloc(sizeof(char) * (s1_len + s2_len + 1));

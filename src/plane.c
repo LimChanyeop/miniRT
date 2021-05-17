@@ -1,8 +1,9 @@
 #include "utils.h"
 
-t_plane	make_plane(t_vec point, t_vec vec, t_color color)
+t_plane		make_plane(t_vec point, t_vec vec, t_color color)
 {
 	t_plane plane;
+
 	if (vector_validation(vec) < 0)
 		report_error(1);
 	if (rgb_validation(color) < 0)
@@ -25,7 +26,7 @@ t_bool		t_pl_validation(double t, t_intersect *inter)
 		return (FALSE);
 }
 
-double	hit_plane(t_plane *pl, t_ray *ray)
+double		hit_plane(t_plane *pl, t_ray *ray)
 {
 	double	denominator;
 	t_vec	r0_p0;

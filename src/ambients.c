@@ -1,8 +1,8 @@
 #include "utils.h"
 
-t_ambients	make_ambients(double ratio, t_color rgb)
+t_ambients		make_ambients(double ratio, t_color rgb)
 {
-	t_ambients ambients;
+	t_ambients	ambients;
 
 	if (light_validation(ratio) < 0)
 		report_error(4);

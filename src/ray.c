@@ -1,35 +1,33 @@
 #include "utils.h"
 
-//ray 생성자
-t_ray		new_ray(t_vec orig, t_vec dir)
+t_ray			new_ray(t_vec orig, t_vec dir)
 {
-	t_ray new;
+	t_ray 		new;
 
 	new.orig = orig;
 	new.dir = vunit(dir);
 	return (new);
 }
 
-//ray origin point 부터 방향벡터 ray dir * t 만큼 떨어진 점.
-t_point		ray_at(t_ray ray, double t)
+t_point			ray_at(t_ray ray, double t)
 {
-	t_point at;
+	t_point 	at;
 
 	at = vplus(ray.orig, vmult_(ray.dir, t));
 	return (at);
 }
 
-void init_intersect(t_intersect *inter, int max)
+void 			init_intersect(t_intersect *inter, int max)
 {
 	inter->t_min = EPSILON;
 	inter->t_max = max;
 	inter->t = -1;
 }
-//intersect 리턴 하는 hit_obj -> (도형 5개 루프)
-t_color		ray_color(t_ray ray, t_scene *scene)
+
+t_color			ray_color(t_ray ray, t_scene *scene)
 {
-	t_intersect inter;
-	t_color ret_color;
+	t_intersect	inter;
+	t_color 	ret_color;
 
 	init_intersect(&inter, 10000000);
 	hit_obj(scene, ray, &inter);

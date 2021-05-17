@@ -29,11 +29,6 @@ typedef int		t_bool;
 # define TRUE 1
 # define PI 3.14159265
 # define EPSILON 0.0001
-# define SP 0
-# define CY 1
-# define PL 2
-# define SQ 3
-# define TR 4
 # define LUMEN 1
 
 struct s_vec
@@ -59,7 +54,6 @@ struct s_mlx
 	int 			bpp;
 	int				size_l;
 	int 			endian;
-
 	t_vec 			color;
 	int				int_color;
 };
@@ -72,16 +66,16 @@ struct	s_ray
 
 struct	s_camera
 {
-	t_point			orig;	// origin
-	t_vec			vec;	// dir vector
+	t_point			orig;
+	t_vec			vec;
 	int 			angle;
 	t_bool			check_in;
 };
 
 struct	s_canvas
 {
-	int				width;	//canvas width
-	int				height;	//canvas height
+	int				width;
+	int				height;
 	double			aspect_ratio;
 	t_bool			check_in;
 };
@@ -92,7 +86,6 @@ struct	s_sphere
 	double			radius;
 	double			radius2;
 	t_color			color;
-	t_bool			in;
 };
 
 struct	s_cylinder
@@ -136,6 +129,9 @@ struct	s_light
 
 struct		s_scene
 {
+	t_bool			res_in;
+	t_bool			amb_in;
+	t_bool			cam_in;
 	t_canvas		viewport;
 	t_ambients		ambients;
 	t_camera		*cam_selected;
@@ -146,9 +142,6 @@ struct		s_scene
 	t_list			*square;
 	t_list			*plane;
 	t_list			*light;
-	t_bool			res_in;
-	t_bool			amb_in;
-	t_bool			cam_in;
 	t_mlx			*mlx;
 };
 
@@ -182,6 +175,7 @@ double		vdot(t_vec vec, t_vec vec2);
 t_vec		vcross(t_vec vec, t_vec vec2);
 t_vec		vunit(t_vec vec);
 t_vec		vmin(t_vec vec1, t_vec vec2);
+
 int 		parse(t_scene *scene, char *line);
 
 t_ray		new_ray(t_vec orig, t_vec dir);
@@ -247,8 +241,9 @@ t_bool		t_tr_validation(double t, t_intersect *inter);
 t_bool	hit_inside_tr(t_vec a, t_vec b, t_vec c, t_vec hit_point);
 double	hit_triangle(t_triangle *tr, t_ray *ray);
 void		set_inter_tr(t_triangle tr, t_ray ray, t_intersect *inter);
-t_mlx 				*start_mlx(t_scene *scene);
-int					handle_event(int key, t_scene *scene);
+void		start_mlx(t_scene *scene);
+void 		mlx_draw(t_scene *scene, t_camera *camera, t_vec *cn_lc_ve_ho);
+int handle_event(int key, t_scene *scene);
 void 	check_screen_size(t_scene *scene);
 
 int		parse_resolution(t_scene *scene, char *line);
@@ -262,5 +257,9 @@ int		parse_light(t_scene *scene, char *line);
 int			parse(t_scene *scene, char *line);
 int		parse_triangle(t_scene *scene, char *line);
 void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
-
+double hit_cylinder2(t_cylinder *cy, t_ray *ray, t_bool *in, double *root);
+void  make_img_to_window(t_scene *scene);
+void make_bmp(t_scene *scene);
+void fill_bmp(char **data, t_scene *scene);
+void make_bmp_header(char **data, t_scene *scene);
 #endif

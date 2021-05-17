@@ -11,32 +11,8 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-/*static int		input_test(int sign, char *str)
-{
-	int			i;
-	char		max[20];
-
-	ft_strlcpy((char *)max, "9223372036854775808", 20);
-	if (sign == 1)
-		max[19] = '7';
-	i = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		i++;
-	}
-	if ((i == 19 && ft_strncmp(max, str, 19) < 0) || i > 19)
-	{
-		if (sign == -1)
-			return (0);
-		if (sign == 1)
-			return (-1);
-	}
-	return (1);
-}*/
-
-int				ft_atoi(char *str, int *dst) // only - 
+int				ft_atoi(char *str, int *dst)
 {
 	int			sign;
 	int			ret_num;
@@ -47,7 +23,6 @@ int				ft_atoi(char *str, int *dst) // only -
 	i = 0;
 	ret_num = 0;
 	sign = 1;
-
 	while (ft_isspace(*str))
 		str++;
 	if (*str == '-')
@@ -56,12 +31,10 @@ int				ft_atoi(char *str, int *dst) // only -
 		error += -1;
 	if (*str == '-' || *str == '+')
 		str++;
-	//if (input_test(sign, (char *)str) != 1)
-	//	return (input_test(sign, (char *)str));
 	while (ft_isdigit(*str))
 		ret_num = ret_num * 10 + (*str++ - '0');
 	if ((*str))
-	 	error += -1;
+		error += -1;
 	*dst = ret_num * sign;
 	return (error);
 }

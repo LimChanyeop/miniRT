@@ -1,8 +1,8 @@
 #include "utils.h"
 
-t_triangle	make_triangle(t_point point1, t_point point2, t_point point3, t_color color)
+t_triangle		make_triangle(t_point point1, t_point point2, t_point point3, t_color color)
 {
-	t_triangle triangle;
+	t_triangle 	triangle;
 
 	if (rgb_validation(color) < 0)
 		report_error(2);
@@ -13,7 +13,7 @@ t_triangle	make_triangle(t_point point1, t_point point2, t_point point3, t_color
 	return (triangle);
 }
 
-t_bool		t_tr_validation(double t, t_intersect *inter)
+t_bool			t_tr_validation(double t, t_intersect *inter)
 {
 	if (t > inter->t_min && t < inter->t_max)
 	{
@@ -25,7 +25,7 @@ t_bool		t_tr_validation(double t, t_intersect *inter)
 		return (FALSE);
 }
 
-t_bool	hit_inside_tr(t_vec a, t_vec b, t_vec c, t_vec hit_point)
+t_bool			hit_inside_tr(t_vec a, t_vec b, t_vec c, t_vec hit_point)
 {
 	t_vec	ba;
 	t_vec	ca;
@@ -37,20 +37,20 @@ t_bool	hit_inside_tr(t_vec a, t_vec b, t_vec c, t_vec hit_point)
 	if (vdot(vcross(ba, ca), vcross(ha, ca)) < 0)
 		return (FALSE);
 	else
-	{
 		return (TRUE);
-	}
-	
 }
-double	hit_triangle(t_triangle *tr, t_ray *ray)
+
+double			hit_triangle(t_triangle *tr, t_ray *ray)
 {
 	double		denom;
 	double		nom;
 	double		t;
 	t_vec		hit_point;
 
-	denom = vdot(vunit(vcross(vminus(tr->point1, tr->point2), vminus(tr->point1, tr->point3))), ray->dir);
-	nom = vdot(vminus(ray->orig, tr->point1), vunit(vcross(vminus(tr->point1, tr->point2), vminus(tr->point1, tr->point3))));
+	denom = vdot(vunit(vcross(vminus(tr->point1, tr->point2), \
+						vminus(tr->point1, tr->point3))), ray->dir);
+	nom = vdot(vminus(ray->orig, tr->point1), vunit(vcross(vminus(tr->point1, \
+						tr->point2), vminus(tr->point1, tr->point3))));
 	if (denom == 0)
 		return (0);
 	t = -nom / denom;
@@ -65,10 +65,11 @@ double	hit_triangle(t_triangle *tr, t_ray *ray)
 		return (t);
 }
 
-void		set_inter_tr(t_triangle tr, t_ray ray, t_intersect *inter)
+void			set_inter_tr(t_triangle tr, t_ray ray, t_intersect *inter)
 {
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
-	inter->normal_vec = vunit(vcross(vminus(tr.point1, tr.point2), vminus(tr.point1, tr.point3)));
+	inter->normal_vec = vunit(vcross(vminus(tr.point1, tr.point2), \
+						vminus(tr.point1, tr.point3)));
 	inter->albedo = tr.color;
 	if (vdot(ray_at(ray, inter->t), inter->normal_vec) > EPSILON)
 		inter->normal_vec = vmult_(inter->normal_vec, -1);

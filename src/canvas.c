@@ -15,10 +15,10 @@ t_canvas		make_canvas(int width, int height)
 	return (canvas);
 }
 
-void 	check_screen_size(t_scene *scene)
+void 			check_screen_size(t_scene *scene)
 {
-	int	max_x;
-	int max_y;
+	int			max_x;
+	int 		max_y;
 
 	mlx_get_screen_size(scene->mlx, &max_x, &max_y);
 	if (scene->viewport.width > max_x)

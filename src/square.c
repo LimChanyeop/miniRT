@@ -1,8 +1,8 @@
 #include "utils.h"
 
-t_square	make_square(t_point center, t_vec vec, double radius, t_color color)
+t_square		make_square(t_point center, t_vec vec, double radius, t_color color)
 {
-	t_square square;
+	t_square 	square;
 
 	if (vector_validation(vec) < 0)
 		report_error(1);
@@ -17,7 +17,7 @@ t_square	make_square(t_point center, t_vec vec, double radius, t_color color)
 	return (square);
 }
 
-t_bool		t_sq_validation(double t, t_intersect *inter)
+t_bool			t_sq_validation(double t, t_intersect *inter)
 {
 	if (t > inter->t_min && t < inter->t_max)
 	{
@@ -29,12 +29,12 @@ t_bool		t_sq_validation(double t, t_intersect *inter)
 		return (FALSE);
 }
 
-double	hit_square(t_square *sq, t_ray *ray)
+double			hit_square(t_square *sq, t_ray *ray)
 {
-	double	denominator;
-	t_vec	r0_p0; // ray origin to plane point p
-	double	root;
-	t_point point;
+	double		denominator;
+	t_vec		r0_p0; // ray origin to plane point p
+	double		root;
+	t_point 	point;
 
 	denominator = vdot(sq->vec, ray->dir);
 	if (fabs(denominator) < EPSILON) // 분모가 거의 0이면! = 평면과 직선은 평행
@@ -48,7 +48,7 @@ double	hit_square(t_square *sq, t_ray *ray)
 		return (-1);
 }
 
-void		set_inter_sq(t_square sq, t_ray ray, t_intersect *inter)
+void			set_inter_sq(t_square sq, t_ray ray, t_intersect *inter)
 {
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
 	inter->normal_vec = vunit(sq.vec);

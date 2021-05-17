@@ -1,4 +1,5 @@
-int				ft_iscomma(char c)
+
+int			ft_iscomma(char c)
 {
-	return(c == ',');
+	return (c == ',');
 }

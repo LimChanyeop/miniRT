@@ -34,7 +34,8 @@ typedef struct		s_list
 size_t				ft_strlen(const char *s);
 int					ft_atoi(char *str, int *dst);
 int					ft_atod(char *str, double* dst);
-char				**ft_split_space(char *s);
+int 				ft_atod2(int *en_sz_sn_tp, double dec, double *dst);
+char 				**ft_split_space(char *s);
 char				**ft_split_comma(char *s);
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);

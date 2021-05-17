@@ -25,7 +25,9 @@ t_vec	vcross(t_vec vec, t_vec vec2)
 
 t_vec	vunit(t_vec vec)
 {
-	double len = vlength(vec);
+	double len;
+	
+	len = vlength(vec);
 	if (len == 0)
 	{
 		perror("Devided with 0");

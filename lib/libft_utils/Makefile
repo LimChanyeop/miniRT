@@ -18,7 +18,7 @@ FILES =	ft_atoi.c \
 					ft_isdigit.c \
 					ft_isspace.c \
 					ft_iscomma.c \
-					ft_atof.c
+					ft_atod.c
 
 OBJS = $(FILES:%.c=%.o)
 
