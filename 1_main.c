@@ -3,6 +3,14 @@
 #include "utils.h"
 #include "libft.h"
 
+void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
+{
+	char	*pixel;
+	pixel = (char *)mlx->data +
+			(y * mlx->size_l + x * (mlx->bpp / 8));
+	*(unsigned int *)pixel = color;
+}
+
 void make_bmp_header(char **data, t_scene *scene)
 {
 	unsigned int size;
@@ -72,7 +80,7 @@ t_mlx 			*mlx_draw(t_scene *scene, t_camera *camera, t_vec *cn_lc_ve_ho)
 			a_b[1] = vplus(cn_lc_ve_ho[1], vplus(vmult_(cn_lc_ve_ho[3], u_v[1]), vmult_(cn_lc_ve_ho[2], u_v[0])));
 			pixel_color = ray_color((new_ray(a_b[0], vunit(a_b[1]))), scene);
 			write_color(scene->mlx, pixel_color);
-			mlx_pixel_put(scene->mlx->mlx_ptr, scene->mlx->win_ptr, i, j, scene->mlx->int_color);
+			my_mlx_pixel_put(scene->mlx, i, j, scene->mlx->int_color);
 			++i;
 		}
 		++j;
@@ -124,7 +132,6 @@ t_mlx 				*start_mlx(t_scene *scene)
 
 int	main(int argc, char *argv[])
 {
-	t_mlx;
 	int			fd;
 	t_scene		*scene;
 	t_list 		*cam;
@@ -151,7 +158,7 @@ int	main(int argc, char *argv[])
 		bmp_fd = open("miniRT.bmp", O_TRUNC | O_RDWR | O_CREAT);
 		make_bmp_header(data, scene);
 		fill_bmp(data, scene);
-		write(bmp_fd, *data, 54);
+		write(bmp_fd, *data, (54 + scene->viewport.height * scene->viewport.width * 4 + 1));
 		exit(0);
 	}
 	mlx_key_hook(scene->mlx->win_ptr, handle_event, scene);

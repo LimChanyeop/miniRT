@@ -261,5 +261,5 @@ int		parse_plane(t_scene *scene, char *line);
 int		parse_light(t_scene *scene, char *line);
 int			parse(t_scene *scene, char *line);
 int		parse_triangle(t_scene *scene, char *line);
-
+void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 #endif
