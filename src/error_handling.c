@@ -1,6 +1,6 @@
 #include "utils.h"
 
-void        report_error(int err_num)
+void            report_error(int err_num)
 {
     if (err_num == 1)
         perror("vector input ERROR\n");

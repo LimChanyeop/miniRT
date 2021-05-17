@@ -2,7 +2,6 @@
 
 int         have_necessary_input(t_scene *scene)
 {
-	printf("viewp %d  amb %d cam %p\n", scene->viewport.check_in, scene->ambients.check_in, scene->camera);
 	if (scene->viewport.check_in == 0)
 		return (-1);
     else if (scene->ambients.check_in == 0)

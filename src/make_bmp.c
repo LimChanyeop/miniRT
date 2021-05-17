@@ -3,7 +3,7 @@
 void				make_bmp_header(char **data, t_scene *scene)
 {
 	unsigned int 	size;
-	
+
 	size = scene->viewport.height * scene->viewport.width * 4;
 	*(unsigned char *)*data = 'B';
 	*(unsigned char *)(*data + 1) = 'M';
@@ -28,7 +28,7 @@ void				fill_bmp(char **data, t_scene *scene)
 	int 			i;
 	int 			j;
 	int 			x;
-	int 			y;
+	int				y;
 
 	i = 54;
 	y = scene->viewport.height;

@@ -1,8 +1,8 @@
 #include "utils.h"
 
-t_vec	vec(double x, double y, double z)
+t_vec		vec(double x, double y, double z)
 {
-	t_vec vec;
+	t_vec	vec;
 
 	vec.x = x;
 	vec.y = y;
@@ -10,9 +10,9 @@ t_vec	vec(double x, double y, double z)
 	return (vec);
 }
 
-t_point point(double x, double y, double z)
+t_point		point(double x, double y, double z)
 {
-	t_vec point;
+	t_vec	point;
 
 	point.x = x;
 	point.y = y;
@@ -20,9 +20,9 @@ t_point point(double x, double y, double z)
 	return (point);
 }
 
-t_color color(double r, double g, double b)
+t_color		color(double r, double g, double b)
 {
-	t_color color;
+	t_color	color;
 
 	color.x = r;
 	color.y = g;
@@ -30,12 +30,12 @@ t_color color(double r, double g, double b)
 	return (color);
 }
 
-double	vlength2(t_vec vec)
+double		vlength2(t_vec vec)
 {
 	return (vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 }
 
-double	vlength(t_vec vec)
+double		vlength(t_vec vec)
 {
 	return (sqrt(vlength2(vec)));
 }

@@ -5,11 +5,11 @@
 
 int				parse_square(t_scene *scene, char *line)
 {
-	t_vec 		vec[3];
+	t_vec		vec[3];
 	char		**contents;
 	double		radius;
-	int 		error;
-	t_square 	*sq;
+	int			error;
+	t_square	*sq;
 
 	error = 0;
 	sq = (t_square *)malloc(sizeof(t_square));
@@ -59,7 +59,7 @@ int				parse_light(t_scene *scene, char *line)
 	char		**contents;
 	double		ratio;
 	int 		error;
-	t_light 	*li;
+	t_light		*li;
 
 	error = 0;
 	li = (t_light *)malloc(sizeof(t_light));
@@ -106,7 +106,7 @@ int				parse(t_scene *scene, char *line)
 	return (0);
 }
 
-t_scene 			*parse_rt(int fd)
+t_scene				*parse_rt(int fd)
 {
 	char			*line;
 	t_scene			*scene;
@@ -114,7 +114,7 @@ t_scene 			*parse_rt(int fd)
 	line = 0;
 	scene = (t_scene *)malloc(sizeof(t_scene));
 	init_scene(scene);
-	while(get_next_line(fd, &line) > 0)
+	while (get_next_line(fd, &line) > 0)
 	{
 		if (parse(scene, line) < 0)
 		{

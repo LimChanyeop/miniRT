@@ -2,7 +2,7 @@
 
 t_sphere		make_sphere(t_point point, double diameter, t_color color)
 {
-	t_sphere 	sphere;
+	t_sphere	sphere;
 
 	if (rgb_validation(color) < 0)
 		report_error(2);
@@ -34,13 +34,12 @@ double			hit_sphere(t_sphere *sp, t_ray *ray)
 	double b;
 	double c;
 	double discriminant;
-	
+
 	oc = vminus(ray->orig, sp->center);
 	a = vdot(ray->dir, ray->dir);
 	b = 2.0 * vdot(oc, ray->dir);
 	c = vdot(oc, oc) - sp->radius2;
 	discriminant = b * b - 4 * a * c;
-
 	if (discriminant < 0)
 		return (-1.0);
 	else if ((-b - sqrt(discriminant)) / (2.0 * a) < EPSILON)
@@ -53,6 +52,7 @@ void			set_inter_sp(t_sphere sp, t_ray ray, t_intersect *inter)
 	inter->point = vplus(ray.orig, vmult_(ray.dir, inter->t));
 	inter->normal_vec = vunit(vminus(inter->point, sp.center));
 	inter->albedo = sp.color;
-	if (vdot(vunit(vminus(ray_at(ray, inter->t), ray.orig)), inter->normal_vec) > EPSILON)
+	if (vdot(vunit(vminus(ray_at(ray, inter->t), ray.orig)), \
+		inter->normal_vec) > EPSILON)
 		inter->normal_vec = vmult_(inter->normal_vec, -1);
 }

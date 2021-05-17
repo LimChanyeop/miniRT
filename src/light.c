@@ -2,7 +2,7 @@
 
 t_light			make_light(t_vec point, double brightness, t_color color)
 {
-	t_light 	light;
+	t_light		light;
 
 	if (light_validation(brightness) < 0)
 		report_error(4);
@@ -34,13 +34,14 @@ t_color			phong_lighting(t_scene *scene, t_intersect inter, t_ray ray)
 			light_color = vplus(light_color, get_diff_spec_li(inter, li, ray));
 		lights = lights->next;
 	}
-	light_color = vplus(light_color, vmult_(scene->ambients.color, scene->ambients.ratio));
+	light_color = vplus(light_color, vmult_(scene->ambients.color, \
+		scene->ambients.ratio));
 	return ((vmult(light_color, inter.albedo)));
 }
 
 t_color			get_diff_spec_li(t_intersect inter, t_light *light, t_ray ray)
 {
-	t_color 	diffuse;
+	t_color		diffuse;
 	t_color 	specular;
 	t_vec 		light_dir;
 	t_vec		view_dir;

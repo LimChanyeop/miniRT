@@ -1,6 +1,6 @@
 #include "utils.h"
 
-t_cylinder 		make_cylinder(t_point center, t_vec vec, double radius, double height, t_color color)
+t_cylinder		make_cylinder(t_point center, t_vec vec, double *rad_hei, t_color color)
 {
 	t_cylinder	cylinder;
 
@@ -10,8 +10,8 @@ t_cylinder 		make_cylinder(t_point center, t_vec vec, double radius, double heig
 		report_error(2);
 	cylinder.center = center;
 	cylinder.vec = vec;
-	cylinder.radius = radius;
-	cylinder.height = height;
+	cylinder.radius = rad_hei[0];
+	cylinder.height = rad_hei[1];
 	cylinder.color = color;
 	return (cylinder);
 }
@@ -35,10 +35,15 @@ double			hit_cylinder(t_cylinder *cy, t_ray *ray, t_bool *in)
 	double root[2];
 
 	*in = FALSE;
-	a_b_c[0] = vlength2(vunit(ray->dir)) - pow(vdot(vunit(ray->dir), vunit(cy->vec)), 2);
-	a_b_c[1] = 2 * (vdot(vunit(ray->dir), vminus(ray->orig, cy->center)) - (vdot(vunit(ray->dir),vunit(cy->vec)) * vdot(vminus(ray->orig, cy->center), vunit(cy->vec))));
-	a_b_c[2] = vlength2(vminus(ray->orig, cy->center)) - pow(vdot(vminus(ray->orig, cy->center),vunit(cy->vec)),2) - pow(cy->radius, 2);
-	det = pow(a_b_c[1],2) - 4 * a_b_c[0] * a_b_c[2];
+	a_b_c[0] = vlength2(vunit(ray->dir)) - pow(vdot(vunit(ray->dir), \
+		vunit(cy->vec)), 2);
+	a_b_c[1] = 2 * (vdot(vunit(ray->dir), vminus(ray->orig, cy->center)) - \
+		(vdot(vunit(ray->dir),vunit(cy->vec)) * vdot(vminus(ray->orig, \
+		cy->center), vunit(cy->vec))));
+	a_b_c[2] = vlength2(vminus(ray->orig, cy->center)) - \
+		pow(vdot(vminus(ray->orig, cy->center),vunit(cy->vec)), 2) - \
+		pow(cy->radius, 2);
+	det = pow(a_b_c[1], 2) - 4 * a_b_c[0] * a_b_c[2];
 	root[0] = (-a_b_c[1] - sqrt(det)) / (2.0 * a_b_c[0]);
 	root[1] = (-a_b_c[1] + sqrt(det)) / (2.0 * a_b_c[0]);
 	if (det < 0)

@@ -2,7 +2,7 @@
 
 t_ray			new_ray(t_vec orig, t_vec dir)
 {
-	t_ray 		new;
+	t_ray		new;
 
 	new.orig = orig;
 	new.dir = vunit(dir);
@@ -17,7 +17,7 @@ t_point			ray_at(t_ray ray, double t)
 	return (at);
 }
 
-void 			init_intersect(t_intersect *inter, int max)
+void			init_intersect(t_intersect *inter, int max)
 {
 	inter->t_min = EPSILON;
 	inter->t_max = max;
@@ -38,8 +38,9 @@ t_color			ray_color(t_ray ray, t_scene *scene)
 		return (ret_color);
 	}
 	else
-    {
+	{
     	inter.t = 0.5 * (ray.dir.y + 1.0);
-   		return (vplus(vmult_(color(1, 1, 1), 1.0 - inter.t), vmult_(color(0.5, 0.7, 1.0), inter.t)));
+		return (vplus(vmult_(color(1, 1, 1), 1.0 - inter.t), \
+			vmult_(color(0.5, 0.7, 1.0), inter.t)));
     }
 }

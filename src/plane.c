@@ -33,7 +33,7 @@ double		hit_plane(t_plane *pl, t_ray *ray)
 	double	root;
 
 	denominator = vdot(pl->vec, ray->dir);
-	if (fabs(denominator) < EPSILON) // 분모가 거의 0이면! = 평면 직선 평행
+	if (fabs(denominator) < EPSILON)
 		return (-1);
 	r0_p0 = vminus(pl->point, ray->orig);
 	root = vdot(r0_p0, pl->vec) / denominator;

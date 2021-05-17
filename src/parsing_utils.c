@@ -1,7 +1,7 @@
 #include "utils.h"
 #include "libft.h"
 
-int 		set_xyz_rgb(char** input, t_vec *vec)
+int			set_xyz_rgb(char **input, t_vec *vec)
 {
 	int		error;
 
@@ -17,7 +17,7 @@ int 		set_xyz_rgb(char** input, t_vec *vec)
 
 int			get_contents_size(char **contents)
 {
-	int 	i;
+	int		i;
 
 	i = 0;
 	while (contents[i])
@@ -30,7 +30,7 @@ void		free_contents(char **contents)
 	int		i;
 
 	i = 0;
-	while(contents[i])
+	while (contents[i])
 		free(contents[i++]);
 	free(contents);
 }
