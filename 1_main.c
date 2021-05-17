@@ -42,23 +42,16 @@ void	fill_bmp(char **data, t_scene *scene)
 
 	i = 54;
 	y = scene->viewport.height;
-	printf("bpp = %d size_l = %d\n", scene->mlx->bpp, scene->mlx->size_l);
 	while (y--)
 	{
 		x = -1;
 		while (++x < scene->viewport.width)
 		{
-			j = (x * (scene->mlx->bpp / 8)) + (y * (scene->mlx->size_l) / 4);
+			j = (x + (y * (scene->mlx->size_l) / 4));
 			*(int *)(*data + i) = *(scene->mlx->data + j);
-			printf("data -> %d\n" ,*(int *)(*data + i));
-			// *(*data + i++) = *(scene->mlx->data + j++);
-			// *(*data + i++) = *(scene->mlx->data + j++);
-			// *(*data + i++) = *(scene->mlx->data + j);
 			i += 4;
-			printf("i = %d j = %d x = %d y = %d\n", i, j, x, y);
 		}
 	}
-	printf("dsad\n");
 }
 t_mlx 			*mlx_draw(t_scene *scene, t_camera *camera, t_vec *cn_lc_ve_ho)
 {
@@ -85,6 +78,7 @@ t_mlx 			*mlx_draw(t_scene *scene, t_camera *camera, t_vec *cn_lc_ve_ho)
 		}
 		++j;
 	}
+	mlx_put_image_to_window(scene->mlx->mlx_ptr, scene->mlx->win_ptr, scene->mlx->img_ptr, 0, 0);
 	return (scene->mlx);
 }
 
@@ -136,7 +130,7 @@ int	main(int argc, char *argv[])
 	t_scene		*scene;
 	t_list 		*cam;
 	int			bmp_fd;
-	char 		**data;
+	char 		*data;
 
 	if (!((argc == 2 && check_file_format(argv[1])) || ((argc == 3 && !ft_strncmp(argv[2], "--save\0", 7)))))
 		report_error(6);
@@ -150,15 +144,13 @@ int	main(int argc, char *argv[])
 	scene->cam_selected = (t_camera *)scene->camera->content;
 	scene->mlx = mlx_initiation(scene);
 	start_mlx(scene);
-	printf("data ->>> %d\n", *scene->mlx->data);
 	if (argc == 3)
 	{
-		data = malloc(sizeof(char *));
-		*data = malloc(sizeof(char) * (54 + scene->viewport.height * scene->viewport.width * 4));
+		data = malloc(sizeof(char) * (54 + scene->viewport.height * scene->viewport.width * 4 + 1));
 		bmp_fd = open("miniRT.bmp", O_TRUNC | O_RDWR | O_CREAT);
-		make_bmp_header(data, scene);
-		fill_bmp(data, scene);
-		write(bmp_fd, *data, (54 + scene->viewport.height * scene->viewport.width * 4 + 1));
+		make_bmp_header(&data, scene);
+		fill_bmp(&data, scene);
+		write(bmp_fd, data, (54 + scene->viewport.height * scene->viewport.width * 4 + 1));
 		exit(0);
 	}
 	mlx_key_hook(scene->mlx->win_ptr, handle_event, scene);
@@ -216,4 +208,4 @@ t_scene 	*parse_rt(int fd)
 
 // #pragma pack(pop)
 
-//open O_TRUNC / **data를 파일에 write 하기 /
+//open O_TRUNC / **data를 파일에 write 하기/

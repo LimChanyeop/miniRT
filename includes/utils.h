@@ -161,7 +161,7 @@ struct		s_intersect
 	double			t;
 	char			type;
 	t_bool			in_out;
-	t_color			albedo; // 반사율
+	t_color			albedo;
 };
 
 
@@ -262,4 +262,5 @@ int		parse_light(t_scene *scene, char *line);
 int			parse(t_scene *scene, char *line);
 int		parse_triangle(t_scene *scene, char *line);
 void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
+
 #endif

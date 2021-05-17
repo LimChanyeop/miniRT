@@ -1,6 +1,5 @@
 #include "utils.h"
 
-
 t_vec	vmult(t_vec vec, t_vec vec2)
 {
 	vec.x *= vec2.x;
