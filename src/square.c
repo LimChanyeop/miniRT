@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   square.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:47:01 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:47:01 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 t_square		make_square(t_point center, t_vec vec, double radius, \
 							t_color color)
 {
-	t_square 	square;
+	t_square	square;
 
 	if (vector_validation(vec) < 0)
 		report_error(1);

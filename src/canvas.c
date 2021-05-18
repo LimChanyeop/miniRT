@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   canvas.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:47:56 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:47:57 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 t_canvas		make_canvas(int width, int height)
@@ -15,15 +27,16 @@ t_canvas		make_canvas(int width, int height)
 	return (canvas);
 }
 
-void 			check_screen_size(t_scene *scene)
+void			check_screen_size(t_scene *scene)
 {
 	int			max_x;
-	int 		max_y;
+	int			max_y;
 
 	mlx_get_screen_size(scene->mlx, &max_x, &max_y);
 	if (scene->viewport.width > max_x)
 		scene->viewport.width = max_x;
 	if (scene->viewport.height > max_y)
 		scene->viewport.height = max_y;
-	scene->viewport.aspect_ratio = (double)scene->viewport.height / (double)scene->viewport.width;
+	scene->viewport.aspect_ratio = (double)scene->viewport.height / \
+		(double)scene->viewport.width;
 }

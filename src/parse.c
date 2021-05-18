@@ -1,29 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_event.c                                     :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/18 13:48:10 by clim              #+#    #+#             */
-/*   Updated: 2021/05/18 13:48:11 by clim             ###   ########.fr       */
+/*   Created: 2021/05/18 13:48:43 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:48:44 by clim             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "utils.h"
+#include "mlx.h"
+#include <stdio.h>
 
-int			handle_event(int key, t_scene *scene)
+t_scene				*parse_rt(int fd)
 {
-	if (key != 53)
+	char			*line;
+	t_scene			*scene;
+
+	line = 0;
+	scene = (t_scene *)malloc(sizeof(t_scene));
+	init_scene(scene);
+	while (get_next_line(fd, &line) > 0)
 	{
-		scene->camera = scene->camera->next;
-		scene->cam_selected = (t_camera *)scene->camera->content;
-		start_mlx(scene);
+		if (parse(scene, line) < 0)
+		{
+			report_error(8);
+		}
+		free(line);
 	}
-	if (key == 53)
+	if (parse(scene, line) < 0)
+		report_error(8);
+	free(line);
+	if (have_necessary_input(scene) < 0)
 	{
-		exit(1);
-		return (0);
+		report_error(7);
 	}
-	return (0);
+	return (scene);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sphere.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:49:01 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:49:09 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 t_sphere		make_sphere(t_point point, double diameter, t_color color)
@@ -29,11 +41,11 @@ t_bool			t_sp_validation(double t, t_intersect *inter)
 
 double			hit_sphere(t_sphere *sp, t_ray *ray)
 {
-	t_vec oc;
-	double a;
-	double b;
-	double c;
-	double discriminant;
+	t_vec		oc;
+	double		a;
+	double		b;
+	double		c;
+	double		discriminant;
 
 	oc = vminus(ray->orig, sp->center);
 	a = vdot(ray->dir, ray->dir);

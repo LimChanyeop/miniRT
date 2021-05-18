@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:45:28 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:45:29 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 void		write_color(t_mlx *mlx, t_vec c)
 {
 	int		ir;
-	int 	ig;
-	int 	ib;
+	int		ig;
+	int		ib;
 
 	ir = c.x * 255.999;
 	ig = c.y * 255.999;
@@ -17,10 +29,10 @@ void		write_color(t_mlx *mlx, t_vec c)
 
 t_color		color_to_rgb(t_color color)
 {
-	t_color ret_color;
-	double 	ir;
-	double 	ig;
-	double 	ib;
+	t_color	ret_color;
+	double	ir;
+	double	ig;
+	double	ib;
 
 	ir = color.x;
 	ig = color.y;

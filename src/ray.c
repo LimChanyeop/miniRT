@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:46:56 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:50:37 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 t_ray			new_ray(t_vec orig, t_vec dir)
@@ -11,7 +23,7 @@ t_ray			new_ray(t_vec orig, t_vec dir)
 
 t_point			ray_at(t_ray ray, double t)
 {
-	t_point 	at;
+	t_point		at;
 
 	at = vplus(ray.orig, vmult_(ray.dir, t));
 	return (at);
@@ -27,7 +39,7 @@ void			init_intersect(t_intersect *inter, int max)
 t_color			ray_color(t_ray ray, t_scene *scene)
 {
 	t_intersect	inter;
-	t_color 	ret_color;
+	t_color		ret_color;
 
 	init_intersect(&inter, 10000000);
 	hit_obj(scene, ray, &inter);
@@ -39,8 +51,8 @@ t_color			ray_color(t_ray ray, t_scene *scene)
 	}
 	else
 	{
-    	inter.t = 0.5 * (ray.dir.y + 1.0);
+		inter.t = 0.5 * (ray.dir.y + 1.0);
 		return (vplus(vmult_(color(1, 1, 1), 1.0 - inter.t), \
 			vmult_(color(0.5, 0.7, 1.0), inter.t)));
-    }
+	}
 }

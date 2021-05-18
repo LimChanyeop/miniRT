@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   light.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:48:38 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 14:07:10 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 t_light			make_light(t_vec point, double brightness, t_color color)
@@ -41,26 +53,23 @@ t_color			phong_lighting(t_scene *scene, t_intersect inter, t_ray ray)
 
 t_color			get_diff_spec_li(t_intersect inter, t_light *light, t_ray ray)
 {
-	t_color		diffuse;
-	t_color 	specular;
-	t_vec 		light_dir;
-	t_vec		view_dir;
-	t_vec		reflect_dir;
-	double		strength;
-	double		spec;
-	double		ksn;
-	double		ks;
+	t_color		diff_spec[2];
+	t_vec		li_vi_rf[3];
+	double		st_sp_kn_ks[4];
 
-	light_dir = vunit(vminus(light->point, inter.point));
-	strength = fmax(vdot(inter.normal_vec, light_dir), 0.0);
-	diffuse = vmult_(light->color, strength);
-	view_dir = vunit(vmult_(ray.dir, -1));
-	reflect_dir = get_reflect(vmult_(light_dir, -1), inter.normal_vec);
-	ksn = 10;
-	ks = 0.5;
-	spec = pow(fmax(vdot(view_dir, reflect_dir), 0.0), ksn);
-	specular = vmult_(vmult_(light->color, ks), spec);
-	return (vmult_(vplus(diffuse, specular), light->brightness * LUMEN));
+	li_vi_rf[0] = vunit(vminus(light->point, inter.point));
+	st_sp_kn_ks[0] = fmax(vdot(inter.normal_vec, li_vi_rf[0]), 0.0);
+	diff_spec[0] = vmult_(light->color, st_sp_kn_ks[0]);
+	li_vi_rf[1] = vunit(vmult_(ray.dir, -1));
+	li_vi_rf[2] = get_reflect(vmult_(li_vi_rf[0], -1), inter.normal_vec);
+	st_sp_kn_ks[2] = 10;
+	st_sp_kn_ks[3] = 0.5;
+	st_sp_kn_ks[1] = pow(fmax(vdot(li_vi_rf[1], li_vi_rf[2]), 0.0), \
+		st_sp_kn_ks[2]);
+	diff_spec[1] = vmult_(vmult_(light->color, st_sp_kn_ks[3]), \
+		st_sp_kn_ks[1]);
+	return (vmult_(vplus(diff_spec[0], diff_spec[1]), \
+				light->brightness * LUMEN));
 }
 
 t_vec			get_reflect(t_vec v, t_vec n)

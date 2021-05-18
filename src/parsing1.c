@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing1.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:46:43 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:46:44 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "utils.h"
 #include "mlx.h"
@@ -6,8 +18,8 @@
 int				parse_resolution(t_scene *scene, char *line)
 {
 	int			res_x;
-	int 		res_y;
-	char 		**contents;
+	int			res_y;
+	char		**contents;
 	int			error;
 
 	if (scene->viewport.check_in == 1)
@@ -123,31 +135,5 @@ int				parse_cylinder(t_scene *scene, char *line)
 					(t_color)vec[2]);
 	ft_lstadd_front(&scene->cylinder, ft_lstnew(cy));
 	cy->color = color_to_rgb(cy->color);
-	return (0);
-}
-
-int				parse_triangle(t_scene *scene, char *line)
-{
-	t_vec		vec[4];
-	char		**contents;
-	int			error;
-	t_triangle	*tr;
-
-	error = 0;
-	tr = (t_triangle *)malloc(sizeof(t_triangle));
-	contents = ft_split_space(line);
-	if (get_contents_size(contents) != 4)
-		return (-1);
-	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
-	error += set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
-	error += set_xyz_rgb(ft_split_comma(contents[2]), &vec[2]);
-	error += set_xyz_rgb(ft_split_comma(contents[3]), &vec[3]);
-	free_contents(contents);
-	if (error < 0)
-		return (error);
-	*tr = make_triangle((t_vec)vec[0], (t_vec)vec[1], \
-					(t_vec)vec[2], (t_color)vec[3]);
-	ft_lstadd_front(&scene->triangle, ft_lstnew(tr));
-	tr->color = color_to_rgb(tr->color);
 	return (0);
 }

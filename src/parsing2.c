@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:48:50 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:48:51 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "utils.h"
 #include "mlx.h"
@@ -31,10 +43,10 @@ int				parse_square(t_scene *scene, char *line)
 
 int				parse_plane(t_scene *scene, char *line)
 {
-	t_vec 		vec[3];
+	t_vec		vec[3];
 	char		**contents;
-	int 		error;
-	t_plane 	*pl;
+	int			error;
+	t_plane		*pl;
 
 	error = 0;
 	pl = (t_plane *)malloc(sizeof(t_plane));
@@ -58,7 +70,7 @@ int				parse_light(t_scene *scene, char *line)
 	t_vec		vec[2];
 	char		**contents;
 	double		ratio;
-	int 		error;
+	int			error;
 	t_light		*li;
 
 	error = 0;
@@ -75,6 +87,32 @@ int				parse_light(t_scene *scene, char *line)
 	*li = make_light((t_vec)vec[0], ratio, (t_color)vec[1]);
 	ft_lstadd_front(&scene->light, ft_lstnew(li));
 	li->color = color_to_rgb(li->color);
+	return (0);
+}
+
+int				parse_triangle(t_scene *scene, char *line)
+{
+	t_vec		vec[4];
+	char		**contents;
+	int			error;
+	t_triangle	*tr;
+
+	error = 0;
+	tr = (t_triangle *)malloc(sizeof(t_triangle));
+	contents = ft_split_space(line);
+	if (get_contents_size(contents) != 4)
+		return (-1);
+	error += set_xyz_rgb(ft_split_comma(contents[0]), &vec[0]);
+	error += set_xyz_rgb(ft_split_comma(contents[1]), &vec[1]);
+	error += set_xyz_rgb(ft_split_comma(contents[2]), &vec[2]);
+	error += set_xyz_rgb(ft_split_comma(contents[3]), &vec[3]);
+	free_contents(contents);
+	if (error < 0)
+		return (error);
+	*tr = make_triangle((t_vec)vec[0], (t_vec)vec[1], \
+					(t_vec)vec[2], (t_color)vec[3]);
+	ft_lstadd_front(&scene->triangle, ft_lstnew(tr));
+	tr->color = color_to_rgb(tr->color);
 	return (0);
 }
 
@@ -104,30 +142,4 @@ int				parse(t_scene *scene, char *line)
 			return (-1);
 	}
 	return (0);
-}
-
-t_scene				*parse_rt(int fd)
-{
-	char			*line;
-	t_scene			*scene;
-
-	line = 0;
-	scene = (t_scene *)malloc(sizeof(t_scene));
-	init_scene(scene);
-	while (get_next_line(fd, &line) > 0)
-	{
-		if (parse(scene, line) < 0)
-		{
-			report_error(8);
-		}
-		free(line);
-	}
-	if (parse(scene, line) < 0)
-		report_error(8);
-	free(line);
-	if (have_necessary_input(scene) < 0)
-	{
-		report_error(7);
-	}
-	return (scene);
 }

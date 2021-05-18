@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_bmp.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 13:46:34 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 13:46:35 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 
 void				make_bmp_header(char **data, t_scene *scene)
 {
-	unsigned int 	size;
+	unsigned int	size;
 
 	size = scene->viewport.height * scene->viewport.width * 4;
 	*(unsigned char *)*data = 'B';
@@ -25,9 +37,9 @@ void				make_bmp_header(char **data, t_scene *scene)
 
 void				fill_bmp(char **data, t_scene *scene)
 {
-	int 			i;
-	int 			j;
-	int 			x;
+	int				i;
+	int				j;
+	int				x;
 	int				y;
 
 	i = 54;
