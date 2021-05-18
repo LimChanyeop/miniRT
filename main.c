@@ -29,8 +29,7 @@ int			main(int argc, char *argv[])
 	int			fd;
 	t_scene		*scene;
 
-	if (!((argc == 2 && check_file_format(argv[1])) || \
-			((argc == 3 && !ft_strncmp(argv[2], "--save\0", 7)))))
+	if (check_file_format(argc, argv) == -1)
 		report_error(6);
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		report_error(9);
@@ -41,21 +40,7 @@ int			main(int argc, char *argv[])
 	if (argc == 3)
 		make_bmp(scene);
 	mlx_key_hook(scene->mlx->win_ptr, handle_event, scene);
+	mlx_hook(scene->mlx->win_ptr, 17, 1L << 17, exit_program, 0);
 	mlx_loop(scene->mlx->mlx_ptr);
 	return (0);
-}
-
-void		make_bmp(t_scene *scene)
-{
-	int			bmp_fd;
-	char		*data;
-
-	data = malloc(sizeof(char) * (54 + scene->viewport.height * \
-				scene->viewport.width * 4 + 1));
-	bmp_fd = open("miniRT.bmp", O_TRUNC | O_RDWR | O_CREAT);
-	make_bmp_header(&data, scene);
-	fill_bmp(&data, scene);
-	write(bmp_fd, data, (54 + scene->viewport.height * \
-				scene->viewport.width * 4 + 1));
-	exit(0);
 }

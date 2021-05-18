@@ -1,34 +1,39 @@
-NAME = libminirt.a
-
+MLX_NAME = libmlx.dylib
 MLX_PATH = ./lib/minilibx_mms
-
 LIBFT_PATH = ./lib/libft_utils
-
 INCLUDES_PATH = ./includes
-
 SRC_PATH = ./src/
-
 CFLAGS = -Wall -Werror -Wextra -I$(INCLUDES_PATH)
-
-SOURCE = $(addprefix $(SRC_PATH), *.c)
-
-FLAGS = -L$(LIBFT_PATH) -lft_utils -L. -lmlx
-
-OBJECT = $(SOURCE:.c=.o)
-
-$(NAME): $(OBJECT)
-	make -C $(LIBFT_PATH) all
-	ar rcs $(NAME) *.o
+FLAGS = -L$(LIBFT_PATH) -lft_utils -L$(MLX_PATH) -lmlx -L$(SRC_PATH) -lminirt
 
 $(OBJECT) : $(SOURCE)
 	gcc -c $(SOURCE) $(CFLAGS)
 
-all : $(NAME)
-	gcc main.c $(CFLAGS) $(FLAGS) -L. -lminirt
+all :
+	make -C $(LIBFT_PATH) all
+	make -C $(MLX_PATH) all
+	make -C $(SRC_PATH) all
+#	cp $(MLX_PATH)/$(MLX_NAME) $(MLX_NAME)
+#	gcc main.c $(CFLAGS) $(FLAGS) -o miniRT
 
 clean :
+	make -C $(LIBFT_PATH) clean
+	make -C $(MLX_PATH) clean
+	make -C $(SRC_PATH) clean
 	rm -rf $(NAME)
 
-re : clean all
+fclean :
+	make -C $(LIBFT_PATH) fclean
+	make -C $(MLX_PATH) clean
+	make -C $(SRC_PATH) fclean
+	rm -rf $(NAME)
+	rm -rf miniRT.bmp
 
-.PHONY : all clean re
+re : fclean all 
+
+gcc : all
+	cp $(MLX_PATH)/$(MLX_NAME) $(MLX_NAME)
+	gcc main.c $(CFLAGS) $(FLAGS) -o miniRT
+	make clean
+
+.PHONY : all clean re fclean

@@ -69,7 +69,8 @@ int				parse_camera(t_scene *scene, char *line)
 	int			error;
 	t_camera	*cm;
 
-	cm = (t_camera *)malloc(sizeof(t_camera));
+	if (!(cm = (t_camera *)malloc(sizeof(t_camera))))
+		return (-1);
 	error = 0;
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
@@ -94,7 +95,8 @@ int				parse_sphere(t_scene *scene, char *line)
 	int			error;
 
 	error = 0;
-	sp = (t_sphere *)malloc(sizeof(t_sphere));
+	if (!(sp = (t_sphere *)malloc(sizeof(t_sphere))))
+		return (-1);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
@@ -119,7 +121,8 @@ int				parse_cylinder(t_scene *scene, char *line)
 	t_cylinder	*cy;
 
 	error = 0;
-	cy = (t_cylinder *)malloc(sizeof(t_cylinder));
+	if (!(cy = (t_cylinder *)malloc(sizeof(t_cylinder))))
+		return (-1);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 5)
 		return (-1);

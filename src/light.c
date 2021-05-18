@@ -69,7 +69,7 @@ t_color			get_diff_spec_li(t_intersect inter, t_light *light, t_ray ray)
 	diff_spec[1] = vmult_(vmult_(light->color, st_sp_kn_ks[3]), \
 		st_sp_kn_ks[1]);
 	return (vmult_(vplus(diff_spec[0], diff_spec[1]), \
-				light->brightness * LUMEN));
+		light->brightness * LUMEN));
 }
 
 t_vec			get_reflect(t_vec v, t_vec n)

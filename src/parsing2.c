@@ -24,7 +24,8 @@ int				parse_square(t_scene *scene, char *line)
 	t_square	*sq;
 
 	error = 0;
-	sq = (t_square *)malloc(sizeof(t_square));
+	if (!(sq = (t_square *)malloc(sizeof(t_square))))
+		return (-1);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 4)
 		return (-1);
@@ -49,7 +50,8 @@ int				parse_plane(t_scene *scene, char *line)
 	t_plane		*pl;
 
 	error = 0;
-	pl = (t_plane *)malloc(sizeof(t_plane));
+	if (!(pl = (t_plane *)malloc(sizeof(t_plane))))
+		return (-1);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
@@ -74,7 +76,8 @@ int				parse_light(t_scene *scene, char *line)
 	t_light		*li;
 
 	error = 0;
-	li = (t_light *)malloc(sizeof(t_light));
+	if (!(li = (t_light *)malloc(sizeof(t_light))))
+		return (-1);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
@@ -98,7 +101,8 @@ int				parse_triangle(t_scene *scene, char *line)
 	t_triangle	*tr;
 
 	error = 0;
-	tr = (t_triangle *)malloc(sizeof(t_triangle));
+	if (!(tr = (t_triangle *)malloc(sizeof(t_triangle))))
+		return (-1);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 4)
 		return (-1);

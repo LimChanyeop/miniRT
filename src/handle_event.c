@@ -14,7 +14,7 @@
 
 int			handle_event(int key, t_scene *scene)
 {
-	if (key != 53)
+	if (key == 8)
 	{
 		scene->camera = scene->camera->next;
 		scene->cam_selected = (t_camera *)scene->camera->content;
@@ -22,8 +22,13 @@ int			handle_event(int key, t_scene *scene)
 	}
 	if (key == 53)
 	{
-		exit(1);
+		exit_program();
 		return (0);
 	}
 	return (0);
+}
+
+int			exit_program(void)
+{
+	exit(0);
 }

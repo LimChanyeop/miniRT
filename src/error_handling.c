@@ -25,12 +25,12 @@ void	report_error(int err_num)
 	else if (err_num == 5)
 		perror("Unallowed Negative Value ERROR\n");
 	else if (err_num == 6)
-		perror("not RT file (File must be formatted by '.rt')\n");
+		perror("file input format ERROR\n");
 	else if (err_num == 7)
-		perror("no necessary input in .rt file\n");
+		perror("no necessary input in .rt file ERROR\n");
 	else if (err_num == 8)
 		perror(".rt file Line ERROR\n");
 	else if (err_num == 9)
-		perror("File dose not exist in ./scene");
+		perror("File dose not exist in ./scene ERROR");
 	exit(err_num);
 }

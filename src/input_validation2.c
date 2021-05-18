@@ -24,16 +24,27 @@ int		have_necessary_input(t_scene *scene)
 		return (0);
 }
 
-int		check_file_format(char *str)
+int		check_file_format(int argc, char **argv)
 {
-	while (str)
+	int idx;
+
+	idx = 0;
+	if (!(argc == 2 || argc == 3))
+		return (-1);
+	while (argv[1][idx])
 	{
-		if (*str == '.')
+		if (argv[1][idx] == '.')
 		{
-			if (str[1] == 'r' && str[2] == 't' && !str[3])
+			if (!(argv[1][idx + 1] == 'r' && argv[1][idx + 2] == 't' \
+				&& !argv[1][idx + 3]))
 				return (-1);
 		}
-		str++;
+		idx++;
+	}
+	if (argc == 3)
+	{
+		if (ft_strncmp(argv[2], "--save\0", 7))
+			return (-1);
 	}
 	return (0);
 }

@@ -35,6 +35,21 @@ void				make_bmp_header(char **data, t_scene *scene)
 	*(unsigned int *)(*data + 50) = 0;
 }
 
+void				make_bmp(t_scene *scene)
+{
+	int				bmp_fd;
+	char			*data;
+
+	data = malloc(sizeof(char) * (54 + scene->viewport.height * \
+				scene->viewport.width * 4 + 1));
+	bmp_fd = open("miniRT.bmp", O_RDWR | O_TRUNC | O_CREAT, 0644);
+	make_bmp_header(&data, scene);
+	fill_bmp(&data, scene);
+	write(bmp_fd, data, (54 + scene->viewport.height * \
+				scene->viewport.width * 4 + 1));
+	exit(0);
+}
+
 void				fill_bmp(char **data, t_scene *scene)
 {
 	int				i;

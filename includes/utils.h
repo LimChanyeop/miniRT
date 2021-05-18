@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clim <clim@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/18 20:46:02 by clim              #+#    #+#             */
+/*   Updated: 2021/05/18 20:46:04 by clim             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_H
 # define UTILS_H
 
@@ -219,7 +231,7 @@ void		set_inter_sq(t_square sq, t_ray ray, t_intersect *inter);
 double		hit_square(t_square *sq, t_ray *ray);
 t_bool		t_sq_validation(double t, t_intersect *inter);
 int			exit_program(void);
-int			check_file_format(char *str);
+int			check_file_format(int argc, char **argv);
 t_scene		*parse_rt(int fd);
 void		init_scene(t_scene *scene);
 t_intersect	*hit_obj_2(t_scene *scene, t_ray ray, t_intersect *inter);
