@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "utils.h"
-#include "mlx.h"
-#include <stdio.h>
 
 int				parse_resolution(t_scene *scene, char *line)
 {
@@ -70,7 +67,7 @@ int				parse_camera(t_scene *scene, char *line)
 	t_camera	*cm;
 
 	if (!(cm = (t_camera *)malloc(sizeof(t_camera))))
-		return (-1);
+		report_error(10);
 	error = 0;
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
@@ -96,7 +93,7 @@ int				parse_sphere(t_scene *scene, char *line)
 
 	error = 0;
 	if (!(sp = (t_sphere *)malloc(sizeof(t_sphere))))
-		return (-1);
+		report_error(10);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
@@ -122,7 +119,7 @@ int				parse_cylinder(t_scene *scene, char *line)
 
 	error = 0;
 	if (!(cy = (t_cylinder *)malloc(sizeof(t_cylinder))))
-		return (-1);
+		report_error(10);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 5)
 		return (-1);

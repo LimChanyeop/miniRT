@@ -30,14 +30,21 @@ SOURCE = camera.c \
 			vec_utils4.c
 			
 OBJECT = $(SOURCE:.c=.o)
+
+all : $(NAME)
+
 $(NAME): $(OBJECT)
 	ar rcs $(NAME) $(OBJECT)
+
 $(OBJECT) : $(SOURCE)
 	gcc -c $(SOURCE) $(CFLAGS)
-all : $(NAME)
+
 clean :
 	rm -rf $(OBJECT)
+
 fclean : clean
 	rm -rf $(NAME)
+
 re : fclean all
+
 .PHONY : all clean fclean re

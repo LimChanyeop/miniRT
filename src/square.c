@@ -24,7 +24,7 @@ t_square		make_square(t_point center, t_vec vec, double radius, \
 	if (check_positive(radius) < 0)
 		report_error(5);
 	square.center = center;
-	square.vec = vec;
+	square.vec = vunit(vec);
 	square.radius = radius;
 	square.color = color;
 	return (square);

@@ -15,22 +15,26 @@
 void	report_error(int err_num)
 {
 	if (err_num == 1)
-		perror("vector input ERROR\n");
+		printf("vector input ERROR\n");
 	else if (err_num == 2)
-		perror("R,G,B input ERROR\n");
+		printf("R,G,B input ERROR\n");
 	else if (err_num == 3)
-		perror("angle input ERROR\n");
+		printf("angle input ERROR\n");
 	else if (err_num == 4)
-		perror("light input ERROR\n");
+		printf("light input ERROR\n");
 	else if (err_num == 5)
-		perror("Unallowed Negative Value ERROR\n");
+		printf("Unallowed Negative Or Zero Value ERROR\n");
 	else if (err_num == 6)
-		perror("file input format ERROR\n");
+		printf("file input format ERROR\n");
 	else if (err_num == 7)
-		perror("no necessary input in .rt file ERROR\n");
+		printf("no necessary input in .rt file ERROR\n");
 	else if (err_num == 8)
-		perror(".rt file Line ERROR\n");
+		printf(".rt file Line ERROR\n");
 	else if (err_num == 9)
-		perror("File dose not exist in ./scene ERROR");
-	exit(err_num);
+		printf("File dose not exist in ./scene ERROR\n");
+	else if (err_num == 10)
+		printf("Memory Allocation Failed ERROR\n");
+	else if (err_num == 11)
+		printf("bmp file make ERROR\n");
+	exit(1);
 }

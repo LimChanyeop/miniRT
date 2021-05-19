@@ -42,6 +42,7 @@ typedef int					t_bool;
 # define PI 3.14159265
 # define EPSILON 0.0001
 # define LUMEN 1
+# define INFINITE 1000000
 
 struct		s_vec
 {
@@ -164,8 +165,6 @@ struct		s_intersect
 	double			t_max;
 	double			t_min;
 	double			t;
-	char			type;
-	t_bool			in_out;
 	t_color			albedo;
 };
 

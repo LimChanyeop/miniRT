@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "utils.h"
-#include "mlx.h"
-#include <stdio.h>
 
 t_scene				*parse_rt(int fd)
 {
@@ -22,6 +19,8 @@ t_scene				*parse_rt(int fd)
 
 	line = 0;
 	scene = (t_scene *)malloc(sizeof(t_scene));
+	if (!(scene))
+		report_error(10);
 	init_scene(scene);
 	while (get_next_line(fd, &line) > 0)
 	{

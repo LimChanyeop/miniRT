@@ -21,7 +21,7 @@ t_plane		make_plane(t_vec point, t_vec vec, t_color color)
 	if (rgb_validation(color) < 0)
 		report_error(2);
 	plane.point = point;
-	plane.vec = vec;
+	plane.vec = vunit(vec);
 	plane.color = color;
 	return (plane);
 }

@@ -26,21 +26,18 @@ int		have_necessary_input(t_scene *scene)
 
 int		check_file_format(int argc, char **argv)
 {
-	int idx;
+	int len;
 
-	idx = 0;
+	len = ft_strlen(argv[1]);
+	if (len < 4)
+		return (-1);
 	if (!(argc == 2 || argc == 3))
 		return (-1);
-	while (argv[1][idx])
-	{
-		if (argv[1][idx] == '.')
-		{
-			if (!(argv[1][idx + 1] == 'r' && argv[1][idx + 2] == 't' \
-				&& !argv[1][idx + 3]))
-				return (-1);
-		}
-		idx++;
-	}
+	if (!(argv[1][len - 3] == '.' && argv[1][len - 2] == 'r' \
+		&& argv[1][len - 1] == 't' && argv[1][len] == 0))
+		return (-1);
+	if (argv[1][len - 4] == '/')
+		return (-1);
 	if (argc == 3)
 	{
 		if (ft_strncmp(argv[2], "--save\0", 7))

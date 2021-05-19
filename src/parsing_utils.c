@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "libft.h"
 
 int			set_xyz_rgb(char **input, t_vec *vec)
 {

@@ -22,7 +22,7 @@ t_cylinder	make_cylinder(t_point center, t_vec vec, double *rad_hei, \
 	if (rgb_validation(color) < 0)
 		report_error(2);
 	cylinder.center = center;
-	cylinder.vec = vec;
+	cylinder.vec = vunit(vec);
 	cylinder.radius = rad_hei[0];
 	cylinder.height = rad_hei[1];
 	cylinder.color = color;

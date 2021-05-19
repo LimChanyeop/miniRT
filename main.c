@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "utils.h"
-#include "libft.h"
 
 void		set_camera(t_scene *scene)
 {
@@ -20,7 +18,6 @@ void		set_camera(t_scene *scene)
 
 	cam = ft_lstlast(scene->camera);
 	cam->next = scene->camera;
-	scene->cam_selected = (t_camera *)malloc(sizeof(t_camera));
 	scene->cam_selected = (t_camera *)scene->camera->content;
 }
 
@@ -40,7 +37,7 @@ int			main(int argc, char *argv[])
 	if (argc == 3)
 		make_bmp(scene);
 	mlx_key_hook(scene->mlx->win_ptr, handle_event, scene);
-	mlx_hook(scene->mlx->win_ptr, 17, 1L << 17, exit_program, 0);
+	mlx_hook(scene->mlx->win_ptr, 17, 0, exit_program, 0);
 	mlx_loop(scene->mlx->mlx_ptr);
 	return (0);
 }

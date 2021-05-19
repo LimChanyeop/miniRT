@@ -41,9 +41,9 @@ t_color			ray_color(t_ray ray, t_scene *scene)
 	t_intersect	inter;
 	t_color		ret_color;
 
-	init_intersect(&inter, 10000000);
+	init_intersect(&inter, INFINITE);
 	hit_obj(scene, ray, &inter);
-	if (inter.t > 0)
+	if (inter.t > EPSILON)
 	{
 		ret_color = phong_lighting(scene, inter, ray);
 		ret_color = vmin(ret_color, color(1, 1, 1));

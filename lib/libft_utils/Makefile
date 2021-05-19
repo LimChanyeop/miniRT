@@ -1,6 +1,8 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -c
 NAME = libft_utils.a
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -c -I$(INCLUDES_PATH)
+INCLUDES_PATH = ../../includes/
+HEADER_FILE = libft.h
 FILES =	ft_atoi.c \
 					ft_split_space.c \
 					ft_split_comma.c \
@@ -31,11 +33,11 @@ $(NAME) : $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
 clean :
-	rm -f $(OBJS) $(OBJS_BONUS)
+	rm -f $(OBJS)
 
 fclean : clean
 	rm -f $(NAME)
 
 re : fclean all
 
-.PHONY: bonus all clean fclean re
+.PHONY: all clean fclean re

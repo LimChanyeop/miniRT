@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "utils.h"
-#include "mlx.h"
-#include <stdio.h>
 
 int				parse_square(t_scene *scene, char *line)
 {
@@ -25,7 +22,7 @@ int				parse_square(t_scene *scene, char *line)
 
 	error = 0;
 	if (!(sq = (t_square *)malloc(sizeof(t_square))))
-		return (-1);
+		report_error(10);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 4)
 		return (-1);
@@ -51,7 +48,7 @@ int				parse_plane(t_scene *scene, char *line)
 
 	error = 0;
 	if (!(pl = (t_plane *)malloc(sizeof(t_plane))))
-		return (-1);
+		report_error(10);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
@@ -77,7 +74,7 @@ int				parse_light(t_scene *scene, char *line)
 
 	error = 0;
 	if (!(li = (t_light *)malloc(sizeof(t_light))))
-		return (-1);
+		report_error(10);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 3)
 		return (-1);
@@ -102,7 +99,7 @@ int				parse_triangle(t_scene *scene, char *line)
 
 	error = 0;
 	if (!(tr = (t_triangle *)malloc(sizeof(t_triangle))))
-		return (-1);
+		report_error(10);
 	contents = ft_split_space(line);
 	if (get_contents_size(contents) != 4)
 		return (-1);

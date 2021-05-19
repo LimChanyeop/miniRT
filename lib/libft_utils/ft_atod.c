@@ -19,7 +19,7 @@ int			ft_atod(char *str, double *dst)
 	int		en_sz_sn_tp[4];
 
 	en_sz_sn_tp[2] = 1;
-	if (*str == '-' && !*(str + 1))
+	if ((*str == '-' || *str == '+') && !*(str + 1))
 		return (-1);
 	ft_atoi(str, &en_sz_sn_tp[0]);
 	if (*str == '-')

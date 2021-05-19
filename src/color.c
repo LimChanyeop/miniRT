@@ -43,8 +43,8 @@ t_color		color_to_rgb(t_color color)
 	if (ret_color.x > 1)
 		ret_color.x = 1;
 	if (ret_color.y > 1)
-		ret_color.x = 1;
+		ret_color.y = 1;
 	if (ret_color.z > 1)
-		ret_color.x = 1;
+		ret_color.z = 1;
 	return (ret_color);
 }

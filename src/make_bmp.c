@@ -41,12 +41,14 @@ void				make_bmp(t_scene *scene)
 	char			*data;
 
 	data = malloc(sizeof(char) * (54 + scene->viewport.height * \
-				scene->viewport.width * 4 + 1));
+				scene->viewport.width * 4));
 	bmp_fd = open("miniRT.bmp", O_RDWR | O_TRUNC | O_CREAT, 0644);
+	if (bmp_fd < 0)
+		report_error(11);
 	make_bmp_header(&data, scene);
 	fill_bmp(&data, scene);
 	write(bmp_fd, data, (54 + scene->viewport.height * \
-				scene->viewport.width * 4 + 1));
+				scene->viewport.width * 4));
 	exit(0);
 }
 
